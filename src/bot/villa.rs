@@ -1,0 +1,260 @@
+use std::collections::HashMap;
+
+use log::debug;
+use serde_json::{json, Value};
+
+use crate::api_type::bot_access_info::check_member_bot_access_token_request::CheckMemberBotAccessTokenRequest;
+use crate::api_type::bot_access_info::check_member_bot_access_token_response::CheckMemberBotAccessTokenResponse;
+use crate::api_type::group::create_group_request::CreateGroupRequest;
+use crate::api_type::group::create_group_response::CreateGroupResponse;
+use crate::api_type::group::get_group_list_response::GetGroupListResponse;
+use crate::api_type::group::group_info::GroupInfo;
+use crate::api_type::group::sort_group_list_request::SortGroupListRequest;
+use crate::api_type::role::create_member_role_request::CreateMemberRoleRequest;
+use crate::api_type::role::create_member_role_response::CreateMemberRoleResponse;
+use crate::api_type::role::get_villa_member_roles_response::GetVillaMemberRoles;
+use crate::api_type::role::role_color::RoleColor;
+use crate::api_type::role::role_info::RoleInfo;
+use crate::api_type::role::role_permission::RolePermission;
+use crate::api_type::room::get_villa_group_room_list_response::GetVillaGroupRoomListResponse;
+use crate::api_type::room::room_group_info::RoomGroupInfo;
+use crate::api_type::room::room_order_item::RoomOrderItem;
+use crate::api_type::room::sort_room_list_request::SortRoomListRequest;
+use crate::api_type::villa::get_villa_response::GetVillaResponse;
+use crate::api_type::villa::villa_info::VillaInfo;
+use crate::bot::bot_event_handler::BotEventHandler;
+use crate::bot::bot_permission::BotPermission;
+use crate::bot::villa::group::Group;
+use crate::bot::villa::member::Member;
+use crate::bot::villa::role::Role;
+use crate::bot::villa::room::Room;
+use crate::bot::Bot;
+use crate::error::VResult;
+use crate::request::header_builder::HeaderBuilder;
+use crate::request::request_builder::RequestBuilder;
+use crate::request::request_executor::RequestExecutor;
+
+/// group related logic
+pub mod group;
+/// member related logic
+pub mod member;
+/// role related logic
+pub mod role;
+/// room related logic
+pub mod room;
+
+/// villa instance, provide villa related access
+#[derive(Debug)]
+pub struct Villa<
+  'bot,
+  State,
+  EventHandler: BotEventHandler<State, ReqExecutor>,
+  ReqExecutor: RequestExecutor,
+> {
+  bot: &'bot Bot<State, EventHandler, ReqExecutor>,
+  villa_id: u64,
+
+  req_builder: RequestBuilder,
+}
+
+impl<
+    'bot,
+    State,
+    EventHandler: BotEventHandler<State, ReqExecutor>,
+    ReqExecutor: RequestExecutor,
+  > Villa<'bot, State, EventHandler, ReqExecutor>
+{
+  /// create a instance with bot and villa id
+  pub fn new(bot: &'bot Bot<State, EventHandler, ReqExecutor>, villa_id: u64) -> Self {
+    debug!("initializing villa instance with id: {villa_id}");
+
+    Self {
+      bot,
+      villa_id,
+      req_builder: RequestBuilder::new(
+        HeaderBuilder::from_auth_info(&bot.info).with_villa_id(villa_id),
+      ),
+    }
+  }
+
+  /// get villa id
+  pub fn id(&self) -> u64 {
+    self.villa_id
+  }
+
+  /// create a member instance with member uid
+  pub fn member(&self, member_uid: u64) -> Member<'_, State, EventHandler, ReqExecutor> {
+    Member::new(self, member_uid)
+  }
+
+  /// create a role instance with role id
+  pub fn role(&self, role_id: u64) -> Role<'_, State, EventHandler, ReqExecutor> {
+    Role::new(self, role_id)
+  }
+
+  /// create a group instance with group id
+  pub fn group(&self, group_id: u64) -> Group<'_, State, EventHandler, ReqExecutor> {
+    Group::new(self, group_id)
+  }
+
+  /// create a room instance with group id
+  pub fn room(&self, room_id: u64) -> Room<'_, State, EventHandler, ReqExecutor> {
+    Room::new(self, room_id)
+  }
+
+  /// get villa info
+  pub async fn get_info(&self) -> VResult<VillaInfo> {
+    BotPermission::ViewVilla.check_result(self.bot)?;
+
+    self
+      .req_builder
+      .build_get("/vila/api/bot/platform/getVilla")
+      .execute_result::<GetVillaResponse, _>(&self.bot.request_executor)
+      .await
+      .map(|it| it.villa)
+  }
+
+  /// get all member's data
+  pub async fn get_all_members_data(&self) -> VResult<()> {
+    BotPermission::ViewMember.check_result(self.bot)?;
+
+    let res = self
+      .req_builder
+      .build_get_with_body(
+        "/vila/api/bot/platform/getVillaMembers",
+        json! {{
+          "offset": 0,
+          "size": 2
+        }},
+      )
+      .execute_result::<Value, _>(&self.bot.request_executor)
+      .await?;
+
+    // res.as_object().unwrap()["list"].as_array().unwrap().len()
+    println!("{:#?}", res);
+    // todo: result type, wait bug fix
+    Ok(())
+  }
+
+  // region role
+  /// get all role's info in this villa
+  pub async fn get_all_roles_info(&self) -> VResult<HashMap<u64, RoleInfo>> {
+    BotPermission::ViewRole.check_result(self.bot)?;
+
+    self
+      .req_builder
+      .build_get("/vila/api/bot/platform/getVillaMemberRoles")
+      .execute_result::<GetVillaMemberRoles, _>(&self.bot.request_executor)
+      .await
+      .map(|it| it.list.into_iter().map(|it| (it.id, it)).collect())
+  }
+
+  /// create role with name, color and permissions
+  pub async fn create_role(
+    &self,
+    name: impl Into<String>,
+    color: RoleColor,
+    permissions: Vec<RolePermission>,
+  ) -> VResult<u64> {
+    BotPermission::ManageRole.check_result(self.bot)?;
+
+    self
+      .req_builder
+      .build_post_with_body(
+        "/vila/api/bot/platform/createMemberRole",
+        CreateMemberRoleRequest::new(name.into(), color, permissions),
+      )
+      .execute_result::<CreateMemberRoleResponse, _>(&self.bot.request_executor)
+      .await
+      .map(|it| it.id)
+  }
+  // endregion
+
+  // region group
+  /// get all group info
+  pub async fn get_all_group_info(&self) -> VResult<Vec<GroupInfo>> {
+    BotPermission::ViewRoomAndGroup.check_result(self.bot)?;
+
+    self
+      .req_builder
+      .build_get("/vila/api/bot/platform/getGroupList")
+      .execute_result::<GetGroupListResponse, _>(&self.bot.request_executor)
+      .await
+      .map(|it| it.list)
+  }
+
+  /// create group with name
+  pub async fn create_group(&self, name: impl Into<String>) -> VResult<u64> {
+    BotPermission::ManageRoomAndGroup.check_result(self.bot)?;
+
+    self
+      .req_builder
+      .build_post_with_body(
+        "/vila/api/bot/platform/createGroup",
+        CreateGroupRequest::new(name.into()),
+      )
+      .execute_result::<CreateGroupResponse, _>(&self.bot.request_executor)
+      .await
+      .map(|it| it.group_id)
+  }
+
+  /// reorder group
+  pub async fn reorder_group(&self, ordered_group_id: Vec<u64>) -> VResult<()> {
+    BotPermission::ManageRoomAndGroup.check_result(self.bot)?;
+
+    self
+      .req_builder
+      .build_post_with_body(
+        "/vila/api/bot/platform/sortGroupList",
+        SortGroupListRequest::new(self.villa_id, ordered_group_id),
+      )
+      .execute_no_return(&self.bot.request_executor)
+      .await
+    // todo: wait bug fix: input unchecked, and no effect
+  }
+  // endregion
+
+  // region room
+  /// get all room group info
+  pub async fn get_all_room_group_info(&self) -> VResult<Vec<RoomGroupInfo>> {
+    BotPermission::ViewRoomAndGroup.check_result(self.bot)?;
+
+    self
+      .req_builder
+      .build_get("/vila/api/bot/platform/getVillaGroupRoomList")
+      .execute_result::<GetVillaGroupRoomListResponse, _>(&self.bot.request_executor)
+      .await
+      .map(|it| it.list)
+  }
+
+  /// reorder room
+  pub async fn reorder_room(&self, ordered_room_list: Vec<RoomOrderItem>) -> VResult<()> {
+    BotPermission::ManageRoomAndGroup.check_result(self.bot)?;
+
+    self
+      .req_builder
+      .build_post_with_body(
+        "/vila/api/bot/platform/sortRoomList",
+        SortRoomListRequest::new(self.villa_id, ordered_room_list),
+      )
+      .execute_no_return(&self.bot.request_executor)
+      .await
+    // todo: wait bug fix: input unchecked, and no effect
+  }
+  // endregion
+
+  /// check bot access token of a member
+  pub async fn check_access_token(
+    &self,
+    token: String,
+  ) -> VResult<CheckMemberBotAccessTokenResponse> {
+    self
+      .req_builder
+      .build_post_with_body(
+        "/vila/api/bot/platform/checkMemberBotAccessToken",
+        CheckMemberBotAccessTokenRequest::new(token),
+      )
+      .execute_result::<CheckMemberBotAccessTokenResponse, _>(&self.bot.request_executor)
+      .await
+  }
+}

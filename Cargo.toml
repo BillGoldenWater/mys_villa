@@ -1,5 +1,5 @@
 [package]
-name = "villa_bot"
+name = "villa"
 version = "0.1.0"
 edition = "2021"
 description = "provide simple access to villa open api"
@@ -8,3 +8,24 @@ authors = ["Golden_Water"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+dotenv = "0.15.0"
+log = "0.4.17"
+env_logger = "0.10.0"
+thiserror = "1.0.40"
+serde = { version = "1.0.163", features = ["derive"] }
+serde_json = "1.0.96"
+serde-aux = { version = "4.2.0", default-features = false }
+
+[dependencies.reqwest]
+version = "0.11.18"
+features = ["blocking", "json"]
+optional = true
+
+[dependencies.tokio]
+version = "1.28.1"
+features = ["macros"]
+optional = true
+
+[features]
+default = ["request_executor_impl", "tokio"]
+request_executor_impl = ["reqwest"]
