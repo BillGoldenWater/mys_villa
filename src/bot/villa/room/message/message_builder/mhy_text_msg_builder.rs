@@ -41,7 +41,7 @@ impl<
     Self {
       villa,
       components: vec![],
-      spacer: Some(" ".to_string()),
+      spacer: Some(' '.to_string()),
       quote_info: None,
     }
   }
@@ -142,6 +142,20 @@ impl<
     self
   }
 
+  /// reset spacer to ' '
+  pub fn reset_spacer(mut self) -> Self {
+    self.spacer = Some(' '.to_string());
+    self
+  }
+
+  /// remove last spacer
+  pub fn trim_last_spacer(mut self) -> Self {
+    if let Some(Component::Spacer(_)) = self.components.last() {
+      self.components.pop();
+    }
+    self
+  }
+
   /// remove current spacer
   pub fn remove_spacer(mut self) -> Self {
     self.spacer = None;
@@ -183,10 +197,7 @@ impl<
 {
   /// build to [MessageObject]
   fn build(mut self) -> MessageObject {
-    // trim trailing spacer
-    if let Some(Component::Spacer(_)) = self.components.last() {
-      self.components.pop();
-    }
+    self = self.trim_last_spacer();
 
     let mut mentioned_info = Option::<MentionedInfo>::None;
 
