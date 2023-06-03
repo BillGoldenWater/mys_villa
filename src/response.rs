@@ -18,11 +18,11 @@ pub struct Response<Body> {
 
 impl<Body: DeserializeOwned> Response<Body> {
   /// initialize a ok response with data
-  pub fn new_ok(data: Body) -> Self {
+  pub fn new_ok(data: Option<Body>) -> Self {
     Self {
       retcode: RetCode::Ok,
       message: "".to_string(),
-      data: Some(data),
+      data,
     }
   }
 
@@ -35,6 +35,17 @@ impl<Body: DeserializeOwned> Response<Body> {
         retcode: self.retcode,
         message: self.message,
       })
+    }
+  }
+}
+
+impl Response<()> {
+  /// initialize a err response with retcode and message
+  pub fn new_err(retcode: RetCode, message: impl Into<String>) -> Self {
+    Self {
+      retcode,
+      message: message.into(),
+      data: Option::<()>::None,
     }
   }
 }
