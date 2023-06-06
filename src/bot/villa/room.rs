@@ -1,3 +1,4 @@
+use crate::api_type::message::message_mhy_text::quote_info::QuoteInfo;
 use log::debug;
 
 use crate::api_type::message::message_object::MessageObject;
@@ -128,7 +129,7 @@ impl<
       .map(|it| it.bot_msg_id)
   }
 
-  /// send message easily with the help from message builder
+  /// send complex message easily with the help from message builder
   /// ```no_run
   /// #  use villa::bot::bot_event_handler::BotEventHandler;
   /// #  use villa::bot::bot_info::BotAuthInfo;
@@ -157,13 +158,37 @@ impl<
   /// #    let villa = bot.villa(0);
   /// #    let room = villa.room(0);
   ///room
-  ///  .send_message(room.message_builder().mhy_text().text("Hello world!"))
+  ///  .send_message(
+  ///     room.message_builder().mhy_text()
+  ///       .mention_all()
+  ///       .text("Hello world!")
+  ///   ) // @全体成员 Hello world!
   ///  .await?;
   /// #    Ok(())
   /// #  }
   /// ```
   pub async fn send_message(&self, builder: impl MessageBuilder) -> VResult<String> {
     self.send_message_raw(builder.build()).await
+  }
+
+  /// send simple pure text message
+  pub async fn send_text(&self, text: impl Into<String>) -> VResult<String> {
+    self
+      .send_message(self.message_builder().mhy_text().text(text))
+      .await
+  }
+
+  /// send simple text message with quote
+  pub async fn send_reply(&self, text: impl Into<String>, quote: QuoteInfo) -> VResult<String> {
+    self
+      .send_message(
+        self
+          .message_builder()
+          .mhy_text()
+          .with_quote(quote)
+          .text(text),
+      )
+      .await
   }
 
   /// create a message builder builder
