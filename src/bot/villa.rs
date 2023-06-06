@@ -40,10 +40,24 @@ pub mod group;
 pub mod member;
 /// role related logic
 pub mod role;
-/// room related logic
+/// room related logic, include message related operation
 pub mod room;
 
-/// villa instance, provide villa related access
+/// for execute api under villa context
+/// - [Villa::get_info] get information of villa
+/// - [Villa::get_all_members_data] get all member of villa
+/// - [Villa::get_all_roles_info] get all role of villa
+/// - [Villa::create_role] create a new role
+/// - [Villa::get_all_group_info] get all group of villa, doesn't include room info
+/// - [Villa::create_group] create a new group
+/// - [Villa::reorder_group] reorder all group of villa
+/// - [Villa::get_all_room_group_info] get all group and room of villa
+/// - [Villa::reorder_room] reorder all room of villa
+/// - [Villa::check_access_token] check bot access token of member
+/// - [Villa::member] create member instance by uid
+/// - [Villa::role] create role instance by id
+/// - [Villa::group] create group instance by id
+/// - [Villa::room] create room instance by id
 #[derive(Debug)]
 pub struct Villa<
   'bot,
@@ -72,7 +86,7 @@ impl<
       bot,
       villa_id,
       req_builder: RequestBuilder::new(
-        HeaderBuilder::from_auth_info(&bot.info).with_villa_id(villa_id),
+        HeaderBuilder::from_auth_info(&bot.auth_info).with_villa_id(villa_id),
       ),
     }
   }

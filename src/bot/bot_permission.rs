@@ -3,7 +3,7 @@ use crate::bot::Bot;
 use crate::error::{VError, VResult};
 use crate::request::request_executor::RequestExecutor;
 
-/// permission info about what can do
+/// permission info about what bot can do
 #[derive(Debug, Clone, Eq, PartialEq)]
 pub enum BotPermission {
   /// get information of a villa

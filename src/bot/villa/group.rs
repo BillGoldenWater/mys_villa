@@ -8,7 +8,9 @@ use crate::bot::villa::Villa;
 use crate::error::VResult;
 use crate::request::request_executor::RequestExecutor;
 
-/// group instance, provide group related access
+/// for execute api under group context
+/// - [Group::set_name] change name of group
+/// - [Group::delete] delete group
 #[derive(Debug)]
 pub struct Group<
   'villa,

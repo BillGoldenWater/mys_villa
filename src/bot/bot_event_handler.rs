@@ -8,7 +8,9 @@ use crate::bot::Bot;
 use crate::error::VResult;
 use crate::request::request_executor::RequestExecutor;
 
-/// definition of bot event handler
+/// definition of bot event handler, includes:
+/// - [BotEventHandler::handle] handle the event, default ignore
+/// - [BotEventHandler::handle_command] for handle command call, default forwards raw event to [BotEventHandler::handle]
 pub trait BotEventHandler<State, ReqExecutor: RequestExecutor> {
   /// handle the event
   fn handle<'params, 'fut>(

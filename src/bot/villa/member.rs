@@ -10,7 +10,9 @@ use crate::bot::villa::Villa;
 use crate::error::VResult;
 use crate::request::request_executor::RequestExecutor;
 
-/// member instance, provide member related access
+/// for execute api under member context
+/// - [Member::get_data] get member data
+/// - [Member::kick] remove this member from villa
 #[derive(Debug)]
 pub struct Member<
   'villa,

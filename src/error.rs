@@ -1,9 +1,13 @@
 use crate::bot::bot_permission::BotPermission;
 use crate::response::retcode::RetCode;
+use std::env::VarError;
 
 /// defines the errors that this lib can generate
 #[derive(Debug, thiserror::Error)]
 pub enum VError {
+  /// failed to load environment variable
+  #[error("failed to load environment variable")]
+  EnvVarErr(#[from] VarError),
   /// error from api
   #[error("api returned an error, code: {retcode:?}, message: {message}")]
   ApiError {

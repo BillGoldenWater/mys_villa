@@ -21,25 +21,27 @@ use crate::request::request_executor::RequestExecutor;
 
 /// definition of bot event handler
 pub mod bot_event_handler;
-/// information
+/// bot information, currently only authentication information
 pub mod bot_info;
-/// permission
+/// permission definition, for pre-check permission before send request, which will faster
 pub mod bot_permission;
 /// command definition and parse logic
 pub mod command;
 /// event definition
 pub mod event;
-/// villa related logic
+/// villa related logic, includes role, group, room and message related operation
 pub mod villa;
 
-/// bot instance, provide api access
+/// for execute api under bot context
+/// - [Bot::get_all_emoticons] for get all [Emoticon] info
+/// - [Bot::villa] create villa instance by id
 #[derive(Debug)]
 pub struct Bot<
   State,
   EventHandler: BotEventHandler<State, ReqExecutor>,
   ReqExecutor: RequestExecutor,
 > {
-  info: BotAuthInfo,
+  auth_info: BotAuthInfo,
   permission: Vec<BotPermission>,
   request_executor: ReqExecutor,
 
@@ -58,7 +60,7 @@ impl<
 {
   /// initialize bot with authentication info and permission info
   pub fn new(
-    info: BotAuthInfo,
+    auth_info: BotAuthInfo,
     permission: Vec<BotPermission>,
     request_executor: ReqExecutor,
     shared_state: State,
@@ -66,12 +68,12 @@ impl<
   ) -> Self {
     info!(
       "initializing bot instance with {:?}, permissions: {:?}, state: {:?}",
-      info, permission, shared_state
+      auth_info, permission, shared_state
     );
 
     Self {
       default_req_builder: RequestBuilder::new(HeaderBuilder::default()),
-      info,
+      auth_info,
       permission,
       request_executor,
       state: Mutex::new(shared_state),
@@ -89,7 +91,7 @@ impl<
     &self.state
   }
 
-  /// on event
+  /// process the deserialized event
   pub async fn on_event(&self, event: BotEvent) -> VResult<()> {
     let villa_id = event.robot.villa_id;
     let event = Event {

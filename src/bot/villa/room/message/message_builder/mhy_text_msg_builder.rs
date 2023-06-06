@@ -13,7 +13,7 @@ use crate::error::VResult;
 use crate::request::request_executor::RequestExecutor;
 use crate::utils::unicode_utils::len_utf16;
 
-/// mhy text msg builder
+/// builder of MHY:Text
 #[derive(Debug, Clone)]
 pub struct MhyTextMsgBuilder<
   'villa,

@@ -1,0 +1,52 @@
+use villa::bot::bot_event_handler::BotEventHandler;
+use villa::bot::bot_info::BotAuthInfo;
+use villa::bot::bot_permission::BotPermission;
+use villa::bot::Bot;
+use villa::error::VResult;
+use villa::request::request_executor::request_executor_impl::RequestExecutorImpl;
+
+#[derive(Debug)]
+struct State;
+
+#[derive(Debug)]
+struct EventHandler {}
+
+impl BotEventHandler<State, RequestExecutorImpl> for EventHandler {}
+
+#[tokio::main]
+pub async fn main() -> VResult<()> {
+  const BOT_ID: &str = "bot_id";
+  const BOT_SECRET: &str = "secret";
+
+  const VILLA_ID: u64 = 123456789;
+
+  // init logger
+  let _ = env_logger::try_init();
+
+  let req_executor = RequestExecutorImpl::new().unwrap();
+  let bot = Bot::new(
+    BotAuthInfo::new(BOT_ID, BOT_SECRET),
+    vec![BotPermission::SendMessage, BotPermission::ViewRoomAndGroup],
+    req_executor,
+    State,
+    EventHandler {},
+  );
+
+  let villa = bot.villa(VILLA_ID);
+
+  let groups = villa.get_all_room_group_info().await?;
+
+  let room_info = groups
+    .iter()
+    .flat_map(|it| &it.room_list)
+    .next()
+    .expect("expect has at least one room");
+
+  let room = villa.room(room_info.id);
+
+  room
+    .send_message(room.message_builder().mhy_text().text("Hello world!"))
+    .await?;
+
+  Ok(())
+}

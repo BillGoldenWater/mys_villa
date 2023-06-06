@@ -14,7 +14,12 @@ use crate::bot::villa::Villa;
 use crate::error::VResult;
 use crate::request::request_executor::RequestExecutor;
 
-/// role instance, provide role related access
+/// for execute api under role context
+/// - [Role::get_info] get role info
+/// - [Role::edit_info] change the name, color and permission of this role
+/// - [Role::add_user] add a member to role
+/// - [Role::remove_user] remove a member from role
+/// - [Role::delete] delete role
 #[derive(Debug)]
 pub struct Role<
   'villa,

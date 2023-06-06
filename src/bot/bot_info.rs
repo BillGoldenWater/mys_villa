@@ -1,7 +1,8 @@
-use std::env::VarError;
 use std::fmt::{Debug, Formatter};
 
-/// Authentication information
+use crate::error::VResult;
+
+/// authentication information
 pub struct BotAuthInfo {
   /// bot_id
   pub id: String,
@@ -20,7 +21,7 @@ impl BotAuthInfo {
 
   /// create a instance from environment variable
   /// VILLA_BOT_ID, VILLA_BOT_SECRET
-  pub fn from_env() -> Result<Self, VarError> {
+  pub fn from_env() -> VResult<Self> {
     let id = std::env::var("VILLA_BOT_ID")?;
     let secret = std::env::var("VILLA_BOT_SECRET")?;
     Ok(Self { id, secret })

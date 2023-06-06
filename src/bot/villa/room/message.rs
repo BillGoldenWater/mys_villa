@@ -11,7 +11,10 @@ use crate::request::request_executor::RequestExecutor;
 /// message builders, for easily build message object
 pub mod message_builder;
 
-/// message instance, provide message related access
+/// for execute api under message context
+/// - [Message::pin] to pin the message in room
+/// - [Message::unpin] to unpin the message
+/// - [Message::recall] to recall the message
 #[derive(Debug)]
 pub struct Message<
   'room,

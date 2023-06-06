@@ -17,10 +17,16 @@ use crate::bot::villa::Villa;
 use crate::error::VResult;
 use crate::request::request_executor::RequestExecutor;
 
-/// message related logic
+/// message related logic, includes builders
 pub mod message;
 
-/// room instance, provide room related access
+/// for execute api under room context
+/// - [Room::get_data] get room data
+/// - [Room::set_name] change name of room
+/// - [Room::delete] delete room
+/// - [Room::send_message] send message to room
+/// - [Room::message_builder] create a message builder
+/// - [Room::message] create message instance by id and send time
 #[derive(Debug)]
 pub struct Room<
   'villa,
@@ -122,7 +128,40 @@ impl<
       .map(|it| it.bot_msg_id)
   }
 
-  /// send message
+  /// send message easily with the help from message builder
+  /// ```no_run
+  /// #  use villa::bot::bot_event_handler::BotEventHandler;
+  /// #  use villa::bot::bot_info::BotAuthInfo;
+  /// #  use villa::bot::bot_permission::BotPermission;
+  /// #  use villa::bot::Bot;
+  /// #  use villa::error::VResult;
+  /// #  use villa::request::request_executor::request_executor_impl::RequestExecutorImpl;
+  /// #  
+  /// #  #[derive(Debug)]
+  /// #  struct State;
+  /// #  
+  /// #  #[derive(Debug)]
+  /// #  struct EventHandler;
+  /// #  
+  /// #  impl BotEventHandler<State, RequestExecutorImpl> for EventHandler {}
+  /// #  
+  /// #  #[tokio::main]
+  /// #  async fn main() -> VResult<()> {
+  /// #    let bot = Bot::new(
+  /// #      BotAuthInfo::from_env()?,
+  /// #      BotPermission::all(),
+  /// #      RequestExecutorImpl::new()?,
+  /// #      State,
+  /// #      EventHandler,
+  /// #    );
+  /// #    let villa = bot.villa(0);
+  /// #    let room = villa.room(0);
+  ///room
+  ///  .send_message(room.message_builder().mhy_text().text("Hello world!"))
+  ///  .await?;
+  /// #    Ok(())
+  /// #  }
+  /// ```
   pub async fn send_message(&self, builder: impl MessageBuilder) -> VResult<String> {
     self.send_message_raw(builder.build()).await
   }
