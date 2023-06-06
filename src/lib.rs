@@ -81,7 +81,7 @@ pub mod api_type;
 pub mod bot;
 /// define errors
 pub mod error;
-/// request related logic, include [request::RequestExecutor]
+/// request related logic, include [request::request_executor::RequestExecutor]
 pub mod request;
 /// define response structure
 pub mod response;
