@@ -1,4 +1,4 @@
-use crate::api_type::message::message_mhy_text::quote_info::QuoteInfo;
+use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
 use log::debug;
 
 use crate::api_type::message::message_object::MessageObject;
@@ -58,13 +58,12 @@ impl<
     self.id
   }
 
-  /// create a message instance with message uid and message send time
+  /// create a message instance with message identifier
   pub fn message(
     &self,
-    uid: impl Into<String>,
-    send_time: i64,
+    msg_ident: impl Into<MessageIdentifier>,
   ) -> Message<'_, State, EventHandler, ReqExecutor> {
-    Message::new(self, uid.into(), send_time)
+    Message::new(self, msg_ident.into())
   }
 
   /// get room data
@@ -137,15 +136,15 @@ impl<
   /// #  use villa::bot::Bot;
   /// #  use villa::error::VResult;
   /// #  use villa::request::request_executor::request_executor_impl::RequestExecutorImpl;
-  /// #  
+  /// #
   /// #  #[derive(Debug)]
   /// #  struct State;
-  /// #  
+  /// #
   /// #  #[derive(Debug)]
   /// #  struct EventHandler;
-  /// #  
+  /// #
   /// #  impl BotEventHandler<State, RequestExecutorImpl> for EventHandler {}
-  /// #  
+  /// #
   /// #  #[tokio::main]
   /// #  async fn main() -> VResult<()> {
   /// #    let bot = Bot::new(
@@ -179,13 +178,17 @@ impl<
   }
 
   /// send simple text message with quote
-  pub async fn send_reply(&self, text: impl Into<String>, quote: QuoteInfo) -> VResult<String> {
+  pub async fn send_reply(
+    &self,
+    text: impl Into<String>,
+    reply_target: impl Into<MessageIdentifier>,
+  ) -> VResult<String> {
     self
       .send_message(
         self
           .message_builder()
           .mhy_text()
-          .with_quote(quote)
+          .with_quote(reply_target)
           .text(text),
       )
       .await

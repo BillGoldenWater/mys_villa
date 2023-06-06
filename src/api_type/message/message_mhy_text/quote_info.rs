@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
 
 /// quote info
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -22,5 +23,11 @@ impl QuoteInfo {
       original_message_id: id,
       original_message_send_time: quoted_message_send_time,
     }
+  }
+}
+
+impl From<MessageIdentifier> for QuoteInfo {
+  fn from(value: MessageIdentifier) -> Self {
+    Self::new(value.msg_uid,value.send_at)
   }
 }

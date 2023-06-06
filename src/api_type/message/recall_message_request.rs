@@ -1,3 +1,4 @@
+use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
 use serde::Serialize;
 
 /// recall message request
@@ -9,12 +10,13 @@ pub struct RecallMessageRequest {
 }
 
 impl RecallMessageRequest {
-  /// initialize with msg_uid, room_id and msg_time
-  pub fn new(msg_uid: impl Into<String>, room_id: u64, msg_time: i64) -> Self {
+  /// initialize with room_id and message identifier
+  pub fn new(room_id: u64, msg_ident: impl Into<MessageIdentifier>) -> Self {
+    let MessageIdentifier { msg_uid, send_at } = msg_ident.into();
     Self {
-      msg_uid: msg_uid.into(),
       room_id,
-      msg_time,
+      msg_uid,
+      msg_time: send_at,
     }
   }
 }

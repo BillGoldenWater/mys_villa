@@ -1,3 +1,4 @@
+use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
 use crate::api_type::message::message_mhy_text::entity_data::EntityData;
 use crate::api_type::message::message_mhy_text::mentioned_info::MentionedInfo;
 use crate::api_type::message::message_mhy_text::msg_content::MsgContent;
@@ -163,8 +164,8 @@ impl<
   }
 
   /// set quote info
-  pub fn with_quote(mut self, quote: QuoteInfo) -> Self {
-    self.quote_info = Some(quote);
+  pub fn with_quote(mut self, quote_msg: impl Into<MessageIdentifier>) -> Self {
+    self.quote_info = Some(quote_msg.into().into());
     self
   }
 

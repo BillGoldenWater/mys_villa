@@ -1,3 +1,4 @@
+use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
 use serde::Deserialize;
 
 /// send message metadata
@@ -8,10 +9,9 @@ pub struct SendMessageMetadata {
   pub sender_uid: u64,
   /// room id
   pub room_id: u64,
-  /// msg uid
-  pub msg_uid: String,
-  /// send time
-  pub send_at: i64,
+  /// message identifier
+  #[serde(flatten)]
+  pub msg_ident: MessageIdentifier,
   /// bot msg id ([None] if this message isn't send by a bot)
   #[serde(default)]
   pub bot_msg_id: Option<String>,

@@ -1,3 +1,4 @@
+use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
 use log::debug;
 
 use crate::api_type::message::pin_message_request::PinMessageRequest;
@@ -23,8 +24,7 @@ pub struct Message<
   ReqExecutor: RequestExecutor,
 > {
   room: &'room Room<'room, State, EventHandler, ReqExecutor>,
-  uid: String,
-  send_at: i64,
+  msg_ident: MessageIdentifier,
 }
 
 impl<
@@ -34,20 +34,19 @@ impl<
     ReqExecutor: RequestExecutor,
   > Message<'room, State, EventHandler, ReqExecutor>
 {
-  /// create a instance with room, message uid and send at
+  /// create a instance with room and message identifier
   pub fn new(
     room: &'room Room<'room, State, EventHandler, ReqExecutor>,
-    uid: String,
-    send_at: i64,
+    msg_ident: MessageIdentifier,
   ) -> Self {
-    debug!("initializing message instance with uid: {uid} and send_at: {send_at}");
+    debug!("initializing message instance with {msg_ident:?}");
 
-    Self { room, uid, send_at }
+    Self { room, msg_ident }
   }
 
-  /// get message uid
-  pub fn uid(&self) -> &str {
-    self.uid.as_str()
+  /// get message identifier
+  pub fn ident(&self) -> &MessageIdentifier {
+    &self.msg_ident
   }
 
   /// pin message
@@ -69,7 +68,7 @@ impl<
       .req_builder
       .build_post_with_body(
         "/vila/api/bot/platform/pinMessage",
-        PinMessageRequest::new(&self.uid, is_cancel, self.room.id(), self.send_at),
+        PinMessageRequest::new(self.room.id, is_cancel, self.ident()),
       )
       .execute_no_return(&self.room.villa.bot.request_executor)
       .await
@@ -85,7 +84,7 @@ impl<
       .req_builder
       .build_post_with_body(
         "/vila/api/bot/platform/recallMessage",
-        RecallMessageRequest::new(&self.uid, self.room.id(), self.send_at),
+        RecallMessageRequest::new(self.room.id(), self.ident()),
       )
       .execute_no_return(&self.room.villa.bot.request_executor)
       .await
