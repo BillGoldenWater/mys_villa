@@ -1,3 +1,9 @@
+/*
+ * Copyright 2023 - Golden_Water
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 use crate::api_type::message::message_object::MessageObject;
 
 /// definition of builder logic for building a sub builder

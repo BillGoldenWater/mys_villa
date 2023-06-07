@@ -1,3 +1,9 @@
+/*
+ * Copyright 2023 - Golden_Water
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 use serde::{Deserialize, Serialize};
 use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
 

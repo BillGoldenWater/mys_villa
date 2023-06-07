@@ -1,3 +1,9 @@
+/*
+ * Copyright 2023 - Golden_Water
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 use log::debug;
 
 use crate::api_type::role::delete_member_role_request::DeleteMemberRoleRequest;

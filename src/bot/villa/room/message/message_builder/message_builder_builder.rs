@@ -1,3 +1,9 @@
+/*
+ * Copyright 2023 - Golden_Water
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 use crate::bot::bot_event_handler::BotEventHandler;
 use crate::bot::villa::room::message::message_builder::mhy_text_msg_builder::MhyTextMsgBuilder;
 use crate::bot::villa::Villa;

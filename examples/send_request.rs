@@ -1,9 +1,15 @@
-use villa::bot::bot_event_handler::BotEventHandler;
-use villa::bot::bot_info::BotAuthInfo;
-use villa::bot::bot_permission::BotPermission;
-use villa::bot::Bot;
-use villa::error::VResult;
-use villa::request::request_executor::request_executor_impl::RequestExecutorImpl;
+/*
+ * Copyright 2023 - Golden_Water
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+use mys_villa::bot::bot_event_handler::BotEventHandler;
+use mys_villa::bot::bot_info::BotAuthInfo;
+use mys_villa::bot::bot_permission::BotPermission;
+use mys_villa::bot::Bot;
+use mys_villa::error::VResult;
+use mys_villa::request::request_executor::request_executor_impl::RequestExecutorImpl;
 
 #[derive(Debug)]
 struct State;
@@ -32,9 +38,9 @@ pub async fn main() -> VResult<()> {
     EventHandler {},
   );
 
-  let villa = bot.villa(VILLA_ID);
+  let mys_villa = bot.villa(VILLA_ID);
 
-  let groups = villa.get_all_room_group_info().await?;
+  let groups = mys_villa.get_all_room_group_info().await?;
 
   let room_info = groups
     .iter()
@@ -42,7 +48,7 @@ pub async fn main() -> VResult<()> {
     .next()
     .expect("expect has at least one room");
 
-  let room = villa.room(room_info.id);
+  let room = mys_villa.room(room_info.id);
 
   room
     .send_message(room.message_builder().mhy_text().text("Hello world!"))

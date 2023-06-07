@@ -1,3 +1,9 @@
+/*
+ * Copyright 2023 - Golden_Water
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 use serde::Deserialize;
 use serde_aux::field_attributes::deserialize_number_from_string as from_string;
 

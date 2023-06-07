@@ -1,3 +1,9 @@
+/*
+ * Copyright 2023 - Golden_Water
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 /// definition of delete room request
 pub mod delete_room_request;
 /// definition of edit room request

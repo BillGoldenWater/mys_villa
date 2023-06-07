@@ -1,14 +1,20 @@
+/*
+ * Copyright 2023 - Golden_Water
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 //! ### Initializing bot instance
 //! you can simply initialize a Bot instance by calling the new method
 //! ```no_run
-//! use villa::bot::bot_event_handler::BotEventHandler;
-//! use villa::bot::bot_info::BotAuthInfo;
-//! use villa::bot::bot_permission::BotPermission;
-//! use villa::bot::Bot;
+//! use mys_villa::bot::bot_event_handler::BotEventHandler;
+//! use mys_villa::bot::bot_info::BotAuthInfo;
+//! use mys_villa::bot::bot_permission::BotPermission;
+//! use mys_villa::bot::Bot;
 //! // the default implementation of request executor
-//! use villa::request::request_executor::request_executor_impl::RequestExecutorImpl;
+//! use mys_villa::request::request_executor::request_executor_impl::RequestExecutorImpl;
 //!
-//! # use villa::error::VResult;
+//! # use mys_villa::error::VResult;
 //! #
 //! # #[derive(Debug)]
 //! # struct State;
@@ -33,14 +39,14 @@
 //! ### Make a api request
 //! for example if we want to get the villa info of villa by id 123456789
 //! ```no_run
-//! use villa::api_type::villa::villa_info::VillaInfo;
+//! use mys_villa::api_type::villa::villa_info::VillaInfo;
 //!
-//! # use villa::bot::bot_event_handler::BotEventHandler;
-//! # use villa::bot::bot_info::BotAuthInfo;
-//! # use villa::bot::bot_permission::BotPermission;
-//! # use villa::bot::Bot;
-//! # use villa::error::VResult;
-//! # use villa::request::request_executor::request_executor_impl::RequestExecutorImpl;
+//! # use mys_villa::bot::bot_event_handler::BotEventHandler;
+//! # use mys_villa::bot::bot_info::BotAuthInfo;
+//! # use mys_villa::bot::bot_permission::BotPermission;
+//! # use mys_villa::bot::Bot;
+//! # use mys_villa::error::VResult;
+//! # use mys_villa::request::request_executor::request_executor_impl::RequestExecutorImpl;
 //! #
 //! # #[derive(Debug)]
 //! # struct State;

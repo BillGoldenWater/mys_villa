@@ -1,3 +1,9 @@
+/*
+ * Copyright 2023 - Golden_Water
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 use crate::api_type::event::bot_event::bot_event_data::add_quick_emoticon_metadata::AddQuickEmoticonMetadata;
 use crate::api_type::event::bot_event::bot_event_data::send_message_metadata::SendMessageMetadata;
 use crate::api_type::event::bot_event::bot_event_data::BotEventData;

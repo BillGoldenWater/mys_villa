@@ -1,3 +1,9 @@
+/*
+ * Copyright 2023 - Golden_Water
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
 use log::debug;
 
@@ -130,12 +136,12 @@ impl<
 
   /// send complex message easily with the help from message builder
   /// ```no_run
-  /// #  use villa::bot::bot_event_handler::BotEventHandler;
-  /// #  use villa::bot::bot_info::BotAuthInfo;
-  /// #  use villa::bot::bot_permission::BotPermission;
-  /// #  use villa::bot::Bot;
-  /// #  use villa::error::VResult;
-  /// #  use villa::request::request_executor::request_executor_impl::RequestExecutorImpl;
+  /// #  use mys_villa::bot::bot_event_handler::BotEventHandler;
+  /// #  use mys_villa::bot::bot_info::BotAuthInfo;
+  /// #  use mys_villa::bot::bot_permission::BotPermission;
+  /// #  use mys_villa::bot::Bot;
+  /// #  use mys_villa::error::VResult;
+  /// #  use mys_villa::request::request_executor::request_executor_impl::RequestExecutorImpl;
   /// #
   /// #  #[derive(Debug)]
   /// #  struct State;

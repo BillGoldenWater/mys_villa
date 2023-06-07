@@ -1,3 +1,9 @@
+/*
+ * Copyright 2023 - Golden_Water
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 /// definition of create member role request
 pub mod create_member_role_request;
 /// definition of create member role response

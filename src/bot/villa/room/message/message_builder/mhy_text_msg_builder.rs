@@ -1,3 +1,9 @@
+/*
+ * Copyright 2023 - Golden_Water
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
 use crate::api_type::message::message_mhy_text::entity_data::EntityData;
 use crate::api_type::message::message_mhy_text::mentioned_info::MentionedInfo;

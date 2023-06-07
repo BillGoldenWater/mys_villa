@@ -1,3 +1,9 @@
+/*
+ * Copyright 2023 - Golden_Water
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 use crate::bot::bot_permission::BotPermission;
 use crate::response::retcode::RetCode;
 use std::env::VarError;

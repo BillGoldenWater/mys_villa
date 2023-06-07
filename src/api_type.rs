@@ -1,3 +1,9 @@
+/*
+ * Copyright 2023 - Golden_Water
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 /// type definition related to bot access info
 pub mod bot_access_info;
 /// type definition related to emoticon

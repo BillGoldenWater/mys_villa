@@ -1,3 +1,9 @@
+/*
+ * Copyright 2023 - Golden_Water
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 use serde::Serialize;
 
 use crate::api_type::room::room_order_item::RoomOrderItem;

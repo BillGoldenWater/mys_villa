@@ -1,3 +1,9 @@
+/*
+ * Copyright 2023 - Golden_Water
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 use std::collections::hash_map::Iter;
 use std::collections::HashMap;
 use std::fmt::{Debug, Formatter};

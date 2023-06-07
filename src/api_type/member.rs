@@ -1,3 +1,9 @@
+/*
+ * Copyright 2023 - Golden_Water
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 /// definition of delete villa member request
 pub mod delete_villa_member_request;
 /// definition of get member request

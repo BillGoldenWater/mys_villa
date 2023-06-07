@@ -1,3 +1,9 @@
+/*
+ * Copyright 2023 - Golden_Water
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 use serde::de::Error;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 

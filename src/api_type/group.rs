@@ -1,3 +1,9 @@
+/*
+ * Copyright 2023 - Golden_Water
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 /// definition of create group request
 pub mod create_group_request;
 /// definition of create group response

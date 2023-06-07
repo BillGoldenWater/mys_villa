@@ -1,3 +1,9 @@
+/*
+ * Copyright 2023 - Golden_Water
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 /// message component of mhy text
 #[derive(Debug, Clone)]
 pub enum MhyTextMsgComponent {

@@ -1,3 +1,9 @@
+/*
+ * Copyright 2023 - Golden_Water
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 /// definition of message mhy text
 pub mod message_mhy_text;
 /// definition of message object
