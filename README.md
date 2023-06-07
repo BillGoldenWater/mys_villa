@@ -1,6 +1,6 @@
-## Doc
+## Document
 
-[docrs](https://villadoc.chaosw.site)
+[docs.rs](https://docs.rs/mys_villa)
 
 ## License
 
