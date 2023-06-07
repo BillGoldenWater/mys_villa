@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 description = "provide simple access to villa open api"
 authors = ["Golden_Water"]
+repository = "https://github.com/BillGoldenWater/mys_villa.git"
 license = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
