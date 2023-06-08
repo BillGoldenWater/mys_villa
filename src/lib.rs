@@ -41,30 +41,12 @@
 //! ```no_run
 //! use mys_villa::api_type::villa::villa_info::VillaInfo;
 //!
-//! # use mys_villa::bot::bot_event_handler::BotEventHandler;
-//! # use mys_villa::bot::bot_info::BotAuthInfo;
-//! # use mys_villa::bot::bot_permission::BotPermission;
-//! # use mys_villa::bot::Bot;
 //! # use mys_villa::error::VResult;
-//! # use mys_villa::request::request_executor::request_executor_impl::RequestExecutorImpl;
-//! #
-//! # #[derive(Debug)]
-//! # struct State;
-//! #
-//! # #[derive(Debug)]
-//! # struct EventHandler;
-//! #
-//! # impl BotEventHandler<State, RequestExecutorImpl> for EventHandler {}
+//! # use mys_villa::bot::default::default;
 //! #
 //! # #[tokio::main]
 //! # async fn main() -> VResult<()> {
-//! #   let bot = Bot::new(
-//! #     BotAuthInfo::from_env()?,
-//! #     BotPermission::all(),
-//! #     RequestExecutorImpl::new()?,
-//! #     State,
-//! #     EventHandler,
-//! #   );
+//! #   let bot = default();
 //! // first create a instance of target villa,
 //! // store it in variable for future reuse
 //! let villa = bot.villa(12345789);

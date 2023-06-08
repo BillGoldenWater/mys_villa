@@ -139,3 +139,34 @@ impl<
       .map(|it| it.list.into_iter().map(|it| (it.emoticon_id, it)).collect())
   }
 }
+
+/// provide a simple way to initialize bot instance for testing
+#[cfg(feature = "request_executor_impl")]
+pub mod default {
+  use crate::bot::bot_event_handler::BotEventHandler;
+  use crate::bot::bot_info::BotAuthInfo;
+  use crate::bot::bot_permission::BotPermission;
+  use crate::bot::Bot;
+  use crate::request::request_executor::request_executor_impl::RequestExecutorImpl;
+
+  /// default state
+  #[derive(Debug)]
+  pub struct State;
+
+  /// default eventhandler
+  #[derive(Debug)]
+  pub struct EventHandler;
+
+  impl BotEventHandler<State, RequestExecutorImpl> for EventHandler {}
+
+  /// initialize with all default
+  pub fn default() -> Bot<State, EventHandler, RequestExecutorImpl> {
+    Bot::new(
+      BotAuthInfo::from_env().expect("failed to load from environment variable"),
+      BotPermission::all(),
+      RequestExecutorImpl::new().expect("failed to initialize default request executor"),
+      State,
+      EventHandler,
+    )
+  }
+}
