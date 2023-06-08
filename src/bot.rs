@@ -162,7 +162,7 @@ pub mod default {
   /// initialize with all default
   pub fn default() -> Bot<State, EventHandler, RequestExecutorImpl> {
     Bot::new(
-      BotAuthInfo::from_env().expect("failed to load from environment variable"),
+      BotAuthInfo::new("", ""),
       BotPermission::all(),
       RequestExecutorImpl::new().expect("failed to initialize default request executor"),
       State,
