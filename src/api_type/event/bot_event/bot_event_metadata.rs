@@ -7,7 +7,7 @@
 use serde::Deserialize;
 
 /// bot event metadata
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct BotEventMetadata {
   /// event id
   pub id: String,

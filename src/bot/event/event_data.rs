@@ -10,7 +10,7 @@ use crate::api_type::event::bot_event::bot_event_data::BotEventData;
 use crate::api_type::message::message_object::MessageObject;
 
 /// event data
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum EventData {
   /// new member
   JoinVilla {

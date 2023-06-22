@@ -12,7 +12,7 @@ use crate::bot::event::event_data::EventData;
 pub mod event_data;
 
 /// event
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Event {
   /// bot info
   pub bot_info: BotTemplate,

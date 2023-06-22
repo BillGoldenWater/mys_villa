@@ -9,7 +9,7 @@ use serde::Deserialize;
 use crate::api_type::event::bot_event::bot_command::BotCommand;
 
 /// bot template
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct BotTemplate {
   /// id
   pub id: String,

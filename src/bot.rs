@@ -108,14 +108,14 @@ impl<
       },
     };
 
-    match Command::try_from(event) {
+    match Command::try_from(event.clone()) {
       Ok(command) => {
         self
           .event_handler
           .handle_command(self, self.villa(villa_id), command)
           .await
       }
-      Err((event, _)) => {
+      Err(_) => {
         self
           .event_handler
           .handle(self, self.villa(villa_id), event)

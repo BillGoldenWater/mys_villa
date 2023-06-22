@@ -7,7 +7,7 @@
 use serde::Deserialize;
 
 /// add quick emoticon metadata
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct AddQuickEmoticonMetadata {
   /// villa id
   pub villa_id: u64,
