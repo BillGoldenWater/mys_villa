@@ -9,7 +9,7 @@ use serde::{Deserialize, Serialize};
 use crate::api_type::message::message_mhy_text::entity_data::EntityData;
 
 /// text entity
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct TextEntity {
   /// offset
   pub offset: u64,

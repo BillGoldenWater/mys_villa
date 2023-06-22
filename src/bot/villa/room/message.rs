@@ -17,6 +17,10 @@ use crate::request::request_executor::RequestExecutor;
 
 /// message builders, for easily build message object
 pub mod message_builder;
+/// message chain, for store parsed message
+pub mod message_chain;
+/// message chain matcher, for easily process message
+pub mod message_chain_matcher;
 
 /// for execute api under message context
 /// - [Message::pin] to pin the message in room

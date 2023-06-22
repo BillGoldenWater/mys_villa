@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: MIT
  */
 
-use serde::{Deserialize, Serialize};
 use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
+use serde::{Deserialize, Serialize};
 
 /// quote info
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct QuoteInfo {
   /// quoted message id
   pub quoted_message_id: String,
@@ -34,6 +34,6 @@ impl QuoteInfo {
 
 impl From<MessageIdentifier> for QuoteInfo {
   fn from(value: MessageIdentifier) -> Self {
-    Self::new(value.msg_uid,value.send_at)
+    Self::new(value.msg_uid, value.send_at)
   }
 }

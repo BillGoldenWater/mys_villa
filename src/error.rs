@@ -5,6 +5,9 @@
  */
 
 use crate::bot::bot_permission::BotPermission;
+use crate::bot::command::CommandTryFromEventError;
+use crate::bot::villa::room::message::message_chain::MessageChainParseError;
+use crate::bot::villa::room::message::message_chain_matcher::mhy_text_matcher::MhyTextMatchError;
 use crate::response::retcode::RetCode;
 use std::env::VarError;
 
@@ -25,6 +28,15 @@ pub enum VError {
   /// bot doesn't have required permission
   #[error("permission denied: this operation require permission {0:?}")]
   PermissionDenied(BotPermission),
+  /// failed to parse into command
+  #[error("failed to parse into command {0:?}")]
+  CommandParseFailed(#[from] CommandTryFromEventError),
+  /// failed to parse message object into message chain
+  #[error("failed to parse message object into message chain {0:?}")]
+  MessageChainParse(#[from] MessageChainParseError),
+  /// failed to match mhy text
+  #[error("match failed {0:?}")]
+  MhyTextMatch(#[from] MhyTextMatchError),
   /// error from serde_json
   #[error("failed to (de)serialize data: {0}")]
   SerdeJsonError(#[from] serde_json::Error),

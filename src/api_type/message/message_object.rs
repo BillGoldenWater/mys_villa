@@ -11,7 +11,7 @@ use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use crate::api_type::message::message_mhy_text::MessageMhyText;
 
 /// message object
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum MessageObject {
   /// type MHY:Text
   MhyText(MessageMhyText),

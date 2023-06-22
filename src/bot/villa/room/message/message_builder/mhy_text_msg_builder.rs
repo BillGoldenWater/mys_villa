@@ -13,6 +13,10 @@ use crate::api_type::message::message_mhy_text::text_entity::TextEntity;
 use crate::api_type::message::message_mhy_text::MessageMhyText;
 use crate::api_type::message::message_object::MessageObject;
 use crate::bot::bot_event_handler::BotEventHandler;
+use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::link::Link;
+use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::mention_bot::MentionBot;
+use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::mention_user::MentionUser;
+use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::villa_room_link::VillaRoomLink;
 use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::MhyTextMsgComponent as Component;
 use crate::bot::villa::room::message::message_builder::MessageBuilder;
 use crate::bot::villa::Villa;
@@ -62,10 +66,7 @@ impl<
   /// push a mention user component
   pub fn mention_user_full(self, user_name: impl Into<String>, uid: u64) -> Self {
     self
-      .push(Component::MentionUser {
-        user_name: user_name.into(),
-        uid,
-      })
+      .push(Component::MentionUser(MentionUser::new(user_name, uid)))
       .append_spacer()
   }
 
@@ -90,21 +91,16 @@ impl<
   /// push a mention bot component
   pub fn mention_bot(self, bot_name: impl Into<String>, bot_id: impl Into<String>) -> Self {
     self
-      .push(Component::MentionBot {
-        bot_name: bot_name.into(),
-        bot_id: bot_id.into(),
-      })
+      .push(Component::MentionBot(MentionBot::new(bot_name, bot_id)))
       .append_spacer()
   }
 
   /// push a villa room link component
   pub fn room_link_full(self, room_name: impl Into<String>, villa_id: u64, room_id: u64) -> Self {
     self
-      .push(Component::VillaRoomLink {
-        room_name: room_name.into(),
-        villa_id,
-        room_id,
-      })
+      .push(Component::VillaRoomLink(VillaRoomLink::new(
+        room_name, villa_id, room_id,
+      )))
       .append_spacer()
   }
 
@@ -130,10 +126,7 @@ impl<
   /// push a link component
   pub fn link_full(self, link_name: impl Into<String>, url: impl Into<String>) -> Self {
     self
-      .push(Component::Link {
-        link_name: link_name.into(),
-        url: url.into(),
-      })
+      .push(Component::Link(Link::new(link_name, url)))
       .append_spacer()
   }
 
@@ -217,7 +210,7 @@ impl<
           text_content.push_str(&text);
         }
         Component::Spacer(spacer) => text_content.push_str(&spacer),
-        Component::MentionUser { uid, user_name } => {
+        Component::MentionUser(MentionUser { uid, user_name }) => {
           let content = format!("@{user_name}");
           let uid = uid.to_string();
 
@@ -234,7 +227,7 @@ impl<
           mentioned_info.upgrade_to_all();
           entities.push_entity(&mut text_content, content, EntityData::MentionedAll);
         }
-        Component::MentionBot { bot_id, bot_name } => {
+        Component::MentionBot(MentionBot { bot_id, bot_name }) => {
           let content = format!("@{bot_name}");
 
           mentioned_info.add_member(bot_id.clone());
@@ -244,11 +237,11 @@ impl<
             EntityData::MentionedRobot { bot_id },
           );
         }
-        Component::VillaRoomLink {
+        Component::VillaRoomLink(VillaRoomLink {
           villa_id,
           room_id,
           room_name,
-        } => {
+        }) => {
           let content = format!("#{room_name}");
 
           entities.push_entity(
@@ -260,7 +253,7 @@ impl<
             },
           )
         }
-        Component::Link { link_name, url } => {
+        Component::Link(Link { link_name, url }) => {
           entities.push_entity(&mut text_content, link_name, EntityData::Link { url });
         }
       }

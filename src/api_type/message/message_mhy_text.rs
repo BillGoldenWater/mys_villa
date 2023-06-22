@@ -22,7 +22,7 @@ pub mod quote_info;
 pub mod text_entity;
 
 /// message mhy text
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct MessageMhyText {
   /// content

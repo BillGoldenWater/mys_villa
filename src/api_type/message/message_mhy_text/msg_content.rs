@@ -9,7 +9,7 @@ use serde::{Deserialize, Serialize};
 use crate::api_type::message::message_mhy_text::text_entity::TextEntity;
 
 /// msg content
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct MsgContent {
   /// text
   pub text: String,

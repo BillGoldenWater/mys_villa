@@ -7,7 +7,7 @@
 use serde::{Deserialize, Serialize};
 
 /// return code of api
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Clone, Serialize, Deserialize)]
 #[serde(from = "i32", into = "i32")]
 pub enum RetCode {
   /// unknown server side error

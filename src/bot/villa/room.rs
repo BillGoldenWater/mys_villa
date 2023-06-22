@@ -6,6 +6,7 @@
 
 use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
 use log::debug;
+use serde_json::json;
 
 use crate::api_type::message::message_object::MessageObject;
 use crate::api_type::message::send_message_request::SendMessageRequest;
@@ -128,6 +129,30 @@ impl<
       .build_post_with_body(
         "/vila/api/bot/platform/sendMessage",
         SendMessageRequest::new(self.id, message),
+      )
+      .execute_result::<SendMessageResponse, _>(&self.villa.bot.request_executor)
+      .await
+      .map(|it| it.bot_msg_id)
+  }
+
+  /// send message raw
+  pub async fn send_message_raw_raw(
+    &self,
+    object_name: String,
+    message: String,
+  ) -> VResult<String> {
+    BotPermission::SendMessage.check_result(self.villa.bot)?;
+
+    self
+      .villa
+      .req_builder
+      .build_post_with_body(
+        "/vila/api/bot/platform/sendMessage",
+        json!({
+          "room_id": self.id,
+          "object_name": object_name,
+          "msg_content": message,
+        }),
       )
       .execute_result::<SendMessageResponse, _>(&self.villa.bot.request_executor)
       .await
