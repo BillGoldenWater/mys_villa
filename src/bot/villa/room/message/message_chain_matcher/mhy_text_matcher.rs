@@ -123,6 +123,7 @@ impl MhyTextMatcher {
 
   fn unwrap_mhy_text(message: &MessageChain) -> VResult<&MhyText> {
     message
+      .message_content
       .as_mhy_text()
       .ok_or(MhyTextMatchError::NotMhyText.into())
   }

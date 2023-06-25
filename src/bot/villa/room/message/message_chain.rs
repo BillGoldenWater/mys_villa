@@ -7,48 +7,49 @@
 use std::str::FromStr;
 
 use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
-use crate::api_type::message::message_mhy_text::entity_data::EntityData;
-use crate::api_type::message::message_mhy_text::msg_content::MsgContent;
-use crate::api_type::message::message_mhy_text::text_entity::TextEntity;
-use crate::api_type::message::message_mhy_text::MessageMhyText;
+use crate::api_type::message::message_object::mentioned_info::MentionedInfo;
+use crate::api_type::message::message_object::message_content::mhy_text::entity_data::EntityData;
+use crate::api_type::message::message_object::message_content::mhy_text::text_entity::TextEntity;
+use crate::api_type::message::message_object::message_content::mhy_text::MhyText as ApiMhyText;
+use crate::api_type::message::message_object::message_content::MessageContent as ApiMessageContent;
 use crate::api_type::message::message_object::MessageObject;
 use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::link::Link;
 use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::mention_bot::MentionBot;
 use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::mention_user::MentionUser;
 use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::villa_room_link::VillaRoomLink;
 use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::MhyTextMsgComponent;
+use crate::bot::villa::room::message::message_chain::message_content::MessageContent;
 use crate::bot::villa::room::message::message_chain::mhy_text::MhyText;
 use crate::error::{VError, VResult};
 use crate::utils::unicode_utils::len_utf16;
 
+/// message content
+pub mod message_content;
 /// content of MHY:Text
 pub mod mhy_text;
 
 /// message chain
-#[derive(Debug, Clone, PartialEq)]
-pub enum MessageChain {
-  /// MHY:Text
-  MhyText(MhyText),
-  /// unknown type
-  Unknown(MessageObject),
+#[derive(Debug, Default, Clone, PartialEq)]
+pub struct MessageChain {
+  /// message content
+  pub message_content: MessageContent,
+  /// quote target
+  pub quote: Option<MessageIdentifier>,
+  /// members that need notify
+  pub mentioned_info: Option<MentionedInfo>,
 }
 
 impl MessageChain {
-  /// try convert to [MhyText]
-  pub fn as_mhy_text(&self) -> Option<&MhyText> {
-    if let Self::MhyText(text) = self {
-      Some(text)
-    } else {
-      None
-    }
-  }
-
-  /// try convert to unknown
-  pub fn as_unknown(&self) -> Option<&MessageObject> {
-    if let Self::Unknown(unknown) = self {
-      Some(unknown)
-    } else {
-      None
+  /// initialize with message content, quote and mentioned info
+  pub fn new(
+    message_content: MessageContent,
+    quote: Option<MessageIdentifier>,
+    mentioned_info: Option<MentionedInfo>,
+  ) -> Self {
+    Self {
+      message_content,
+      quote,
+      mentioned_info,
     }
   }
 }
@@ -57,19 +58,23 @@ impl TryFrom<MessageObject> for MessageChain {
   type Error = VError;
 
   fn try_from(value: MessageObject) -> Result<Self, Self::Error> {
-    match value {
-      MessageObject::MhyText(mhy_text) => parse_mhy_text(mhy_text),
-      object @ MessageObject::Unknown { .. } => Ok(Self::Unknown(object)),
-    }
+    let message_content = match value.content {
+      ApiMessageContent::MhyText(mhy_text) => parse_mhy_text(mhy_text)?,
+      ApiMessageContent::Unknown(_) => MessageContent::Unknown(value.clone()),
+    };
+
+    Ok(MessageChain {
+      message_content,
+      quote: value
+        .quote
+        .map(|it| MessageIdentifier::new(it.quoted_message_id, it.quoted_message_send_time)),
+      mentioned_info: value.mentioned_info,
+    })
   }
 }
 
-fn parse_mhy_text(message: MessageMhyText) -> VResult<MessageChain> {
-  let MessageMhyText {
-    content: MsgContent { text, mut entities },
-    mentioned_info,
-    quote,
-  } = message;
+fn parse_mhy_text(message: ApiMhyText) -> VResult<MessageContent> {
+  let ApiMhyText { text, mut entities } = message;
   let len = len_utf16(&text);
   let mut result = Vec::with_capacity(entities.len().min(1));
 
@@ -131,11 +136,7 @@ fn parse_mhy_text(message: MessageMhyText) -> VResult<MessageChain> {
     result.push(MhyTextMsgComponent::Text(content));
   }
 
-  Ok(MessageChain::MhyText(MhyText::new(
-    result,
-    quote.map(|it| MessageIdentifier::new(it.quoted_message_id, it.quoted_message_send_time)),
-    mentioned_info,
-  )))
+  Ok(MessageContent::MhyText(MhyText::new(result)))
 }
 
 /// need sorted entities
@@ -179,11 +180,12 @@ pub enum MessageChainParseError {
 #[cfg(test)]
 mod tests {
   use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
-  use crate::api_type::message::message_mhy_text::mentioned_info::MentionedInfo;
+  use crate::api_type::message::message_object::mentioned_info::MentionedInfo;
   use crate::bot::default::default;
   use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::link::Link;
   use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::MhyTextMsgComponent;
   use crate::bot::villa::room::message::message_builder::MessageBuilder;
+  use crate::bot::villa::room::message::message_chain::message_content::MessageContent;
   use crate::bot::villa::room::message::message_chain::mhy_text::MhyText;
   use crate::bot::villa::room::message::message_chain::MessageChain;
 
@@ -205,18 +207,17 @@ mod tests {
       .build();
     let msg = MessageChain::try_from(msg).unwrap();
 
-    assert_eq!(
-      msg,
-      MessageChain::MhyText(MhyText::new(
-        vec![
-          MhyTextMsgComponent::MentionAll,
-          MhyTextMsgComponent::Text(" 123😶‍🌫️ ".to_string()),
-          MhyTextMsgComponent::Link(Link::new("😶‍🌫️".to_string(), "".to_string()))
-        ],
-        Some(ident),
-        Some(mentioned_info)
-      ))
+    let expect = MessageChain::new(
+      MessageContent::MhyText(MhyText::new(vec![
+        MhyTextMsgComponent::MentionAll,
+        MhyTextMsgComponent::Text(" 123😶‍🌫️ ".to_string()),
+        MhyTextMsgComponent::Link(Link::new("😶‍🌫️".to_string(), "".to_string())),
+      ])),
+      Some(ident),
+      Some(mentioned_info),
     );
+
+    assert_eq!(msg, expect);
   }
 
   #[test]
@@ -225,6 +226,6 @@ mod tests {
     let msg = bot.villa(0).room(0).message_builder().mhy_text().build();
     let msg = MessageChain::try_from(msg).unwrap();
 
-    assert_eq!(msg, MessageChain::MhyText(MhyText::default()));
+    assert_eq!(msg, MessageChain::default());
   }
 }

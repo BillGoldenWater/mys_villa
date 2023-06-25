@@ -4,20 +4,24 @@
  * SPDX-License-Identifier: MIT
  */
 
+use crate::api_type::message::message_object::message_content::mhy_text::text_entity::TextEntity;
 use serde::{Deserialize, Serialize};
 
-use crate::api_type::message::message_mhy_text::text_entity::TextEntity;
+/// definition of entity data
+pub mod entity_data;
+/// definition of text entity
+pub mod text_entity;
 
-/// msg content
+/// mhy text
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct MsgContent {
+pub struct MhyText {
   /// text
   pub text: String,
   /// entities
   pub entities: Vec<TextEntity>,
 }
 
-impl MsgContent {
+impl MhyText {
   /// initialize with text and entities
   pub fn new(text: impl Into<String>, entities: Vec<TextEntity>) -> Self {
     Self {

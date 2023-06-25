@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 
-/// definition of message mhy text
-pub mod message_mhy_text;
 /// definition of message object
 pub mod message_object;
 /// definition of pin message request

@@ -5,12 +5,12 @@
  */
 
 use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
-use crate::api_type::message::message_mhy_text::entity_data::EntityData;
-use crate::api_type::message::message_mhy_text::mentioned_info::MentionedInfo;
-use crate::api_type::message::message_mhy_text::msg_content::MsgContent;
-use crate::api_type::message::message_mhy_text::quote_info::QuoteInfo;
-use crate::api_type::message::message_mhy_text::text_entity::TextEntity;
-use crate::api_type::message::message_mhy_text::MessageMhyText;
+use crate::api_type::message::message_object::mentioned_info::MentionedInfo;
+use crate::api_type::message::message_object::message_content::mhy_text::entity_data::EntityData;
+use crate::api_type::message::message_object::message_content::mhy_text::text_entity::TextEntity;
+use crate::api_type::message::message_object::message_content::mhy_text::MhyText;
+use crate::api_type::message::message_object::message_content::MessageContent;
+use crate::api_type::message::message_object::quote_info::QuoteInfo;
 use crate::api_type::message::message_object::MessageObject;
 use crate::bot::bot_event_handler::BotEventHandler;
 use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::link::Link;
@@ -259,11 +259,11 @@ impl<
       }
     }
 
-    MessageObject::MhyText(MessageMhyText::new(
-      MsgContent::new(text_content, entities),
+    MessageObject::new(
+      MessageContent::MhyText(MhyText::new(text_content, entities)),
       mentioned_info,
       self.quote_info,
-    ))
+    )
   }
 }
 

@@ -8,10 +8,10 @@ use CommandTryFromEventError as CmdErr;
 
 use crate::api_type::event::bot_event::bot_command::BotCommand;
 use crate::api_type::event::bot_event::bot_event_data::send_message_metadata::SendMessageMetadata;
-use crate::api_type::message::message_mhy_text::MessageMhyText;
 use crate::api_type::message::message_object::MessageObject;
 use crate::bot::event::event_data::EventData;
 use crate::bot::event::Event;
+use crate::bot::villa::room::message::message_chain::MessageChain;
 use crate::bot::villa::room::message::message_chain_matcher::mhy_text_matcher::MhyTextMatcher;
 use crate::error::VError;
 
@@ -23,7 +23,7 @@ pub struct Command {
   /// raw message metadata
   pub message_meta: SendMessageMetadata,
   /// raw text message
-  pub message_mhy_text: MessageMhyText,
+  pub message_mhy_text: MessageObject,
 
   /// command info
   pub info: BotCommand,
@@ -50,11 +50,7 @@ impl TryFrom<Event> for Command {
 
   fn try_from(value: Event) -> Result<Self, Self::Error> {
     // region check is send message and extract data
-    let (metadata, msg) = if let EventData::SendMessage {
-      metadata,
-      content: MessageObject::MhyText(content),
-    } = &value.data
-    {
+    let (metadata, msg) = if let EventData::SendMessage { metadata, content } = &value.data {
       (metadata, content)
     } else {
       return Err(CmdErr::NotSendMessage.into());
@@ -65,7 +61,7 @@ impl TryFrom<Event> for Command {
       .mention_bot(Option::<String>::None, Some(&value.bot_info.id))
       .text(Option::<String>::None);
 
-    let match_result = matcher.match_fuzzy(&MessageObject::MhyText(msg.clone()).try_into()?)?;
+    let match_result = matcher.match_fuzzy(&MessageChain::try_from(msg.clone())?)?;
 
     // region match command and parse args
     let command_only = match_result.captures[1]
