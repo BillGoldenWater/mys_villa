@@ -63,6 +63,11 @@ impl<
     self
   }
 
+  /// append text, convert to MHY:Text if not already is
+  pub fn text(self, text: impl Into<String>) -> Self {
+    self.mhy_text(|m| m.text(text))
+  }
+
   /// set quote info
   pub fn with_quote(mut self, quote_msg: impl Into<MessageIdentifier>) -> Self {
     self.quote = Some(quote_msg.into().into());
