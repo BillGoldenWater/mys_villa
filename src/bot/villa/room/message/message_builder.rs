@@ -8,9 +8,7 @@ use crate::api_type::event::bot_event::bot_event_data::message_identifier::Messa
 use crate::api_type::message::message_object::quote_info::QuoteInfo;
 use crate::api_type::message::message_object::MessageObject;
 use crate::bot::bot_event_handler::BotEventHandler;
-use crate::bot::villa::room::message::message_builder::content_builder::{
-  ContentBuilder, ContentBuilderHub,
-};
+use crate::bot::villa::room::message::message_builder::content_builder::ContentBuilder;
 use crate::bot::villa::room::message::message_builder::mhy_text_builder::MhyTextBuilder;
 use crate::bot::villa::Villa;
 use crate::request::request_executor::RequestExecutor;
@@ -33,7 +31,7 @@ pub struct MessageBuilder<
   villa: &'villa Villa<'villa, State, EventHandler, ReqExecutor>,
   quote: Option<QuoteInfo>,
 
-  content_builder: ContentBuilderHub<'villa, State, EventHandler, ReqExecutor>,
+  content_builder: ContentBuilder<'villa, State, EventHandler, ReqExecutor>,
 }
 
 impl<
@@ -48,7 +46,7 @@ impl<
     Self {
       villa,
       quote: None,
-      content_builder: ContentBuilderHub::new(villa),
+      content_builder: ContentBuilder::new(villa),
     }
   }
 

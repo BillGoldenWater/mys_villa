@@ -10,7 +10,6 @@ use crate::api_type::message::message_object::message_content::mhy_text::text_en
 use crate::api_type::message::message_object::message_content::mhy_text::MhyText;
 use crate::api_type::message::message_object::message_content::MessageContent;
 use crate::bot::bot_event_handler::BotEventHandler;
-use crate::bot::villa::room::message::message_builder::content_builder::ContentBuilder;
 use crate::bot::villa::room::message::message_builder::mhy_text_component::link::Link;
 use crate::bot::villa::room::message::message_builder::mhy_text_component::mention_bot::MentionBot;
 use crate::bot::villa::room::message::message_builder::mhy_text_component::mention_user::MentionUser;
@@ -170,16 +169,9 @@ impl<
     self
   }
   // endregion
-}
 
-impl<
-    'villa,
-    State,
-    EventHandler: BotEventHandler<State, ReqExecutor>,
-    ReqExecutor: RequestExecutor,
-  > ContentBuilder for MhyTextBuilder<'villa, State, EventHandler, ReqExecutor>
-{
-  fn build(mut self) -> MessageContent {
+  /// build to [MessageContent]
+  pub fn build(mut self) -> MessageContent {
     self = self.trim_last_spacer();
 
     let mut text_content = String::new();
@@ -240,7 +232,8 @@ impl<
     MessageContent::MhyText(MhyText::new(text_content, entities))
   }
 
-  fn gen_mentioned_info(&self) -> Option<MentionedInfo> {
+  /// generate mentioned info
+  pub fn gen_mentioned_info(&self) -> Option<MentionedInfo> {
     self
       .components
       .iter()
