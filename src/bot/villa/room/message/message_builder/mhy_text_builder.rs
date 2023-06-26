@@ -4,21 +4,20 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
 use crate::api_type::message::message_object::mentioned_info::MentionedInfo;
 use crate::api_type::message::message_object::message_content::mhy_text::entity_data::EntityData;
 use crate::api_type::message::message_object::message_content::mhy_text::text_entity::TextEntity;
 use crate::api_type::message::message_object::message_content::mhy_text::MhyText;
 use crate::api_type::message::message_object::message_content::MessageContent;
-use crate::api_type::message::message_object::quote_info::QuoteInfo;
-use crate::api_type::message::message_object::MessageObject;
 use crate::bot::bot_event_handler::BotEventHandler;
-use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::link::Link;
-use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::mention_bot::MentionBot;
-use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::mention_user::MentionUser;
-use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::villa_room_link::VillaRoomLink;
-use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::MhyTextMsgComponent as Component;
-use crate::bot::villa::room::message::message_builder::MessageBuilder;
+use crate::bot::villa::room::message::message_builder::content_builder::ContentBuilder;
+use crate::bot::villa::room::message::message_builder::mhy_text_component::link::Link;
+use crate::bot::villa::room::message::message_builder::mhy_text_component::mention_bot::MentionBot;
+use crate::bot::villa::room::message::message_builder::mhy_text_component::mention_user::MentionUser;
+use crate::bot::villa::room::message::message_builder::mhy_text_component::villa_room_link::VillaRoomLink;
+use crate::bot::villa::room::message::message_builder::mhy_text_component::{
+  MhyTextMsgComponent as Component, MhyTextMsgComponent,
+};
 use crate::bot::villa::Villa;
 use crate::error::VResult;
 use crate::request::request_executor::RequestExecutor;
@@ -26,7 +25,7 @@ use crate::utils::unicode_utils::len_utf16;
 
 /// builder of MHY:Text
 #[derive(Debug, Clone)]
-pub struct MhyTextMsgBuilder<
+pub struct MhyTextBuilder<
   'villa,
   State,
   EventHandler: BotEventHandler<State, ReqExecutor>,
@@ -36,8 +35,6 @@ pub struct MhyTextMsgBuilder<
 
   components: Vec<Component>,
   spacer: Option<String>,
-
-  quote_info: Option<QuoteInfo>,
 }
 
 impl<
@@ -45,7 +42,7 @@ impl<
     State,
     EventHandler: BotEventHandler<State, ReqExecutor>,
     ReqExecutor: RequestExecutor,
-  > MhyTextMsgBuilder<'villa, State, EventHandler, ReqExecutor>
+  > MhyTextBuilder<'villa, State, EventHandler, ReqExecutor>
 {
   /// initialize with villa
   pub fn new(villa: &'villa Villa<'villa, State, EventHandler, ReqExecutor>) -> Self {
@@ -53,7 +50,6 @@ impl<
       villa,
       components: vec![],
       spacer: Some(' '.to_string()),
-      quote_info: None,
     }
   }
 
@@ -74,7 +70,7 @@ impl<
   pub async fn mention_user_by_id(
     self,
     uid: u64,
-  ) -> VResult<MhyTextMsgBuilder<'villa, State, EventHandler, ReqExecutor>> {
+  ) -> VResult<MhyTextBuilder<'villa, State, EventHandler, ReqExecutor>> {
     self
       .villa
       .member(uid)
@@ -114,7 +110,7 @@ impl<
   pub async fn room_link_by_id(
     self,
     room_id: u64,
-  ) -> VResult<MhyTextMsgBuilder<'villa, State, EventHandler, ReqExecutor>> {
+  ) -> VResult<MhyTextBuilder<'villa, State, EventHandler, ReqExecutor>> {
     self
       .villa
       .room(room_id)
@@ -162,18 +158,6 @@ impl<
     self
   }
 
-  /// set quote info
-  pub fn with_quote(mut self, quote_msg: impl Into<MessageIdentifier>) -> Self {
-    self.quote_info = Some(quote_msg.into().into());
-    self
-  }
-
-  /// remove quote info
-  pub fn remove_quote(mut self) -> Self {
-    self.quote_info = None;
-    self
-  }
-
   fn push(mut self, component: Component) -> Self {
     self.components.push(component);
     self
@@ -193,13 +177,10 @@ impl<
     State,
     EventHandler: BotEventHandler<State, ReqExecutor>,
     ReqExecutor: RequestExecutor,
-  > MessageBuilder for MhyTextMsgBuilder<'villa, State, EventHandler, ReqExecutor>
+  > ContentBuilder for MhyTextBuilder<'villa, State, EventHandler, ReqExecutor>
 {
-  /// build to [MessageObject]
-  fn build(mut self) -> MessageObject {
+  fn build(mut self) -> MessageContent {
     self = self.trim_last_spacer();
-
-    let mut mentioned_info = Option::<MentionedInfo>::None;
 
     let mut text_content = String::new();
     let mut entities = Vec::<TextEntity>::new();
@@ -214,7 +195,6 @@ impl<
           let content = format!("@{user_name}");
           let uid = uid.to_string();
 
-          mentioned_info.add_member(uid.clone());
           entities.push_entity(
             &mut text_content,
             content,
@@ -224,13 +204,11 @@ impl<
         Component::MentionAll => {
           let content = "@全体成员".to_string();
 
-          mentioned_info.upgrade_to_all();
           entities.push_entity(&mut text_content, content, EntityData::MentionedAll);
         }
         Component::MentionBot(MentionBot { bot_id, bot_name }) => {
           let content = format!("@{bot_name}");
 
-          mentioned_info.add_member(bot_id.clone());
           entities.push_entity(
             &mut text_content,
             content,
@@ -259,11 +237,26 @@ impl<
       }
     }
 
-    MessageObject::new(
-      MessageContent::MhyText(MhyText::new(text_content, entities)),
-      mentioned_info,
-      self.quote_info,
-    )
+    MessageContent::MhyText(MhyText::new(text_content, entities))
+  }
+
+  fn gen_mentioned_info(&self) -> Option<MentionedInfo> {
+    self
+      .components
+      .iter()
+      .fold(Option::<MentionedInfo>::None, |mut acc, it| {
+        match it {
+          MhyTextMsgComponent::MentionUser(MentionUser { uid, .. }) => {
+            acc.add_member(uid.to_string())
+          }
+          MhyTextMsgComponent::MentionAll => acc.upgrade_to_all(),
+          MhyTextMsgComponent::MentionBot(MentionBot { bot_id, .. }) => {
+            acc.add_member(bot_id.clone())
+          }
+          _ => {}
+        };
+        acc
+      })
   }
 }
 

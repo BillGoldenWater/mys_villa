@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::MhyTextMsgComponent;
+use crate::bot::villa::room::message::message_builder::mhy_text_component::MhyTextMsgComponent;
 
 /// mhy text
 #[derive(Debug, Default, Clone, PartialEq)]

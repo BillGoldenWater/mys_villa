@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::link::Link;
-use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::mention_bot::MentionBot;
-use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::mention_user::MentionUser;
-use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::villa_room_link::VillaRoomLink;
-use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::MhyTextMsgComponent;
+use crate::bot::villa::room::message::message_builder::mhy_text_component::link::Link;
+use crate::bot::villa::room::message::message_builder::mhy_text_component::mention_bot::MentionBot;
+use crate::bot::villa::room::message::message_builder::mhy_text_component::mention_user::MentionUser;
+use crate::bot::villa::room::message::message_builder::mhy_text_component::villa_room_link::VillaRoomLink;
+use crate::bot::villa::room::message::message_builder::mhy_text_component::MhyTextMsgComponent;
 use crate::bot::villa::room::message::message_chain::mhy_text::MhyText;
 use crate::bot::villa::room::message::message_chain::MessageChain;
 use crate::error::VResult;
@@ -377,8 +377,7 @@ pub enum MhyTextMatchError {
 #[cfg(test)]
 mod tests {
   use crate::bot::default::default;
-  use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::MhyTextMsgComponent;
-  use crate::bot::villa::room::message::message_builder::MessageBuilder;
+  use crate::bot::villa::room::message::message_builder::mhy_text_component::MhyTextMsgComponent;
   use crate::bot::villa::room::message::message_chain::MessageChain;
   use crate::bot::villa::room::message::message_chain_matcher::mhy_text_matcher::{
     MatchExactResult, MatchFuzzyResult, MhyTextMatcher,
@@ -390,7 +389,7 @@ mod tests {
       .villa(0)
       .room(0)
       .message_builder()
-      .mhy_text()
+      .mhy_text(|m| m)
       .build()
       .try_into()
       .unwrap();
@@ -406,10 +405,11 @@ mod tests {
       .villa(0)
       .room(0)
       .message_builder()
-      .mhy_text()
-      .mention_bot("arst", "bot_arst")
-      .text("/command")
-      .text("arg")
+      .mhy_text(|m| {
+        m.mention_bot("arst", "bot_arst")
+          .text("/command")
+          .text("arg")
+      })
       .build()
       .try_into()
       .unwrap();
@@ -432,11 +432,12 @@ mod tests {
       .villa(0)
       .room(0)
       .message_builder()
-      .mhy_text()
-      .text("prefix")
-      .mention_bot("arst", "bot_arst")
-      .mention_all()
-      .text("suffix")
+      .mhy_text(|m| {
+        m.text("prefix")
+          .mention_bot("arst", "bot_arst")
+          .mention_all()
+          .text("suffix")
+      })
       .build()
       .try_into()
       .unwrap();

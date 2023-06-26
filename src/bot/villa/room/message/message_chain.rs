@@ -13,11 +13,11 @@ use crate::api_type::message::message_object::message_content::mhy_text::text_en
 use crate::api_type::message::message_object::message_content::mhy_text::MhyText as ApiMhyText;
 use crate::api_type::message::message_object::message_content::MessageContent as ApiMessageContent;
 use crate::api_type::message::message_object::MessageObject;
-use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::link::Link;
-use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::mention_bot::MentionBot;
-use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::mention_user::MentionUser;
-use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::villa_room_link::VillaRoomLink;
-use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::MhyTextMsgComponent;
+use crate::bot::villa::room::message::message_builder::mhy_text_component::link::Link;
+use crate::bot::villa::room::message::message_builder::mhy_text_component::mention_bot::MentionBot;
+use crate::bot::villa::room::message::message_builder::mhy_text_component::mention_user::MentionUser;
+use crate::bot::villa::room::message::message_builder::mhy_text_component::villa_room_link::VillaRoomLink;
+use crate::bot::villa::room::message::message_builder::mhy_text_component::MhyTextMsgComponent;
 use crate::bot::villa::room::message::message_chain::message_content::MessageContent;
 use crate::bot::villa::room::message::message_chain::mhy_text::MhyText;
 use crate::error::{VError, VResult};
@@ -182,9 +182,8 @@ mod tests {
   use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
   use crate::api_type::message::message_object::mentioned_info::MentionedInfo;
   use crate::bot::default::default;
-  use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::link::Link;
-  use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::MhyTextMsgComponent;
-  use crate::bot::villa::room::message::message_builder::MessageBuilder;
+  use crate::bot::villa::room::message::message_builder::mhy_text_component::link::Link;
+  use crate::bot::villa::room::message::message_builder::mhy_text_component::MhyTextMsgComponent;
   use crate::bot::villa::room::message::message_chain::message_content::MessageContent;
   use crate::bot::villa::room::message::message_chain::mhy_text::MhyText;
   use crate::bot::villa::room::message::message_chain::MessageChain;
@@ -199,12 +198,10 @@ mod tests {
       .villa(0)
       .room(0)
       .message_builder()
-      .mhy_text()
-      .mention_all()
-      .text("123😶‍🌫️")
-      .link_full("😶‍🌫️", "")
       .with_quote(&ident)
+      .mhy_text(|m| m.mention_all().text("123😶‍🌫️").link_full("😶‍🌫️", ""))
       .build();
+
     let msg = MessageChain::try_from(msg).unwrap();
 
     let expect = MessageChain::new(
@@ -223,7 +220,12 @@ mod tests {
   #[test]
   fn test_parse_empty() {
     let bot = default();
-    let msg = bot.villa(0).room(0).message_builder().mhy_text().build();
+    let msg = bot
+      .villa(0)
+      .room(0)
+      .message_builder()
+      .mhy_text(|m| m)
+      .build();
     let msg = MessageChain::try_from(msg).unwrap();
 
     assert_eq!(msg, MessageChain::default());

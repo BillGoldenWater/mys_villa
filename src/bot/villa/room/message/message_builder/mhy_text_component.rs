@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::link::Link;
-use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::mention_bot::MentionBot;
-use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::mention_user::MentionUser;
-use crate::bot::villa::room::message::message_builder::mhy_text_msg_component::villa_room_link::VillaRoomLink;
+use crate::bot::villa::room::message::message_builder::mhy_text_component::link::Link;
+use crate::bot::villa::room::message::message_builder::mhy_text_component::mention_bot::MentionBot;
+use crate::bot::villa::room::message::message_builder::mhy_text_component::mention_user::MentionUser;
+use crate::bot::villa::room::message::message_builder::mhy_text_component::villa_room_link::VillaRoomLink;
 
 /// link content
 pub mod link;

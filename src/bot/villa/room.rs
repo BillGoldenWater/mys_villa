@@ -18,7 +18,6 @@ use crate::api_type::room::get_room_response::GetRoomResponse;
 use crate::api_type::room::room_data::RoomData;
 use crate::bot::bot_event_handler::BotEventHandler;
 use crate::bot::bot_permission::BotPermission;
-use crate::bot::villa::room::message::message_builder::message_builder_builder::MessageBuilderBuilder;
 use crate::bot::villa::room::message::message_builder::MessageBuilder;
 use crate::bot::villa::room::message::Message;
 use crate::bot::villa::Villa;
@@ -161,50 +160,34 @@ impl<
 
   /// send complex message easily with the help from message builder
   /// ```no_run
-  /// #  use mys_villa::bot::bot_event_handler::BotEventHandler;
-  /// #  use mys_villa::bot::bot_info::BotAuthInfo;
-  /// #  use mys_villa::bot::bot_permission::BotPermission;
-  /// #  use mys_villa::bot::Bot;
   /// #  use mys_villa::error::VResult;
-  /// #  use mys_villa::request::request_executor::request_executor_impl::RequestExecutorImpl;
-  /// #
-  /// #  #[derive(Debug)]
-  /// #  struct State;
-  /// #
-  /// #  #[derive(Debug)]
-  /// #  struct EventHandler;
-  /// #
-  /// #  impl BotEventHandler<State, RequestExecutorImpl> for EventHandler {}
   /// #
   /// #  #[tokio::main]
   /// #  async fn main() -> VResult<()> {
-  /// #    let bot = Bot::new(
-  /// #      BotAuthInfo::from_env()?,
-  /// #      BotPermission::all(),
-  /// #      RequestExecutorImpl::new()?,
-  /// #      State,
-  /// #      EventHandler,
-  /// #    );
+  /// #    let bot = mys_villa::bot::default::default();
   /// #    let villa = bot.villa(0);
   /// #    let room = villa.room(0);
-  ///room
-  ///  .send_message(
-  ///     room.message_builder().mhy_text()
-  ///       .mention_all()
-  ///       .text("Hello world!")
-  ///   ) // @全体成员 Hello world!
-  ///  .await?;
+  /// room
+  ///   .send_message(
+  ///     room
+  ///       .message_builder()
+  ///       .mhy_text(|m| m.mention_all().text("Hello world!")),
+  ///   )
+  ///   .await?; // @全体成员 Hello world!
   /// #    Ok(())
   /// #  }
   /// ```
-  pub async fn send_message(&self, builder: impl MessageBuilder) -> VResult<String> {
+  pub async fn send_message(
+    &self,
+    builder: MessageBuilder<'villa, State, EventHandler, ReqExecutor>,
+  ) -> VResult<String> {
     self.send_message_raw(builder.build()).await
   }
 
   /// send simple pure text message
   pub async fn send_text(&self, text: impl Into<String>) -> VResult<String> {
     self
-      .send_message(self.message_builder().mhy_text().text(text))
+      .send_message(self.message_builder().mhy_text(|m| m.text(text)))
       .await
   }
 
@@ -218,15 +201,14 @@ impl<
       .send_message(
         self
           .message_builder()
-          .mhy_text()
           .with_quote(reply_target)
-          .text(text),
+          .mhy_text(|m| m.text(text)),
       )
       .await
   }
 
-  /// create a message builder builder
-  pub fn message_builder(&self) -> MessageBuilderBuilder<'villa, State, EventHandler, ReqExecutor> {
-    MessageBuilderBuilder::new(self.villa)
+  /// create a message builder
+  pub fn message_builder(&self) -> MessageBuilder<'villa, State, EventHandler, ReqExecutor> {
+    MessageBuilder::new(self.villa)
   }
 }

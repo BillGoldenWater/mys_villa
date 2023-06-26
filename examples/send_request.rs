@@ -51,7 +51,7 @@ pub async fn main() -> VResult<()> {
   let room = mys_villa.room(room_info.id);
 
   room
-    .send_message(room.message_builder().mhy_text().text("Hello world!"))
+    .send_message(room.message_builder().mhy_text(|m| m.text("Hello world!")))
     .await?;
 
   Ok(())
