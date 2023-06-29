@@ -463,7 +463,7 @@ dependencies = [
 
 [[package]]
 name = "mys_villa"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "dotenv",
  "env_logger",
