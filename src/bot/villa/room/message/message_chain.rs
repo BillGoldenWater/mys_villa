@@ -50,6 +50,7 @@ impl TryFrom<MessageObject> for MessageChain {
     let message_content = match value.content {
       ApiMessageContent::MhyText(mhy_text) => MessageContent::MhyText(mhy_text.try_into()?),
       ApiMessageContent::MhyImage(image) => MessageContent::MhyImage(image),
+      ApiMessageContent::MhyPost(mhy_post) => MessageContent::MhyPost(mhy_post),
       ApiMessageContent::Unknown(_) => MessageContent::Unknown(value.clone()),
     };
 

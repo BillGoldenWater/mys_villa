@@ -6,6 +6,7 @@
 
 use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
 use crate::api_type::message::message_object::message_content::image::Image;
+use crate::api_type::message::message_object::message_content::mhy_post::MhyPost;
 use crate::api_type::message::message_object::quote_info::QuoteInfo;
 use crate::api_type::message::message_object::MessageObject;
 use crate::bot::bot_event_handler::BotEventHandler;
@@ -67,6 +68,12 @@ impl<
   /// convert/replace MHY:Image
   pub fn mhy_image(mut self, image: Image) -> Self {
     self.content_builder = self.content_builder.mhy_image(image);
+    self
+  }
+
+  /// convert/replace MHY:Post
+  pub fn mhy_post(mut self, post: MhyPost) -> Self {
+    self.content_builder = self.content_builder.mhy_post(post);
     self
   }
 

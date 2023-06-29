@@ -5,12 +5,15 @@
  */
 
 use crate::api_type::message::message_object::message_content::image::Image;
+use crate::api_type::message::message_object::message_content::mhy_post::MhyPost;
 use crate::api_type::message::message_object::message_content::mhy_text::MhyText;
 use crate::api_type::message::message_object::message_content::unknown::Unknown;
 use serde::{Deserialize, Serialize};
 
 /// definition of image
 pub mod image;
+/// definition of mhy post
+pub mod mhy_post;
 /// definition of mhy text
 pub mod mhy_text;
 /// definition of unknown
@@ -24,6 +27,8 @@ pub enum MessageContent {
   MhyText(MhyText),
   /// MHY:Image
   MhyImage(Image),
+  /// MHY:Post
+  MhyPost(MhyPost),
   /// unknown message
   Unknown(Unknown),
 }
