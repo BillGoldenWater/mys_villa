@@ -7,7 +7,6 @@
 use std::collections::HashMap;
 
 use log::debug;
-use serde_json::{json, Value};
 
 use crate::api_type::bot_access_info::check_member_bot_access_token_request::CheckMemberBotAccessTokenRequest;
 use crate::api_type::bot_access_info::check_member_bot_access_token_response::CheckMemberBotAccessTokenResponse;
@@ -26,6 +25,8 @@ use crate::api_type::room::get_villa_group_room_list_response::GetVillaGroupRoom
 use crate::api_type::room::room_group_info::RoomGroupInfo;
 use crate::api_type::room::room_order_item::RoomOrderItem;
 use crate::api_type::room::sort_room_list_request::SortRoomListRequest;
+use crate::api_type::villa::get_villa_members_request::GetVillaMembersRequest;
+use crate::api_type::villa::get_villa_members_response::GetVillaMembersResponse;
 use crate::api_type::villa::get_villa_response::GetVillaResponse;
 use crate::api_type::villa::villa_info::VillaInfo;
 use crate::bot::bot_event_handler::BotEventHandler;
@@ -51,7 +52,7 @@ pub mod room;
 
 /// for execute api under villa context
 /// - [Villa::get_info] get information of villa
-/// - [Villa::get_all_members_data] get all member of villa
+/// - [Villa::get_members_data] get all member of villa
 /// - [Villa::get_all_roles_info] get all role of villa
 /// - [Villa::create_role] create a new role
 /// - [Villa::get_all_group_info] get all group of villa, doesn't include room info
@@ -134,26 +135,24 @@ impl<
       .map(|it| it.villa)
   }
 
-  /// get all member's data
-  pub async fn get_all_members_data(&self) -> VResult<()> {
+  /// get members data
+  ///
+  /// when set next_offset to empty string, will return first page of member list
+  pub async fn get_members_data(
+    &self,
+    page_size: u64,
+    next_offset: impl Into<String>,
+  ) -> VResult<GetVillaMembersResponse> {
     BotPermission::ViewMember.check_result(self.bot)?;
 
-    let res = self
+    self
       .req_builder
       .build_get_with_body(
         "/vila/api/bot/platform/getVillaMembers",
-        json! {{
-          "offset": 0,
-          "size": 2
-        }},
+        GetVillaMembersRequest::new(next_offset, page_size),
       )
-      .execute_result::<Value, _>(&self.bot.request_executor)
-      .await?;
-
-    // res.as_object().unwrap()["list"].as_array().unwrap().len()
-    println!("{:#?}", res);
-    // todo: result type, wait bug fix
-    Ok(())
+      .execute_result::<GetVillaMembersResponse, _>(&self.bot.request_executor)
+      .await
   }
 
   // region role

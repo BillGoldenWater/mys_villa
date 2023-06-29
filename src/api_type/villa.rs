@@ -4,6 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 
+/// definition of get villa members request
+pub mod get_villa_members_request;
+/// definition of get villa members response
+pub mod get_villa_members_response;
 /// definition of get villa response
 pub mod get_villa_response;
 /// definition of villa info
