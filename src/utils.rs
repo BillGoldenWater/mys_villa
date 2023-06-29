@@ -9,6 +9,8 @@ use std::str::FromStr;
 
 use serde::{Deserialize, Deserializer};
 
+/// for option related utilities
+pub mod option_utils;
 /// deserialize from string and serialize to string
 pub mod serde_obj_str;
 /// for unicode related utilities

@@ -391,6 +391,7 @@ mod tests {
   use crate::bot::villa::room::message::message_chain_matcher::mhy_text_matcher::{
     MatchExactResult, MatchFuzzyResult, MhyTextMatcher,
   };
+  use crate::utils::option_utils::none_string;
 
   #[test]
   fn test_empty() {
@@ -425,7 +426,7 @@ mod tests {
 
     let match_result = MhyTextMatcher::default()
       .mention_bot(Some("arst"), Some("bot_arst"))
-      .text(Option::<String>::None)
+      .text(none_string())
       .match_exact(&message)
       .unwrap();
 
