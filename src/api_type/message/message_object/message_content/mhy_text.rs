@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
+use crate::api_type::message::message_object::message_content::image::Image;
 use crate::api_type::message::message_object::message_content::mhy_text::text_entity::TextEntity;
 use serde::{Deserialize, Serialize};
 
@@ -19,14 +20,17 @@ pub struct MhyText {
   pub text: String,
   /// entities
   pub entities: Vec<TextEntity>,
+  /// images
+  pub images: Vec<Image>,
 }
 
 impl MhyText {
-  /// initialize with text and entities
-  pub fn new(text: impl Into<String>, entities: Vec<TextEntity>) -> Self {
+  /// initialize with text, entities and images
+  pub fn new(text: impl Into<String>, entities: Vec<TextEntity>, image: Option<Image>) -> Self {
     Self {
       text: text.into(),
       entities,
+      images: image.map(|it| vec![it]).unwrap_or(vec![]),
     }
   }
 }

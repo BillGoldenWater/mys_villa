@@ -81,6 +81,7 @@ pub enum MessageChainParseError {
 mod tests {
   use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
   use crate::api_type::message::message_object::mentioned_info::MentionedInfo;
+  use crate::api_type::message::message_object::message_content::image::Image;
   use crate::bot::default::default;
   use crate::bot::villa::room::message::message_builder::mhy_text_component::link::Link;
   use crate::bot::villa::room::message::message_builder::mhy_text_component::MhyTextMsgComponent;
@@ -99,17 +100,25 @@ mod tests {
       .room(0)
       .message_builder()
       .with_quote(&ident)
-      .mhy_text(|m| m.mention_all().text("123😶‍🌫️").link_full("😶‍🌫️", "", false))
+      .mhy_text(|m| {
+        m.mention_all()
+          .text("123😶‍🌫️")
+          .link_full("😶‍🌫️", "", false)
+          .with_image(Image::new_url_only(""))
+      })
       .build();
 
     let msg = MessageChain::try_from(msg).unwrap();
 
     let expect = MessageChain::new(
-      MessageContent::MhyText(MhyText::new(vec![
-        MhyTextMsgComponent::MentionAll,
-        MhyTextMsgComponent::Text(" 123😶‍🌫️ ".to_string()),
-        MhyTextMsgComponent::Link(Link::new("😶‍🌫️".to_string(), "".to_string(), false)),
-      ])),
+      MessageContent::MhyText(MhyText::new(
+        vec![
+          MhyTextMsgComponent::MentionAll,
+          MhyTextMsgComponent::Text(" 123😶‍🌫️ ".to_string()),
+          MhyTextMsgComponent::Link(Link::new("😶‍🌫️".to_string(), "".to_string(), false)),
+        ],
+        Some(Image::new_url_only("")),
+      )),
       Some(ident),
       Some(mentioned_info),
     );

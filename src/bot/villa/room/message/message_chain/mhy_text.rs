@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
+use crate::api_type::message::message_object::message_content::image::Image;
 use crate::api_type::message::message_object::message_content::mhy_text::entity_data::EntityData;
 use crate::api_type::message::message_object::message_content::mhy_text::text_entity::TextEntity;
 use crate::api_type::message::message_object::message_content::mhy_text::MhyText as ApiMhyText;
@@ -22,12 +23,14 @@ use std::str::FromStr;
 pub struct MhyText {
   /// message content
   pub content: Vec<MhyTextMsgComponent>,
+  /// attached image
+  pub image: Option<Image>,
 }
 
 impl MhyText {
-  /// initialize with content, quote and mentioned_info
-  pub fn new(content: Vec<MhyTextMsgComponent>) -> Self {
-    Self { content }
+  /// initialize with content and image
+  pub fn new(content: Vec<MhyTextMsgComponent>, image: Option<Image>) -> Self {
+    Self { content, image }
   }
 }
 
@@ -35,7 +38,11 @@ impl TryFrom<ApiMhyText> for MhyText {
   type Error = VError;
 
   fn try_from(value: ApiMhyText) -> Result<Self, Self::Error> {
-    let ApiMhyText { text, mut entities } = value;
+    let ApiMhyText {
+      text,
+      mut entities,
+      mut images,
+    } = value;
     let len = len_utf16(&text);
     let mut result = Vec::with_capacity(entities.len().min(1));
 
@@ -99,7 +106,7 @@ impl TryFrom<ApiMhyText> for MhyText {
       result.push(MhyTextMsgComponent::Text(content));
     }
 
-    Ok(MhyText::new(result))
+    Ok(MhyText::new(result, images.pop()))
   }
 }
 

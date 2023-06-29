@@ -5,6 +5,7 @@
  */
 
 use crate::api_type::message::message_object::mentioned_info::MentionedInfo;
+use crate::api_type::message::message_object::message_content::image::Image;
 use crate::api_type::message::message_object::message_content::mhy_text::entity_data::EntityData;
 use crate::api_type::message::message_object::message_content::mhy_text::text_entity::TextEntity;
 use crate::api_type::message::message_object::message_content::mhy_text::MhyText;
@@ -34,6 +35,8 @@ pub struct MhyTextBuilder<
 
   components: Vec<Component>,
   spacer: Option<String>,
+
+  image: Option<Image>,
 }
 
 impl<
@@ -49,6 +52,7 @@ impl<
       villa,
       components: vec![],
       spacer: Some(' '.to_string()),
+      image: None,
     }
   }
 
@@ -166,6 +170,18 @@ impl<
     self
   }
 
+  /// with image attached
+  pub fn with_image(mut self, image: Image) -> Self {
+    self.image = Some(image);
+    self
+  }
+
+  /// remove attached image
+  pub fn remove_image(mut self) -> Self {
+    self.image = None;
+    self
+  }
+
   fn push(mut self, component: Component) -> Self {
     self.components.push(component);
     self
@@ -249,7 +265,7 @@ impl<
       }
     }
 
-    MessageContent::MhyText(MhyText::new(text_content, entities))
+    MessageContent::MhyText(MhyText::new(text_content, entities, self.image))
   }
 
   /// generate mentioned info

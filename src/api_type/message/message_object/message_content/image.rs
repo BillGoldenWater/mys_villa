@@ -32,4 +32,9 @@ impl Image {
       file_size,
     }
   }
+
+  /// initialize with url
+  pub fn new_url_only(url: impl Into<String>) -> Self {
+    Self::new(url, None, None)
+  }
 }
