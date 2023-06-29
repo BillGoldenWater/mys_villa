@@ -49,6 +49,7 @@ impl TryFrom<MessageObject> for MessageChain {
   fn try_from(value: MessageObject) -> Result<Self, Self::Error> {
     let message_content = match value.content {
       ApiMessageContent::MhyText(mhy_text) => MessageContent::MhyText(mhy_text.try_into()?),
+      ApiMessageContent::MhyImage(image) => MessageContent::MhyImage(image),
       ApiMessageContent::Unknown(_) => MessageContent::Unknown(value.clone()),
     };
 

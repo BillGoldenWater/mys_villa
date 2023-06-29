@@ -5,6 +5,7 @@
  */
 
 use crate::api_type::message::message_object::mentioned_info::MentionedInfo;
+use crate::api_type::message::message_object::message_content::image::Image;
 use crate::api_type::message::message_object::message_content::MessageContent;
 use crate::bot::bot_event_handler::BotEventHandler;
 use crate::bot::villa::room::message::message_builder::mhy_text_builder::MhyTextBuilder;
@@ -21,6 +22,8 @@ pub enum ContentBuilder<
 > {
   /// MHY:Text
   MhyText(MhyTextBuilder<'villa, State, EventHandler, ReqExecutor>),
+  /// MHY:Image
+  MhyImage(Image),
 }
 
 impl<
@@ -53,10 +56,16 @@ impl<
     Self::MhyText(result)
   }
 
+  /// convert/replace MHY:Image
+  pub fn mhy_image(self, image: Image) -> Self {
+    Self::MhyImage(image)
+  }
+
   /// build to [MessageContent]
   pub fn build(self) -> MessageContent {
     match self {
       ContentBuilder::MhyText(mhy_text) => mhy_text.build(),
+      ContentBuilder::MhyImage(image) => MessageContent::MhyImage(image),
     }
   }
 
@@ -64,6 +73,7 @@ impl<
   pub fn gen_mentioned_info(&self) -> Option<MentionedInfo> {
     match self {
       ContentBuilder::MhyText(mhy_text) => mhy_text.gen_mentioned_info(),
+      ContentBuilder::MhyImage(_) => None,
     }
   }
 }

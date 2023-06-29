@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
+use crate::api_type::message::message_object::message_content::image::Image;
 use crate::api_type::message::message_object::MessageObject;
 use crate::bot::villa::room::message::message_chain::mhy_text::MhyText;
 
@@ -12,6 +13,8 @@ use crate::bot::villa::room::message::message_chain::mhy_text::MhyText;
 pub enum MessageContent {
   /// MHY:Text
   MhyText(MhyText),
+  /// MHY:Image
+  MhyImage(Image),
   /// unknown message
   Unknown(MessageObject),
 }

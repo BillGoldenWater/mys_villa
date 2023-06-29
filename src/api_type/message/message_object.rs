@@ -118,6 +118,8 @@ impl<'de> Deserialize<'de> for MessageObject {
     Ok(match raw.object_name {
       1 => deserialize_content::<D>(raw.content)?
         .convert_to_object::<_, _, D>(MessageContent::MhyText)?,
+      2 => deserialize_content::<D>(raw.content)?
+        .convert_to_object::<_, _, D>(MessageContent::MhyImage)?,
       object_name => deserialize_content::<D>(raw.content)?.convert_to_unknown_object(object_name),
     })
   }
@@ -150,6 +152,7 @@ impl Serialize for MessageObject {
 
     let object_name = match &self.content {
       MessageContent::MhyText(_) => "MHY:Text",
+      MessageContent::MhyImage(_) => "MHY:Image",
       MessageContent::Unknown(unknown) => unknown.object_name.as_str(),
     }
     .to_string();

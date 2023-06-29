@@ -4,10 +4,13 @@
  * SPDX-License-Identifier: MIT
  */
 
+use crate::api_type::message::message_object::message_content::image::Image;
 use crate::api_type::message::message_object::message_content::mhy_text::MhyText;
 use crate::api_type::message::message_object::message_content::unknown::Unknown;
 use serde::{Deserialize, Serialize};
 
+/// definition of image
+pub mod image;
 /// definition of mhy text
 pub mod mhy_text;
 /// definition of unknown
@@ -19,6 +22,8 @@ pub mod unknown;
 pub enum MessageContent {
   /// MHY:Text
   MhyText(MhyText),
+  /// MHY:Image
+  MhyImage(Image),
   /// unknown message
   Unknown(Unknown),
 }
