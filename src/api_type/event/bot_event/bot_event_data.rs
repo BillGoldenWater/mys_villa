@@ -12,10 +12,10 @@ use crate::api_type::message::message_object::MessageObject;
 
 /// definition of add quick emoticon metadata
 pub mod add_quick_emoticon_metadata;
-/// definition of send message metadata
-pub mod send_message_metadata;
 /// definition of message identifier
 pub mod message_identifier;
+/// definition of send message metadata
+pub mod send_message_metadata;
 
 /// bot event data
 #[derive(Debug, Deserialize)]

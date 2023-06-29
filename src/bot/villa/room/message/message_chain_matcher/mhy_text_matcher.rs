@@ -76,10 +76,12 @@ impl MhyTextMatcher {
     mut self,
     link_name: Option<impl Into<String>>,
     url: Option<impl Into<String>>,
+    requires_bot_access_token: Option<bool>,
   ) -> Self {
     self.items.push(MatchItem::Link {
       link_name: link_name.map(Into::into),
       url: url.map(Into::into),
+      requires_bot_access_token,
     });
     self
   }
@@ -244,6 +246,7 @@ enum MatchItem {
   Link {
     link_name: Option<String>,
     url: Option<String>,
+    requires_bot_access_token: Option<bool>,
   },
 }
 
@@ -321,14 +324,20 @@ impl MatchItem {
         capture |= is_eq(villa_id, villa_id_content)?;
         capture |= is_eq(room_id, id)?;
       }
-      MatchItem::Link { link_name, url } => {
+      MatchItem::Link {
+        link_name,
+        url,
+        requires_bot_access_token,
+      } => {
         let Link {
           link_name: name,
           url: url_content,
+          requires_bot_access_token: requires_bot_access_token_content,
         } = item.as_link().ok_or(MhyTextMatchError::TypeNotMatch)?;
 
         capture |= is_eq(link_name, name)?;
         capture |= is_eq(url, url_content)?;
+        capture |= is_eq(requires_bot_access_token, requires_bot_access_token_content)?;
       }
     }
 

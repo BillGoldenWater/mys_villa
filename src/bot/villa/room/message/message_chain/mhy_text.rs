@@ -83,7 +83,10 @@ impl TryFrom<ApiMhyText> for MhyText {
             parse_u64(room_id)?,
           ))
         }
-        EntityData::Link { url } => MhyTextMsgComponent::Link(Link::new(content, url)),
+        EntityData::Link {
+          url,
+          requires_bot_access_token,
+        } => MhyTextMsgComponent::Link(Link::new(content, url, requires_bot_access_token)),
       };
 
       result.push(component);

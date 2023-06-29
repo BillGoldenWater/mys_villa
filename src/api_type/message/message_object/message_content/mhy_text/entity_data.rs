@@ -33,5 +33,8 @@ pub enum EntityData {
   Link {
     /// url
     url: String,
+    /// requires bot access token
+    #[serde(default)]
+    requires_bot_access_token: bool,
   },
 }

@@ -98,7 +98,7 @@ mod tests {
       .room(0)
       .message_builder()
       .with_quote(&ident)
-      .mhy_text(|m| m.mention_all().text("123😶‍🌫️").link_full("😶‍🌫️", ""))
+      .mhy_text(|m| m.mention_all().text("123😶‍🌫️").link_full("😶‍🌫️", "", false))
       .build();
 
     let msg = MessageChain::try_from(msg).unwrap();
@@ -107,7 +107,7 @@ mod tests {
       MessageContent::MhyText(MhyText::new(vec![
         MhyTextMsgComponent::MentionAll,
         MhyTextMsgComponent::Text(" 123😶‍🌫️ ".to_string()),
-        MhyTextMsgComponent::Link(Link::new("😶‍🌫️".to_string(), "".to_string())),
+        MhyTextMsgComponent::Link(Link::new("😶‍🌫️".to_string(), "".to_string(), false)),
       ])),
       Some(ident),
       Some(mentioned_info),

@@ -119,16 +119,25 @@ impl<
   }
 
   /// push a link component
-  pub fn link_full(self, link_name: impl Into<String>, url: impl Into<String>) -> Self {
+  pub fn link_full(
+    self,
+    link_name: impl Into<String>,
+    url: impl Into<String>,
+    requires_bot_access_token: bool,
+  ) -> Self {
     self
-      .push(Component::Link(Link::new(link_name, url)))
+      .push(Component::Link(Link::new(
+        link_name,
+        url,
+        requires_bot_access_token,
+      )))
       .append_spacer()
   }
 
   /// push a link component, auto fill link name using url
   pub fn link(self, url: impl Into<String>) -> Self {
     let url = url.into();
-    self.link_full(url.clone(), url)
+    self.link_full(url.clone(), url, false)
   }
 
   /// set current spacer for spacing future components
@@ -223,8 +232,19 @@ impl<
             },
           )
         }
-        Component::Link(Link { link_name, url }) => {
-          entities.push_entity(&mut text_content, link_name, EntityData::Link { url });
+        Component::Link(Link {
+          link_name,
+          url,
+          requires_bot_access_token,
+        }) => {
+          entities.push_entity(
+            &mut text_content,
+            link_name,
+            EntityData::Link {
+              url,
+              requires_bot_access_token,
+            },
+          );
         }
       }
     }
