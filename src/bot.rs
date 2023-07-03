@@ -6,7 +6,6 @@
 
 use std::collections::HashMap;
 use std::fmt::Debug;
-use std::sync::Mutex;
 
 use log::info;
 
@@ -51,8 +50,7 @@ pub struct Bot<
   permission: Vec<BotPermission>,
   request_executor: ReqExecutor,
 
-  // mutex for interior mutability
-  state: Mutex<State>,
+  state: State,
   event_handler: EventHandler,
 
   default_req_builder: RequestBuilder,
@@ -82,18 +80,13 @@ impl<
       auth_info,
       permission,
       request_executor,
-      state: Mutex::new(shared_state),
+      state: shared_state,
       event_handler,
     }
   }
 
-  /// set state
-  pub fn set_state(&self, new_state: State) {
-    *self.state.lock().unwrap() = new_state;
-  }
-
   /// get state
-  pub fn get_state(&self) -> &Mutex<State> {
+  pub fn get_state(&self) -> &State {
     &self.state
   }
 
