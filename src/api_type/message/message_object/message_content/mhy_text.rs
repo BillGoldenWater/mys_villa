@@ -21,6 +21,7 @@ pub struct MhyText {
   /// entities
   pub entities: Vec<TextEntity>,
   /// images
+  #[serde(default)]
   pub images: Vec<Image>,
 }
 
