@@ -13,7 +13,9 @@ use crate::api_type::member::member_data::MemberData;
 #[derive(Debug, Deserialize)]
 pub struct CheckMemberBotAccessTokenResponse {
   /// bot access info
-  pub access_info: BotAccessInfo,
+  #[serde(default)]
+  pub access_info: Option<BotAccessInfo>,
   /// member data
-  pub member: MemberData,
+  #[serde(default)]
+  pub member: Option<MemberData>,
 }

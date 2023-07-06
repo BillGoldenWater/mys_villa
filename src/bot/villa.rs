@@ -10,6 +10,7 @@ use log::debug;
 
 use crate::api_type::bot_access_info::check_member_bot_access_token_request::CheckMemberBotAccessTokenRequest;
 use crate::api_type::bot_access_info::check_member_bot_access_token_response::CheckMemberBotAccessTokenResponse;
+use crate::api_type::bot_access_info::BotAccessData;
 use crate::api_type::group::create_group_request::CreateGroupRequest;
 use crate::api_type::group::create_group_response::CreateGroupResponse;
 use crate::api_type::group::get_group_list_response::GetGroupListResponse;
@@ -36,10 +37,11 @@ use crate::bot::villa::member::Member;
 use crate::bot::villa::role::Role;
 use crate::bot::villa::room::Room;
 use crate::bot::Bot;
-use crate::error::VResult;
+use crate::error::{VError, VResult};
 use crate::request::header_builder::HeaderBuilder;
 use crate::request::request_builder::RequestBuilder;
 use crate::request::request_executor::RequestExecutor;
+use crate::response::retcode::RetCode;
 
 /// group related logic
 pub mod group;
@@ -263,17 +265,24 @@ impl<
   // endregion
 
   /// check bot access token of a member
-  pub async fn check_access_token(
-    &self,
-    token: String,
-  ) -> VResult<CheckMemberBotAccessTokenResponse> {
-    self
+  pub async fn check_access_token(&self, token: String) -> VResult<BotAccessData> {
+    let res = self
       .req_builder
       .build_post_with_body(
         "/vila/api/bot/platform/checkMemberBotAccessToken",
         CheckMemberBotAccessTokenRequest::new(token),
       )
       .execute_result::<CheckMemberBotAccessTokenResponse, _>(&self.bot.request_executor)
-      .await
+      .await?;
+
+    // result_flatten is unstable
+    if let (Some(access_info), Some(member)) = (res.access_info, res.member) {
+      Ok(BotAccessData::new(access_info, member))
+    } else {
+      Err(VError::ApiError {
+        retcode: RetCode::InvalidMemberBotAccessToken,
+        message: "empty data".to_string(),
+      })
+    }
   }
 }
