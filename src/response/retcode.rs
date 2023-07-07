@@ -18,6 +18,10 @@ pub enum RetCode {
   Ok,
   /// can't operate member that not in this villa
   MemberNotInVilla,
+  /// room not exists
+  RoomNotExists,
+  /// can't operate room that not in this villa
+  RoomNotInVilla,
   /// target role isn't exists
   RoleNotExists,
   /// insufficient permission (for operation that not allow bot to call)
@@ -49,6 +53,8 @@ impl From<i32> for RetCode {
       -1 => Self::InvalidRequest,
       0 => Self::Ok,
       10313002 => Self::MemberNotInVilla,
+      10315000 => Self::RoomNotExists,
+      10315008 => Self::RoomNotInVilla,
       10318000 => Self::RoleNotExists,
       10318001 => Self::InsufficientPermission,
       10318004 => Self::CannotKickVillaOwner,
@@ -70,6 +76,8 @@ impl From<RetCode> for i32 {
       RetCode::InvalidRequest => -1,
       RetCode::Ok => 0,
       RetCode::MemberNotInVilla => 10313002,
+      RetCode::RoomNotExists => 10315000,
+      RetCode::RoomNotInVilla => 10315008,
       RetCode::RoleNotExists => 10318000,
       RetCode::InsufficientPermission => 10318001,
       RetCode::CannotKickVillaOwner => 10318004,
