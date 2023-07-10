@@ -4,6 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 
+/// definition of audit request
+pub mod audit_request;
+/// definition of audit response
+pub mod audit_response;
 /// definition of delete room request
 pub mod delete_room_request;
 /// definition of edit room request

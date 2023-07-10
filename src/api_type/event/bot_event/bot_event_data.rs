@@ -7,11 +7,17 @@
 use serde::Deserialize;
 
 use crate::api_type::event::bot_event::bot_event_data::add_quick_emoticon_metadata::AddQuickEmoticonMetadata;
+use crate::api_type::event::bot_event::bot_event_data::audit_metadata::AuditMetadata;
+use crate::api_type::event::bot_event::bot_event_data::audit_status::AuditStatus;
 use crate::api_type::event::bot_event::bot_event_data::send_message_metadata::SendMessageMetadata;
 use crate::api_type::message::message_object::MessageObject;
 
 /// definition of add quick emoticon metadata
 pub mod add_quick_emoticon_metadata;
+/// definition of audit metadata
+pub mod audit_metadata;
+/// definition of audit status
+pub mod audit_status;
 /// definition of message identifier
 pub mod message_identifier;
 /// definition of send message metadata
@@ -63,5 +69,14 @@ pub enum BotEventData {
     #[serde(default)]
     is_cancel: bool,
   },
-  // audit ignored
+  /// audit finished
+  AuditCallback {
+    /// metadata
+    #[serde(flatten)]
+    metadata: AuditMetadata,
+    /// pass through content
+    pass_through: Option<String>,
+    /// audit result
+    audit_result: AuditStatus,
+  },
 }

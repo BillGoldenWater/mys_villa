@@ -10,6 +10,8 @@ use crate::api_type::member::delete_villa_member_request::DeleteVillaMemberReque
 use crate::api_type::member::get_member_request::GetMemberRequest;
 use crate::api_type::member::get_member_response::GetMemberResponse;
 use crate::api_type::member::member_data::MemberData;
+use crate::api_type::room::audit_request::AuditRequest;
+use crate::api_type::room::audit_response::AuditResponse;
 use crate::bot::bot_event_handler::BotEventHandler;
 use crate::bot::bot_permission::BotPermission;
 use crate::bot::villa::Villa;
@@ -78,5 +80,26 @@ impl<
       )
       .execute_no_return(&self.villa.bot.request_executor)
       .await
+  }
+
+  /// audit
+  pub async fn audit(
+    &self,
+    audit_content: impl Into<String>,
+    pass_through: Option<impl Into<String>>,
+    room_id: Option<u64>,
+  ) -> VResult<String> {
+    BotPermission::Audit.check_result(self.villa.bot)?;
+
+    self
+      .villa
+      .req_builder
+      .build_post_with_body(
+        "/vila/api/bot/platform/audit",
+        AuditRequest::new(audit_content, pass_through, room_id, self.uid),
+      )
+      .execute_result::<AuditResponse, _>(&self.villa.bot.request_executor)
+      .await
+      .map(|it| it.audit_id)
   }
 }

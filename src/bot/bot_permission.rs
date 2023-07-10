@@ -32,26 +32,34 @@ pub enum BotPermission {
   ManageRole,
   /// get role info / get all roles
   ViewRole,
-  // /// Audit user content
-  // Audit,
+  /// Audit user content
+  Audit,
 }
 
 impl BotPermission {
   /// get all permission
   pub fn all() -> Vec<Self> {
     vec![
-      BotPermission::ViewVilla,
-      BotPermission::ViewMember,
-      BotPermission::ManageMember,
-      BotPermission::ManageMessage,
-      BotPermission::SendMessage,
-      BotPermission::ManageRoomAndGroup,
-      BotPermission::ViewRoomAndGroup,
-      BotPermission::OperateMemberToRole,
-      BotPermission::ManageRole,
-      BotPermission::ViewRole,
-      // BotPermission::Audit,
+      Self::ViewVilla,
+      Self::ViewMember,
+      Self::ManageMember,
+      Self::ManageMessage,
+      Self::SendMessage,
+      Self::ManageRoomAndGroup,
+      Self::ViewRoomAndGroup,
+      Self::OperateMemberToRole,
+      Self::ManageRole,
+      Self::ViewRole,
+      Self::Audit,
     ]
+  }
+
+  /// get all permission except [BotPermission::Audit]
+  pub fn all_except_audit() -> Vec<Self> {
+    Self::all()
+      .into_iter()
+      .filter(|it| !matches!(it, Self::Audit))
+      .collect()
   }
 
   /// check if bot has this permission

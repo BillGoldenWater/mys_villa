@@ -5,6 +5,8 @@
  */
 
 use crate::api_type::event::bot_event::bot_event_data::add_quick_emoticon_metadata::AddQuickEmoticonMetadata;
+use crate::api_type::event::bot_event::bot_event_data::audit_metadata::AuditMetadata;
+use crate::api_type::event::bot_event::bot_event_data::audit_status::AuditStatus;
 use crate::api_type::event::bot_event::bot_event_data::send_message_metadata::SendMessageMetadata;
 use crate::api_type::event::bot_event::bot_event_data::BotEventData;
 use crate::api_type::message::message_object::MessageObject;
@@ -43,6 +45,15 @@ pub enum EventData {
     /// is or not cancel a react
     is_cancel: bool,
   },
+  /// audit finished
+  AuditCallback {
+    /// metadata
+    metadata: AuditMetadata,
+    /// pass through content
+    pass_through: Option<String>,
+    /// audit result
+    audit_result: AuditStatus,
+  },
 }
 
 impl From<BotEventData> for EventData {
@@ -70,6 +81,15 @@ impl From<BotEventData> for EventData {
         emoticon_id,
         emoticon,
         is_cancel,
+      },
+      BotEventData::AuditCallback {
+        metadata,
+        pass_through,
+        audit_result,
+      } => Self::AuditCallback {
+        metadata,
+        pass_through,
+        audit_result,
       },
     }
   }
