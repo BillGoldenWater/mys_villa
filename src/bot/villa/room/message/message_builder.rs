@@ -26,9 +26,9 @@ pub mod mhy_text_component;
 #[derive(Debug, Clone)]
 pub struct MessageBuilder<
   'villa,
-  State,
+  State: Sync,
   EventHandler: BotEventHandler<State, ReqExecutor>,
-  ReqExecutor: RequestExecutor,
+  ReqExecutor: RequestExecutor + Sync,
 > {
   villa: &'villa Villa<'villa, State, EventHandler, ReqExecutor>,
   quote: Option<QuoteInfo>,
@@ -38,9 +38,9 @@ pub struct MessageBuilder<
 
 impl<
     'villa,
-    State,
+    State: Sync,
     EventHandler: BotEventHandler<State, ReqExecutor>,
-    ReqExecutor: RequestExecutor,
+    ReqExecutor: RequestExecutor + Sync,
   > MessageBuilder<'villa, State, EventHandler, ReqExecutor>
 {
   /// initialize with villa

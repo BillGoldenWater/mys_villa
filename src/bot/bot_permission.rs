@@ -64,9 +64,9 @@ impl BotPermission {
 
   /// check if bot has this permission
   pub fn check<
-    State,
+    State: Sync,
     EventHandler: BotEventHandler<State, ReqExecutor>,
-    ReqExecutor: RequestExecutor,
+    ReqExecutor: RequestExecutor + Sync,
   >(
     &self,
     bot: &Bot<State, EventHandler, ReqExecutor>,
@@ -76,9 +76,9 @@ impl BotPermission {
 
   /// check if bot has this permission, return a result
   pub fn check_result<
-    State,
+    State: Sync,
     EventHandler: BotEventHandler<State, ReqExecutor>,
-    ReqExecutor: RequestExecutor,
+    ReqExecutor: RequestExecutor + Sync,
   >(
     &self,
     bot: &Bot<State, EventHandler, ReqExecutor>,

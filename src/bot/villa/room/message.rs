@@ -29,9 +29,9 @@ pub mod message_chain_matcher;
 #[derive(Debug)]
 pub struct Message<
   'room,
-  State,
+  State: Sync,
   EventHandler: BotEventHandler<State, ReqExecutor>,
-  ReqExecutor: RequestExecutor,
+  ReqExecutor: RequestExecutor + Sync,
 > {
   room: &'room Room<'room, State, EventHandler, ReqExecutor>,
   msg_ident: MessageIdentifier,
@@ -39,9 +39,9 @@ pub struct Message<
 
 impl<
     'room,
-    State,
+    State: Sync,
     EventHandler: BotEventHandler<State, ReqExecutor>,
-    ReqExecutor: RequestExecutor,
+    ReqExecutor: RequestExecutor + Sync,
   > Message<'room, State, EventHandler, ReqExecutor>
 {
   /// create a instance with room and message identifier

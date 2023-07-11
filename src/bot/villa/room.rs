@@ -37,9 +37,9 @@ pub mod message;
 #[derive(Debug)]
 pub struct Room<
   'villa,
-  State,
+  State: Sync,
   EventHandler: BotEventHandler<State, ReqExecutor>,
-  ReqExecutor: RequestExecutor,
+  ReqExecutor: RequestExecutor + Sync,
 > {
   villa: &'villa Villa<'villa, State, EventHandler, ReqExecutor>,
   id: u64,
@@ -47,9 +47,9 @@ pub struct Room<
 
 impl<
     'villa,
-    State,
+    State: Sync,
     EventHandler: BotEventHandler<State, ReqExecutor>,
-    ReqExecutor: RequestExecutor,
+    ReqExecutor: RequestExecutor + Sync,
   > Room<'villa, State, EventHandler, ReqExecutor>
 {
   /// create a instance with villa and room id

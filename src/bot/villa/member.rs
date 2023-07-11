@@ -24,9 +24,9 @@ use crate::request::request_executor::RequestExecutor;
 #[derive(Debug)]
 pub struct Member<
   'villa,
-  State,
+  State: Sync,
   EventHandler: BotEventHandler<State, ReqExecutor>,
-  ReqExecutor: RequestExecutor,
+  ReqExecutor: RequestExecutor + Sync,
 > {
   villa: &'villa Villa<'villa, State, EventHandler, ReqExecutor>,
   uid: u64,
@@ -34,9 +34,9 @@ pub struct Member<
 
 impl<
     'villa,
-    State,
+    State: Sync,
     EventHandler: BotEventHandler<State, ReqExecutor>,
-    ReqExecutor: RequestExecutor,
+    ReqExecutor: RequestExecutor + Sync,
   > Member<'villa, State, EventHandler, ReqExecutor>
 {
   /// create a instance with villa and member uid

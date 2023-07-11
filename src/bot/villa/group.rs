@@ -20,9 +20,9 @@ use crate::request::request_executor::RequestExecutor;
 #[derive(Debug)]
 pub struct Group<
   'villa,
-  State,
+  State: Sync,
   EventHandler: BotEventHandler<State, ReqExecutor>,
-  ReqExecutor: RequestExecutor,
+  ReqExecutor: RequestExecutor + Sync,
 > {
   villa: &'villa Villa<'villa, State, EventHandler, ReqExecutor>,
   id: u64,
@@ -30,9 +30,9 @@ pub struct Group<
 
 impl<
     'villa,
-    State,
+    State: Sync,
     EventHandler: BotEventHandler<State, ReqExecutor>,
-    ReqExecutor: RequestExecutor,
+    ReqExecutor: RequestExecutor + Sync,
   > Group<'villa, State, EventHandler, ReqExecutor>
 {
   /// create a instance with villa and group id

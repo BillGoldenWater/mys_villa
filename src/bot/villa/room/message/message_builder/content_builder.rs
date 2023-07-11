@@ -17,9 +17,9 @@ use crate::request::request_executor::RequestExecutor;
 #[derive(Debug, Clone)]
 pub enum ContentBuilder<
   'villa,
-  State,
+  State: Sync,
   EventHandler: BotEventHandler<State, ReqExecutor>,
-  ReqExecutor: RequestExecutor,
+  ReqExecutor: RequestExecutor + Sync,
 > {
   /// MHY:Text
   MhyText(MhyTextBuilder<'villa, State, EventHandler, ReqExecutor>),
@@ -31,9 +31,9 @@ pub enum ContentBuilder<
 
 impl<
     'villa,
-    State,
+    State: Sync,
     EventHandler: BotEventHandler<State, ReqExecutor>,
-    ReqExecutor: RequestExecutor,
+    ReqExecutor: RequestExecutor + Sync,
   > ContentBuilder<'villa, State, EventHandler, ReqExecutor>
 {
   /// initialize with villa

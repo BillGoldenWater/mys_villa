@@ -39,13 +39,13 @@ impl RequestExecutorImpl {
 }
 
 impl RequestExecutor for RequestExecutorImpl {
-  fn execute<'params, 'fut, ReqBody, ResBody: DeserializeOwned>(
+  fn execute<'params, 'fut, ReqBody, ResBody>(
     &'params self,
     request: Request<'params, ReqBody>,
-  ) -> Pin<Box<dyn Future<Output = VResult<Response<ResBody>>> + 'fut>>
+  ) -> Pin<Box<dyn Future<Output = VResult<Response<ResBody>>> + 'fut + Send>>
   where
-    ReqBody: Serialize + Send + 'params,
-    ResBody: DeserializeOwned,
+    ReqBody: Serialize + Send + Sync + 'params,
+    ResBody: DeserializeOwned + Sync,
     'params: 'fut,
   {
     let fut = async move {

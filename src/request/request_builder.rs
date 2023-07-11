@@ -32,7 +32,7 @@ impl RequestBuilder {
   ) -> Request<'_, Body>
   where
     UrlPath: Into<String>,
-    Body: Serialize,
+    Body: Serialize + Send + Sync,
   {
     Request {
       method,
@@ -54,7 +54,7 @@ impl RequestBuilder {
   pub fn build_get_with_body<UrlPath, Body>(&self, path: UrlPath, body: Body) -> Request<'_, Body>
   where
     UrlPath: Into<String>,
-    Body: Serialize,
+    Body: Serialize + Send + Sync,
   {
     self.build_with_body(Method::GET, path, body)
   }
@@ -63,7 +63,7 @@ impl RequestBuilder {
   pub fn build_post_with_body<UrlPath, Body>(&self, path: UrlPath, body: Body) -> Request<'_, Body>
   where
     UrlPath: Into<String>,
-    Body: Serialize,
+    Body: Serialize + Send + Sync,
   {
     self.build_with_body(Method::POST, path, body)
   }

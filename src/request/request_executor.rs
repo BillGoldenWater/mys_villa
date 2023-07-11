@@ -24,12 +24,13 @@ pub trait RequestExecutor {
   const BASE_URL: &'static str = "https://bbs-api.miyoushe.com";
 
   /// execute request
-  fn execute<'params, 'fut, ReqBody, ResBody: DeserializeOwned>(
+  fn execute<'params, 'fut, ReqBody, ResBody>(
     &'params self,
     request: Request<'params, ReqBody>,
-  ) -> Pin<Box<dyn Future<Output = VResult<Response<ResBody>>> + 'fut>>
+  ) -> Pin<Box<dyn Future<Output = VResult<Response<ResBody>>> + 'fut + Send>>
   where
-    ReqBody: Serialize + Send + 'params,
-    ResBody: DeserializeOwned,
+    Self: Sync,
+    ReqBody: Serialize + Send + Sync + 'params,
+    ResBody: DeserializeOwned + Sync,
     'params: 'fut;
 }

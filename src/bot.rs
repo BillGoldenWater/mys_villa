@@ -42,9 +42,9 @@ pub mod villa;
 /// - [Bot::villa] create villa instance by id
 #[derive(Debug)]
 pub struct Bot<
-  State,
+  State: Sync,
   EventHandler: BotEventHandler<State, ReqExecutor>,
-  ReqExecutor: RequestExecutor,
+  ReqExecutor: RequestExecutor + Sync,
 > {
   auth_info: BotAuthInfo,
   permission: Vec<BotPermission>,
@@ -57,9 +57,9 @@ pub struct Bot<
 }
 
 impl<
-    State: Debug,
-    EventHandler: BotEventHandler<State, ReqExecutor> + Debug,
-    ReqExecutor: RequestExecutor + Debug,
+    State: Debug + Sync,
+    EventHandler: BotEventHandler<State, ReqExecutor> + Debug + Sync,
+    ReqExecutor: RequestExecutor + Debug + Sync,
   > Bot<State, EventHandler, ReqExecutor>
 {
   /// initialize bot with authentication info and permission info

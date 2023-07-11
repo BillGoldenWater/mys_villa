@@ -25,7 +25,7 @@ pub mod request_executor;
 
 /// request struct
 #[derive(Debug)]
-pub struct Request<'header, Body: Serialize> {
+pub struct Request<'header, Body: Serialize + Send + Sync> {
   /// the method using in http
   pub method: Method,
   /// api path
@@ -35,7 +35,7 @@ pub struct Request<'header, Body: Serialize> {
   body: Body,
 }
 
-impl<Body: Serialize + Send> Request<'_, Body> {
+impl<Body: Serialize + Send + Sync> Request<'_, Body> {
   /// serialize the body to json string
   pub fn body_to_string(&self) -> VResult<String> {
     Ok(serde_json::to_string(&self.body)?)
@@ -47,8 +47,8 @@ impl<Body: Serialize + Send> Request<'_, Body> {
     executor: &ReqExecutor,
   ) -> VResult<Response<ResBody>>
   where
-    ResBody: DeserializeOwned,
-    ReqExecutor: RequestExecutor,
+    ResBody: DeserializeOwned + Sync,
+    ReqExecutor: RequestExecutor + Sync,
   {
     executor.execute(self).await
   }
@@ -59,8 +59,8 @@ impl<Body: Serialize + Send> Request<'_, Body> {
     executor: &ReqExecutor,
   ) -> VResult<ResBody>
   where
-    ResBody: DeserializeOwned,
-    ReqExecutor: RequestExecutor,
+    ResBody: DeserializeOwned + Sync,
+    ReqExecutor: RequestExecutor + Sync,
   {
     self.execute(executor).await?.to_result()
   }
@@ -68,7 +68,7 @@ impl<Body: Serialize + Send> Request<'_, Body> {
   /// execute and ignore return value
   pub async fn execute_no_return<ReqExecutor>(self, executor: &ReqExecutor) -> VResult<()>
   where
-    ReqExecutor: RequestExecutor,
+    ReqExecutor: RequestExecutor + Sync,
   {
     self
       .execute::<Value, _>(executor)

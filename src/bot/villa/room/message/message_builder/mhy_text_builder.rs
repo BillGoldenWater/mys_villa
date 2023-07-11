@@ -27,9 +27,9 @@ use crate::utils::unicode_utils::len_utf16;
 #[derive(Debug, Clone)]
 pub struct MhyTextBuilder<
   'villa,
-  State,
+  State: Sync,
   EventHandler: BotEventHandler<State, ReqExecutor>,
-  ReqExecutor: RequestExecutor,
+  ReqExecutor: RequestExecutor + Sync,
 > {
   villa: &'villa Villa<'villa, State, EventHandler, ReqExecutor>,
 
@@ -41,9 +41,9 @@ pub struct MhyTextBuilder<
 
 impl<
     'villa,
-    State,
+    State: Sync,
     EventHandler: BotEventHandler<State, ReqExecutor>,
-    ReqExecutor: RequestExecutor,
+    ReqExecutor: RequestExecutor + Sync,
   > MhyTextBuilder<'villa, State, EventHandler, ReqExecutor>
 {
   /// initialize with villa

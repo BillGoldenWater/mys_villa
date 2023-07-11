@@ -17,16 +17,16 @@ use crate::request::request_executor::RequestExecutor;
 /// definition of bot event handler, includes:
 /// - [BotEventHandler::handle] handle the event, default ignore
 /// - [BotEventHandler::handle_command] for handle command call, default forwards raw event to [BotEventHandler::handle]
-pub trait BotEventHandler<State, ReqExecutor: RequestExecutor> {
+pub trait BotEventHandler<State: Sync, ReqExecutor: RequestExecutor + Sync> {
   /// handle the event
   fn handle<'params, 'fut>(
     &'params self,
     bot: &'params Bot<State, Self, ReqExecutor>,
     villa: Villa<'params, State, Self, ReqExecutor>,
     event: Event,
-  ) -> Pin<Box<dyn Future<Output = VResult<()>> + 'fut>>
+  ) -> Pin<Box<dyn Future<Output = VResult<()>> + 'fut + Send>>
   where
-    Self: Sized,
+    Self: Sized + Sync,
     State: 'params,
     'params: 'fut,
   {
@@ -43,9 +43,9 @@ pub trait BotEventHandler<State, ReqExecutor: RequestExecutor> {
     bot: &'params Bot<State, Self, ReqExecutor>,
     villa: Villa<'params, State, Self, ReqExecutor>,
     command: Command,
-  ) -> Pin<Box<dyn Future<Output = VResult<()>> + 'fut>>
+  ) -> Pin<Box<dyn Future<Output = VResult<()>> + 'fut + Send>>
   where
-    Self: Sized,
+    Self: Sized + Sync,
     State: 'params,
     'params: 'fut,
   {

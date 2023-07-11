@@ -70,9 +70,9 @@ pub mod room;
 #[derive(Debug)]
 pub struct Villa<
   'bot,
-  State,
+  State: Sync,
   EventHandler: BotEventHandler<State, ReqExecutor>,
-  ReqExecutor: RequestExecutor,
+  ReqExecutor: RequestExecutor + Sync,
 > {
   bot: &'bot Bot<State, EventHandler, ReqExecutor>,
   villa_id: u64,
@@ -82,9 +82,9 @@ pub struct Villa<
 
 impl<
     'bot,
-    State,
+    State: Sync,
     EventHandler: BotEventHandler<State, ReqExecutor>,
-    ReqExecutor: RequestExecutor,
+    ReqExecutor: RequestExecutor + Sync,
   > Villa<'bot, State, EventHandler, ReqExecutor>
 {
   /// create a instance with bot and villa id
