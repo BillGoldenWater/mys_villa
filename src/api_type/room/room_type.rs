@@ -11,13 +11,16 @@ use serde::Deserialize;
 pub enum RoomType {
   /// BOT_PLATFORM_ROOM_TYPE_CHAT_ROOM
   #[serde(rename = "BOT_PLATFORM_ROOM_TYPE_CHAT_ROOM")]
-  ChatRoom,
+  Chat,
+  /// BOT_PLATFORM_ROOM_TYPE_LIVE_ROOM
+  #[serde(rename = "BOT_PLATFORM_ROOM_TYPE_LIVE_ROOM")]
+  Live,
   /// BOT_PLATFORM_ROOM_TYPE_POST_ROOM
   #[serde(rename = "BOT_PLATFORM_ROOM_TYPE_POST_ROOM")]
-  PostRoom,
+  Post,
   /// BOT_PLATFORM_ROOM_TYPE_SCENE_ROOM
   #[serde(rename = "BOT_PLATFORM_ROOM_TYPE_SCENE_ROOM")]
-  SceneRoom,
+  Scene,
   /// BOT_PLATFORM_ROOM_TYPE_INVALID
   #[serde(rename = "BOT_PLATFORM_ROOM_TYPE_INVALID")]
   Invalid,
