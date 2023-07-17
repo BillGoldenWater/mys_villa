@@ -15,7 +15,7 @@ pub mod check_member_bot_access_token_request;
 pub mod check_member_bot_access_token_response;
 
 /// bot access info of a member
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct BotAccessInfo {
   /// member uid
   #[serde(deserialize_with = "deserialize_number_from_string")]
@@ -33,12 +33,17 @@ pub struct BotAccessInfo {
 impl BotAccessInfo {
   /// initialize with uid, villa_id, bot_access_token and bot_tpl_id
   pub fn new(uid: u64, villa_id: u64, bot_access_token: String, bot_tpl_id: String) -> Self {
-    Self { uid, villa_id, bot_access_token, bot_tpl_id }
+    Self {
+      uid,
+      villa_id,
+      bot_access_token,
+      bot_tpl_id,
+    }
   }
 }
 
 /// bot access data of a member
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct BotAccessData {
   /// access info
   pub access_info: BotAccessInfo,

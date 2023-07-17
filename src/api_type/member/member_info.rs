@@ -8,7 +8,7 @@ use serde::Deserialize;
 use serde_aux::field_attributes::deserialize_number_from_string;
 
 /// member information
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct MemberInfo {
   /// avatar id
   #[serde(rename = "avatar", deserialize_with = "deserialize_number_from_string")]

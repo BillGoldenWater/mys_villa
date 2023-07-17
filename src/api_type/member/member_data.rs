@@ -12,7 +12,7 @@ use crate::api_type::role::role_info::RoleInfo;
 use crate::utils::deserialize_number_vec_from_string_vec;
 
 /// member data
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct MemberData {
   /// member info
   #[serde(rename = "basic")]

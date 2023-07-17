@@ -7,7 +7,7 @@
 use serde::Deserialize;
 
 /// role type
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 pub enum RoleType {
   /// MEMBER_ROLE_TYPE_ALL_MEMBER
   #[serde(rename = "MEMBER_ROLE_TYPE_ALL_MEMBER")]

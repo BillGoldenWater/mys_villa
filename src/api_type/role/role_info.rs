@@ -13,7 +13,7 @@ use crate::api_type::role::role_permission_info::RolePermissionInfo;
 use crate::api_type::role::role_type::RoleType;
 
 /// role information
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct RoleInfo {
   /// role id
   #[serde(deserialize_with = "deserialize_number_from_string")]
