@@ -29,6 +29,8 @@ use crate::api_type::room::sort_room_list_request::SortRoomListRequest;
 use crate::api_type::villa::get_villa_members_request::GetVillaMembersRequest;
 use crate::api_type::villa::get_villa_members_response::GetVillaMembersResponse;
 use crate::api_type::villa::get_villa_response::GetVillaResponse;
+use crate::api_type::villa::transfer_image_request::TransferImageRequest;
+use crate::api_type::villa::transfer_image_response::TransferImageResponse;
 use crate::api_type::villa::villa_info::VillaInfo;
 use crate::bot::bot_event_handler::BotEventHandler;
 use crate::bot::bot_permission::BotPermission;
@@ -284,5 +286,18 @@ impl<
         message: "empty data".to_string(),
       })
     }
+  }
+
+  /// transfer imago
+  pub async fn transfer_image(&self, image_url: impl Into<String>) -> VResult<String> {
+    self
+      .req_builder
+      .build_post_with_body(
+        "/vila/api/bot/platform/transferImage",
+        TransferImageRequest::new(image_url),
+      )
+      .execute_result::<TransferImageResponse, _>(&self.bot.request_executor)
+      .await
+      .map(|it| it.new_url)
   }
 }
