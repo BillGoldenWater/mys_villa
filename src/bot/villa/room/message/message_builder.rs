@@ -9,8 +9,12 @@ use crate::api_type::message::message_object::message_content::image::Image;
 use crate::api_type::message::message_object::message_content::mhy_post::MhyPost;
 use crate::api_type::message::message_object::quote_info::QuoteInfo;
 use crate::api_type::message::message_object::MessageObject;
+use crate::bot::bot_event_handler::BotEventHandler;
 use crate::bot::villa::room::message::message_builder::content_builder::ContentBuilder;
 use crate::bot::villa::room::message::message_builder::mhy_text_builder::MhyTextBuilder;
+use crate::bot::villa::Villa;
+use crate::error::VResult;
+use crate::request::request_executor::RequestExecutor;
 
 /// hub of message content builders
 pub mod content_builder;
@@ -61,6 +65,18 @@ impl MessageBuilder {
   pub fn remove_quote(mut self) -> Self {
     self.quote = None;
     self
+  }
+
+  /// transfer attached image
+  pub async fn transfer_image<
+    State: Sync,
+    EventHandler: BotEventHandler<State, ReqExecutor>,
+    ReqExecutor: RequestExecutor + Sync,
+  >(
+    &mut self,
+    villa: &Villa<'_, State, EventHandler, ReqExecutor>,
+  ) -> VResult<()> {
+    self.content_builder.transfer_image(villa).await
   }
 
   /// build [MessageObject]

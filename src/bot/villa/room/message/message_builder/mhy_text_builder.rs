@@ -10,6 +10,7 @@ use crate::api_type::message::message_object::message_content::mhy_text::entity_
 use crate::api_type::message::message_object::message_content::mhy_text::text_entity::TextEntity;
 use crate::api_type::message::message_object::message_content::mhy_text::MhyText;
 use crate::api_type::message::message_object::message_content::MessageContent;
+use crate::bot::bot_event_handler::BotEventHandler;
 use crate::bot::villa::room::message::message_builder::mhy_text_component::link::Link;
 use crate::bot::villa::room::message::message_builder::mhy_text_component::mention_bot::MentionBot;
 use crate::bot::villa::room::message::message_builder::mhy_text_component::mention_user::MentionUser;
@@ -17,6 +18,9 @@ use crate::bot::villa::room::message::message_builder::mhy_text_component::villa
 use crate::bot::villa::room::message::message_builder::mhy_text_component::{
   MhyTextMsgComponent as Component, MhyTextMsgComponent,
 };
+use crate::bot::villa::Villa;
+use crate::error::VResult;
+use crate::request::request_executor::RequestExecutor;
 use crate::utils::unicode_utils::len_utf16;
 
 /// builder of MHY:Text
@@ -135,6 +139,25 @@ impl MhyTextBuilder {
     self
   }
   // endregion
+
+  /// transfer attached image
+  pub async fn transfer_image<
+    State: Sync,
+    EventHandler: BotEventHandler<State, ReqExecutor>,
+    ReqExecutor: RequestExecutor + Sync,
+  >(
+    &mut self,
+    villa: &Villa<'_, State, EventHandler, ReqExecutor>,
+  ) -> VResult<()> {
+    match &mut self.image {
+      None => {}
+      Some(image) => {
+        image.url = villa.transfer_image(&image.url).await?;
+      }
+    }
+
+    Ok(())
+  }
 
   /// build to [MessageContent]
   pub fn build(mut self) -> MessageContent {

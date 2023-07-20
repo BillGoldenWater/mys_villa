@@ -8,7 +8,11 @@ use crate::api_type::message::message_object::mentioned_info::MentionedInfo;
 use crate::api_type::message::message_object::message_content::image::Image;
 use crate::api_type::message::message_object::message_content::mhy_post::MhyPost;
 use crate::api_type::message::message_object::message_content::MessageContent;
+use crate::bot::bot_event_handler::BotEventHandler;
 use crate::bot::villa::room::message::message_builder::mhy_text_builder::MhyTextBuilder;
+use crate::bot::villa::Villa;
+use crate::error::VResult;
+use crate::request::request_executor::RequestExecutor;
 
 /// message content builders hub
 #[derive(Debug, Clone)]
@@ -40,6 +44,21 @@ impl ContentBuilder {
   /// convert/replace MHY:Post
   pub fn mhy_post(self, post: MhyPost) -> Self {
     Self::MhyPost(post)
+  }
+
+  /// transfer attached image
+  pub async fn transfer_image<State: Sync, EventHandler: BotEventHandler<State, ReqExecutor>, ReqExecutor: RequestExecutor + Sync>(
+    &mut self,
+    villa: &Villa<'_, State, EventHandler, ReqExecutor>,
+  ) -> VResult<()> {
+    match self {
+      ContentBuilder::MhyText(text) => text.transfer_image(villa).await?,
+      ContentBuilder::MhyImage(image) => {
+        image.url = villa.transfer_image(&image.url).await?;
+      }
+      ContentBuilder::MhyPost(_) => {}
+    }
+    Ok(())
   }
 
   /// build to [MessageContent]
