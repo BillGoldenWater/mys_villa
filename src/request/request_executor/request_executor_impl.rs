@@ -9,8 +9,8 @@ use std::pin::Pin;
 use std::time::Duration;
 
 use log::{debug, error};
-use reqwest::Method as RMethod;
 use reqwest::{Client, ClientBuilder};
+use reqwest::{Method as RMethod, StatusCode};
 use serde::de::DeserializeOwned;
 use serde::Serialize;
 
@@ -77,6 +77,10 @@ impl RequestExecutor for RequestExecutorImpl {
         .send()
         .await
         .map_err(|it| VError::Other(it.to_string()))?;
+
+      if !matches!(response.status(), StatusCode::OK) {
+        return Err(VError::RequestNonOk(response.status().as_u16()));
+      }
 
       let bytes = response
         .bytes()
