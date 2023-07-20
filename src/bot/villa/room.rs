@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
 use log::debug;
 use serde_json::json;
 
+use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
 use crate::api_type::message::message_object::MessageObject;
 use crate::api_type::message::send_message_request::SendMessageRequest;
 use crate::api_type::message::send_message_response::SendMessageResponse;
@@ -177,10 +177,7 @@ impl<
   /// #    Ok(())
   /// #  }
   /// ```
-  pub async fn send_message(
-    &self,
-    builder: MessageBuilder<'villa, State, EventHandler, ReqExecutor>,
-  ) -> VResult<String> {
+  pub async fn send_message(&self, builder: MessageBuilder) -> VResult<String> {
     self.send_message_raw(builder.build()).await
   }
 
@@ -208,7 +205,7 @@ impl<
   }
 
   /// create a message builder
-  pub fn message_builder(&self) -> MessageBuilder<'villa, State, EventHandler, ReqExecutor> {
-    MessageBuilder::new(self.villa)
+  pub fn message_builder(&self) -> MessageBuilder {
+    MessageBuilder::default()
   }
 }

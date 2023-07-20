@@ -10,7 +10,6 @@ use crate::api_type::message::message_object::message_content::mhy_text::entity_
 use crate::api_type::message::message_object::message_content::mhy_text::text_entity::TextEntity;
 use crate::api_type::message::message_object::message_content::mhy_text::MhyText;
 use crate::api_type::message::message_object::message_content::MessageContent;
-use crate::bot::bot_event_handler::BotEventHandler;
 use crate::bot::villa::room::message::message_builder::mhy_text_component::link::Link;
 use crate::bot::villa::room::message::message_builder::mhy_text_component::mention_bot::MentionBot;
 use crate::bot::villa::room::message::message_builder::mhy_text_component::mention_user::MentionUser;
@@ -18,44 +17,18 @@ use crate::bot::villa::room::message::message_builder::mhy_text_component::villa
 use crate::bot::villa::room::message::message_builder::mhy_text_component::{
   MhyTextMsgComponent as Component, MhyTextMsgComponent,
 };
-use crate::bot::villa::Villa;
-use crate::error::VResult;
-use crate::request::request_executor::RequestExecutor;
 use crate::utils::unicode_utils::len_utf16;
 
 /// builder of MHY:Text
-#[derive(Debug, Clone)]
-pub struct MhyTextBuilder<
-  'villa,
-  State: Sync,
-  EventHandler: BotEventHandler<State, ReqExecutor>,
-  ReqExecutor: RequestExecutor + Sync,
-> {
-  villa: &'villa Villa<'villa, State, EventHandler, ReqExecutor>,
-
+#[derive(Debug, Default, Clone)]
+pub struct MhyTextBuilder {
   components: Vec<Component>,
   spacer: Option<String>,
 
   image: Option<Image>,
 }
 
-impl<
-    'villa,
-    State: Sync,
-    EventHandler: BotEventHandler<State, ReqExecutor>,
-    ReqExecutor: RequestExecutor + Sync,
-  > MhyTextBuilder<'villa, State, EventHandler, ReqExecutor>
-{
-  /// initialize with villa
-  pub fn new(villa: &'villa Villa<'villa, State, EventHandler, ReqExecutor>) -> Self {
-    Self {
-      villa,
-      components: vec![],
-      spacer: Some(' '.to_string()),
-      image: None,
-    }
-  }
-
+impl MhyTextBuilder {
   // region append component
   /// push a text component
   pub fn text(self, text: impl Into<String>) -> Self {
@@ -67,19 +40,6 @@ impl<
     self
       .push(Component::MentionUser(MentionUser::new(user_name, uid)))
       .append_spacer()
-  }
-
-  /// push a mention user component, auto fetch user name
-  pub async fn mention_user_by_id(
-    self,
-    uid: u64,
-  ) -> VResult<MhyTextBuilder<'villa, State, EventHandler, ReqExecutor>> {
-    self
-      .villa
-      .member(uid)
-      .get_data()
-      .await
-      .map(|data| self.mention_user_full(data.info.nickname, uid))
   }
 
   /// push a mention all component
@@ -101,25 +61,6 @@ impl<
         room_name, villa_id, room_id,
       )))
       .append_spacer()
-  }
-
-  /// push a villa room link component with name and id, auto fill villa_id
-  pub fn room_link(self, room_name: impl Into<String>, room_id: u64) -> Self {
-    let villa_id = self.villa.id();
-    self.room_link_full(room_name, villa_id, room_id)
-  }
-
-  /// push a villa room link component by room_id, auto fetch room name
-  pub async fn room_link_by_id(
-    self,
-    room_id: u64,
-  ) -> VResult<MhyTextBuilder<'villa, State, EventHandler, ReqExecutor>> {
-    self
-      .villa
-      .room(room_id)
-      .get_data()
-      .await
-      .map(|data| self.room_link(data.info.name, room_id))
   }
 
   /// push a link component
