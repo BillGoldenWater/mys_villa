@@ -4,7 +4,10 @@
 /Cargo.lock
 
 /.idea
+
 /.env
+public_key.pem
 
 /examples/test.rs
 /examples/test2.rs
+

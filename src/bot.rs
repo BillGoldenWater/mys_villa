@@ -7,12 +7,14 @@
 use std::collections::HashMap;
 use std::fmt::Debug;
 
+use base64::Engine;
 use log::info;
 
 use crate::api_type::emoticon::get_all_emoticon_response::GetAllEmoticonResponse;
 use crate::api_type::emoticon::Emoticon;
 use crate::api_type::event::bot_event::bot_event_extend_data::BotEventExtendData;
 use crate::api_type::event::bot_event::BotEvent;
+use crate::api_type::event::event_callback_request::EventCallbackRequest;
 use crate::bot::bot_event_handler::BotEventHandler;
 use crate::bot::bot_info::BotAuthInfo;
 use crate::bot::bot_permission::BotPermission;
@@ -90,6 +92,21 @@ impl<
     &self.state
   }
 
+  /// process the raw body from callback
+  pub async fn on_callback(&self, body: &[u8], sign_base64: Option<impl AsRef<str>>) -> VResult<()> {
+    if let Some(sign) = sign_base64 {
+      let sign = base64::engine::general_purpose::STANDARD.decode(sign.as_ref())?;
+
+      self
+        .auth_info
+        .verify_callback_sign(String::from_utf8_lossy(body), &sign)?;
+    }
+
+    let req = serde_json::from_slice::<EventCallbackRequest>(body)?;
+
+    self.on_event(req.event).await
+  }
+
   /// process the deserialized event
   pub async fn on_event(&self, event: BotEvent) -> VResult<()> {
     let villa_id = event.robot.villa_id;
@@ -146,7 +163,7 @@ pub mod default {
   #[derive(Debug)]
   pub struct State;
 
-  /// default eventhandler
+  /// default event handler
   #[derive(Debug)]
   pub struct EventHandler;
 
@@ -155,7 +172,7 @@ pub mod default {
   /// initialize with all default
   pub fn default() -> Bot<State, EventHandler, RequestExecutorImpl> {
     Bot::new(
-      BotAuthInfo::new("", ""),
+      BotAuthInfo::new("", "", ""),
       BotPermission::all(),
       RequestExecutorImpl::new().expect("failed to initialize default request executor"),
       State,

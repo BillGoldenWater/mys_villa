@@ -29,6 +29,12 @@ pub enum VError {
   /// request finished with a non OK status code
   #[error("request finished with a non OK status code: {0}")]
   RequestNonOk(u16),
+  #[error("failed to decode base64: {0}")]
+  /// failed to decode base64
+  Base64Decode(#[from] base64::DecodeError),
+  #[error("failed to verify signature: {0}")]
+  /// callback signature verify failed
+  SignVerifyFailed(#[from] rsa::Error),
   /// bot doesn't have required permission
   #[error("permission denied: this operation require permission {0:?}")]
   PermissionDenied(BotPermission),

@@ -21,8 +21,11 @@ impl HeaderBuilder {
   pub fn from_auth_info(auth_info: &BotAuthInfo) -> Self {
     Self {
       headers: HashMap::from([
-        ("x-rpc-bot_id".to_string(), auth_info.id.clone()),
-        ("x-rpc-bot_secret".to_string(), auth_info.secret.clone()),
+        ("x-rpc-bot_id".to_string(), auth_info.id().to_string()),
+        (
+          "x-rpc-bot_secret".to_string(),
+          auth_info.secret_hmac().to_string(),
+        ),
       ]),
     }
   }
