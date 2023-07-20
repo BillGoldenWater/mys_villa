@@ -32,8 +32,10 @@ pub enum BotPermission {
   ManageRole,
   /// get role info / get all roles
   ViewRole,
-  /// Audit user content
+  /// audit user content
   Audit,
+  /// transfer image
+  TransferImg,
 }
 
 impl BotPermission {
@@ -51,6 +53,7 @@ impl BotPermission {
       Self::ManageRole,
       Self::ViewRole,
       Self::Audit,
+      Self::TransferImg,
     ]
   }
 
