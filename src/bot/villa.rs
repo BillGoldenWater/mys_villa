@@ -290,6 +290,8 @@ impl<
 
   /// transfer imago
   pub async fn transfer_image(&self, image_url: impl Into<String>) -> VResult<String> {
+    BotPermission::TransferImg.check_result(self.bot)?;
+
     self
       .req_builder
       .build_post_with_body(
