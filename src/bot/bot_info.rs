@@ -6,8 +6,8 @@
 
 use std::fmt::{Debug, Formatter};
 
-use rsa::pkcs8::DecodePublicKey;
 use rsa::{Pkcs1v15Sign, RsaPublicKey};
+use rsa::pkcs8::DecodePublicKey;
 use sha2::Sha256;
 
 use crate::error::VResult;
@@ -75,12 +75,14 @@ impl BotAuthInfo {
     body: impl AsRef<str>,
     signature: &[u8],
   ) -> Result<(), rsa::Error> {
-    use sha2::{digest::FixedOutput, Digest};
+    use sha2::{Digest, digest::FixedOutput};
 
     let content = form_urlencoded::Serializer::new(String::new())
       .append_pair("body", body.as_ref().trim())
       .append_pair("secret", &self.secret)
-      .finish();
+      .finish()
+      .replace('*', "%2A")
+      .replace("%7E", "~");
 
     let mut sha256 = Sha256::default();
     sha256.update(content.as_bytes());
