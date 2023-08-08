@@ -21,5 +21,6 @@ pub struct BotTemplate {
   /// bot icon
   pub icon: String,
   /// commands info
+  #[serde(default)]
   pub commands: Vec<BotCommand>,
 }
