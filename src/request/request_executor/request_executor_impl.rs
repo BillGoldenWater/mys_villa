@@ -8,7 +8,7 @@ use std::future::Future;
 use std::pin::Pin;
 use std::time::Duration;
 
-use log::{debug, error};
+use log::{debug, error, trace};
 use reqwest::{Client, ClientBuilder};
 use reqwest::{Method as RMethod, StatusCode};
 use serde::de::DeserializeOwned;
@@ -80,6 +80,10 @@ impl RequestExecutor for RequestExecutorImpl {
 
       if !matches!(response.status(), StatusCode::OK) {
         return Err(VError::RequestNonOk(response.status().as_u16()));
+      }
+
+      if let Some(trace_id) = response.headers().get("X-Trace-Id") {
+        trace!("trace_id: {:?}", trace_id.to_str());
       }
 
       let bytes = response
