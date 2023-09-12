@@ -47,7 +47,11 @@ impl ContentBuilder {
   }
 
   /// transfer attached image
-  pub async fn transfer_image<State: Sync, EventHandler: BotEventHandler<State, ReqExecutor>, ReqExecutor: RequestExecutor + Sync>(
+  pub async fn transfer_image<
+    State: Sync,
+    EventHandler: BotEventHandler<State, ReqExecutor>,
+    ReqExecutor: RequestExecutor + Sync,
+  >(
     &mut self,
     villa: &Villa<'_, State, EventHandler, ReqExecutor>,
   ) -> VResult<()> {

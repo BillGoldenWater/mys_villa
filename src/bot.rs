@@ -93,7 +93,11 @@ impl<
   }
 
   /// process the raw body from callback
-  pub async fn on_callback(&self, body: &[u8], sign_base64: Option<impl AsRef<str>>) -> VResult<()> {
+  pub async fn on_callback(
+    &self,
+    body: &[u8],
+    sign_base64: Option<impl AsRef<str>>,
+  ) -> VResult<()> {
     if let Some(sign) = sign_base64 {
       let sign = base64::engine::general_purpose::STANDARD.decode(sign.as_ref())?;
 
