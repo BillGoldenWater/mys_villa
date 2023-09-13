@@ -4,14 +4,15 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::api_type::message::message_object::mentioned_info::MentionedInfo;
-use crate::api_type::message::message_object::message_content::unknown::Unknown;
-use crate::api_type::message::message_object::message_content::MessageContent;
-use crate::api_type::message::message_object::quote_info::QuoteInfo;
 use serde::de::{DeserializeOwned, Error as DeError};
 use serde::ser::Error as SerError;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use serde_json::Value;
+
+use crate::api_type::message::message_object::mentioned_info::MentionedInfo;
+use crate::api_type::message::message_object::message_content::unknown::Unknown;
+use crate::api_type::message::message_object::message_content::MessageContent;
+use crate::api_type::message::message_object::quote_info::QuoteInfo;
 
 /// definition of mentioned info
 pub mod mentioned_info;
@@ -58,6 +59,7 @@ impl<'de> Deserialize<'de> for MessageObject {
     }
 
     #[derive(Debug, Deserialize)]
+    #[serde(rename_all = "camelCase")]
     struct MsgContentInfo {
       content: Value,
       #[serde(default)]
@@ -146,6 +148,7 @@ impl Serialize for MessageObject {
     }
 
     #[derive(Debug, Serialize)]
+    #[serde(rename_all = "camelCase")]
     struct MsgContentInfo<'a> {
       content: MessageContentRaw<'a>,
       mentioned_info: &'a Option<MentionedInfo>,
