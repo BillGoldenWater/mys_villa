@@ -1,6 +1,6 @@
 [package]
 name = "mys_villa"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 description = "provide simple access to villa open api"
 authors = ["Golden_Water"]
