@@ -1,0 +1,3 @@
+[toolchain]
+# for async_fn_in_trait (1.75.0)
+channel = "beta"
