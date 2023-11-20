@@ -9,5 +9,5 @@
 public_key.pem
 
 /local_resource
-/examples/test.rs
-/examples/test2.rs
+/old/examples/test.rs
+/old/examples/test2.rs
