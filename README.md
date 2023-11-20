@@ -1,14 +1,6 @@
-## Implemented Openapi version
+## Components
 
-2023-07-13
-
-## Document
-
-[docs.rs](https://docs.rs/mys_villa)
-
-## Changelog
-
-[changelog](change_logs)
+[mys_villa](core/README.md): Provide the implementation of openapi
 
 ## License
 
