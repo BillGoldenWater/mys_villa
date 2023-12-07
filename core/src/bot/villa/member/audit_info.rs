@@ -6,7 +6,7 @@
 
 use typed_builder::TypedBuilder;
 
-use crate::api::villa_bot_api::villa_api::audit::AuditRequest;
+use crate::api::villa_bot_api::villa_api::member_api::audit::AuditRequest;
 use crate::bot::villa::member::audit_info::audit_content::AuditContent;
 
 pub mod audit_content;

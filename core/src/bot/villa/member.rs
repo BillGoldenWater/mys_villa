@@ -8,9 +8,11 @@ use std::sync::Arc;
 
 use tracing::{instrument, trace};
 
-use crate::api::villa_bot_api::villa_api::audit::AuditResponse;
-use crate::api::villa_bot_api::villa_api::delete_villa_member::DeleteVillaMemberRequest;
-use crate::api::villa_bot_api::villa_api::get_member::{GetMemberRequest, GetMemberResponse};
+use crate::api::villa_bot_api::villa_api::member_api::audit::AuditResponse;
+use crate::api::villa_bot_api::villa_api::member_api::delete_villa_member::DeleteVillaMemberRequest;
+use crate::api::villa_bot_api::villa_api::member_api::get_member::{
+  GetMemberRequest, GetMemberResponse,
+};
 use crate::bot::bot_permission::BotPermission;
 use crate::bot::villa::member::audit_info::AuditInfo;
 use crate::bot::villa::member_info::MemberInfo;
