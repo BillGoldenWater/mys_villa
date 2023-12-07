@@ -6,6 +6,7 @@
 
 use std::sync::Arc;
 
+use serde_json::Value;
 use tracing::{instrument, trace};
 
 use crate::api::villa_bot_api::villa_api::member_api::audit::AuditResponse;
@@ -19,6 +20,7 @@ use crate::bot::villa::member_info::MemberInfo;
 use crate::bot::villa::Villa;
 use crate::error::VResult;
 use crate::http::request::Request;
+use crate::utils::fp_utils::FpUtils;
 
 pub mod audit_info;
 
@@ -62,11 +64,12 @@ impl Member {
 
     self
       .villa
-      .execute_bot_req_with_villa::<()>(
+      .execute_bot_req_with_villa::<Value>(
         Request::post("/vila/api/bot/platform/deleteVillaMember")
           .with_json(DeleteVillaMemberRequest::new(self.id))?,
       )
       .await
+      .unit_result()
   }
 
   #[instrument(level = "debug", skip(self, audit_info), fields(id = self.id))]

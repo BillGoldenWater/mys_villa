@@ -5,4 +5,5 @@
  */
 
 pub mod enum_utils;
+pub mod fp_utils;
 pub mod serde_utils;
