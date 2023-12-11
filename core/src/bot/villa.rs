@@ -27,6 +27,7 @@ use crate::api::villa_bot_api::villa_api::transfer_image::{
 };
 use crate::api::villa_bot_api::villa_response::retcode::RetCode;
 use crate::bot::bot_permission::BotPermission;
+use crate::bot::villa::group::Group;
 use crate::bot::villa::group_info::GroupInfo;
 use crate::bot::villa::member::Member;
 use crate::bot::villa::member_info::MemberInfo;
@@ -40,6 +41,7 @@ use crate::bot::Bot;
 use crate::error::VResult;
 use crate::http::request::Request;
 
+pub mod group;
 pub mod group_info;
 pub mod member;
 pub mod member_info;
@@ -82,6 +84,10 @@ impl Villa {
 
   pub fn role(&self, id: u64) -> Role {
     Role::new(self.clone().into(), id)
+  }
+
+  pub fn group(&self, id: u64) -> Group {
+    Group::new(self.clone().into(), id)
   }
 }
 

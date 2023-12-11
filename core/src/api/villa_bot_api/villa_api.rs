@@ -13,6 +13,7 @@ pub mod get_villa_group_room_list;
 pub mod get_villa_member;
 pub mod get_villa_member_roles;
 pub mod group;
+pub mod group_api;
 pub mod group_room;
 pub mod list_room;
 pub mod member;
