@@ -107,7 +107,7 @@ impl Role {
   }
 
   #[instrument(level = "debug", skip(self), fields(id = self.id))]
-  pub async fn delete(&self) -> VResult<()> {
+  pub async fn delete(self) -> VResult<()> {
     BotPermission::ManageRole.check(&self.villa.bot)?;
 
     self

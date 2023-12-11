@@ -59,7 +59,7 @@ impl Member {
   }
 
   #[instrument(level = "debug", skip(self), fields(id = self.id))]
-  pub async fn kick(&self) -> VResult<()> {
+  pub async fn kick(self) -> VResult<()> {
     BotPermission::ManageMember.check(&self.villa.bot)?;
 
     self

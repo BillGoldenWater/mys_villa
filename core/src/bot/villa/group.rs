@@ -52,7 +52,7 @@ impl Group {
   }
 
   #[instrument(level = "debug", skip(self), fields(id = self.id))]
-  pub async fn delete(&self) -> VResult<()> {
+  pub async fn delete(self) -> VResult<()> {
     BotPermission::ManageRoomAndGroup.check(&self.villa.bot)?;
 
     self
