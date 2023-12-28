@@ -36,6 +36,7 @@ use crate::bot::villa::role::Role;
 use crate::bot::villa::role_info::role_color::RoleColor;
 use crate::bot::villa::role_info::role_permission_info::role_permission_key::RolePermissionKey;
 use crate::bot::villa::role_info::RoleInfo;
+use crate::bot::villa::room::Room;
 use crate::bot::villa::villa_info::VillaInfo;
 use crate::bot::Bot;
 use crate::error::VResult;
@@ -48,6 +49,7 @@ pub mod member_info;
 pub mod member_stream;
 pub mod role;
 pub mod role_info;
+pub mod room;
 pub mod room_info_detail;
 pub mod villa_info;
 
@@ -88,6 +90,10 @@ impl Villa {
 
   pub fn group(&self, id: u64) -> Group {
     Group::new(self.clone().into(), id)
+  }
+
+  pub fn room(&self, id: u64) -> Room {
+    Room::new(self.clone().into(), id)
   }
 }
 

@@ -21,6 +21,7 @@ pub mod member_api;
 pub mod member_role;
 pub mod role_api;
 pub mod room;
+pub mod room_api;
 pub mod send_msg_auth_range;
 pub mod transfer_image;
 pub mod villa_info;
