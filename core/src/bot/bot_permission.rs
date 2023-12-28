@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: MIT
  */
 
-use strum::{Display, EnumIter};
+use strum::Display;
 
 use crate::bot::Bot;
 use crate::error::{VError, VResult};
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, Display)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Display)]
 pub enum BotPermission {
   /// get information of a villa
   ViewVilla,
@@ -41,5 +41,33 @@ impl BotPermission {
       .contains(self)
       .then_some(())
       .ok_or(VError::PermissionDenied(*self))
+  }
+}
+
+/// presets
+impl BotPermission {
+  pub fn admin() -> [Self; 10] {
+    [
+      BotPermission::ViewVilla,
+      BotPermission::ViewMember,
+      BotPermission::ManageMember,
+      BotPermission::ManageMessage,
+      BotPermission::SendMessage,
+      BotPermission::ManageRoomAndGroup,
+      BotPermission::ViewRoomAndGroup,
+      BotPermission::OperateMemberToRole,
+      BotPermission::ManageRole,
+      BotPermission::ViewRole,
+    ]
+  }
+
+  pub fn normal() -> [Self; 5] {
+    [
+      BotPermission::ViewVilla,
+      BotPermission::ViewMember,
+      BotPermission::SendMessage,
+      BotPermission::ViewRoomAndGroup,
+      BotPermission::ViewRole,
+    ]
   }
 }
