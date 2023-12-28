@@ -101,7 +101,7 @@ impl Villa {
 impl Villa {
   #[instrument(level = "debug", skip(self), fields(id = self.id))]
   pub async fn get_info(&self) -> VResult<VillaInfo> {
-    BotPermission::ViewVilla.check(&self.bot)?;
+    BotPermission::ViewVilla.check(self)?;
 
     self
       .execute_bot_req_with_villa::<GetVillaResponse>(Request::get(
@@ -113,14 +113,14 @@ impl Villa {
 
   #[instrument(level = "debug", skip(self), fields(id = self.id))]
   pub fn get_members(&self) -> VResult<MemberStream> {
-    BotPermission::ViewMember.check(&self.bot)?;
+    BotPermission::ViewMember.check(self)?;
 
     Ok(MemberStream::new(self.clone()))
   }
 
   #[instrument(level = "debug", skip(self), fields(id = self.id))]
   pub async fn get_roles(&self) -> VResult<Vec<RoleInfo>> {
-    BotPermission::ViewRole.check(&self.bot)?;
+    BotPermission::ViewRole.check(self)?;
 
     self
       .execute_bot_req_with_villa::<GetVillaMemberRolesResponse>(Request::get(
@@ -137,7 +137,7 @@ impl Villa {
     role_color: RoleColor,
     permissions: Vec<RolePermissionKey>,
   ) -> VResult<u64> {
-    BotPermission::ManageRole.check(&self.bot)?;
+    BotPermission::ManageRole.check(self)?;
 
     self
       .execute_bot_req_with_villa::<CreateMemberRoleResponse>(
@@ -155,7 +155,7 @@ impl Villa {
 
   #[instrument(level = "debug", skip(self), fields(id = self.id))]
   pub async fn get_groups(&self) -> VResult<Vec<GroupInfo>> {
-    BotPermission::ViewRoomAndGroup.check(&self.bot)?;
+    BotPermission::ViewRoomAndGroup.check(self)?;
 
     self
       .execute_bot_req_with_villa::<GetGroupListResponse>(Request::get(
@@ -167,7 +167,7 @@ impl Villa {
 
   #[instrument(level = "debug", skip(self), fields(id = self.id))]
   pub async fn create_group(&self, name: String) -> VResult<u64> {
-    BotPermission::ManageRoomAndGroup.check(&self.bot)?;
+    BotPermission::ManageRoomAndGroup.check(self)?;
 
     self
       .execute_bot_req_with_villa::<CreateGroupResponse>(
@@ -180,7 +180,7 @@ impl Villa {
 
   #[instrument(level = "debug", skip(self), fields(id = self.id))]
   pub async fn get_grouped_rooms(&self) -> VResult<Vec<GroupInfo>> {
-    BotPermission::ViewRoomAndGroup.check(&self.bot)?;
+    BotPermission::ViewRoomAndGroup.check(self)?;
 
     self
       .execute_bot_req_with_villa::<GetVillaGroupRoomListResponse>(Request::get(
@@ -222,5 +222,11 @@ impl Villa {
       )
       .await
       .map(|it| it.new_url)
+  }
+}
+
+impl AsRef<Bot> for Villa {
+  fn as_ref(&self) -> &Bot {
+    &self.bot
   }
 }

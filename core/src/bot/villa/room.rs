@@ -15,6 +15,7 @@ use crate::api::villa_bot_api::villa_api::room_api::get_room::{GetRoomRequest, G
 use crate::bot::bot_permission::BotPermission;
 use crate::bot::villa::room_info_detail::RoomInfoDetail;
 use crate::bot::villa::Villa;
+use crate::bot::Bot;
 use crate::error::VResult;
 use crate::http::request::Request;
 use crate::utils::fp_utils::FpUtils;
@@ -44,7 +45,7 @@ impl Room {}
 impl Room {
   #[instrument(level = "debug", skip(self), fields(id = self.id))]
   pub async fn get_info(&self) -> VResult<RoomInfoDetail> {
-    BotPermission::ViewRoomAndGroup.check(&self.villa.bot)?;
+    BotPermission::ViewRoomAndGroup.check(self)?;
 
     self
       .villa
@@ -57,7 +58,7 @@ impl Room {
 
   #[instrument(level = "debug", skip(self), fields(id = self.id))]
   pub async fn set_name(&self, name: String) -> VResult<()> {
-    BotPermission::ManageRoomAndGroup.check(&self.villa.bot)?;
+    BotPermission::ManageRoomAndGroup.check(self)?;
 
     self
       .villa
@@ -71,7 +72,7 @@ impl Room {
 
   #[instrument(level = "debug", skip(self), fields(id = self.id))]
   pub async fn delete(self) -> VResult<()> {
-    BotPermission::ManageRoomAndGroup.check(&self.villa.bot)?;
+    BotPermission::ManageRoomAndGroup.check(&self)?;
 
     self
       .villa
@@ -81,5 +82,11 @@ impl Room {
       )
       .await
       .unit_result()
+  }
+}
+
+impl AsRef<Bot> for Room {
+  fn as_ref(&self) -> &Bot {
+    &self.villa.bot
   }
 }

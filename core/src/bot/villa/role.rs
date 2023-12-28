@@ -20,6 +20,7 @@ use crate::bot::villa::role_info::role_color::RoleColor;
 use crate::bot::villa::role_info::role_permission_info::role_permission_key::RolePermissionKey;
 use crate::bot::villa::role_info::RoleInfo;
 use crate::bot::villa::Villa;
+use crate::bot::Bot;
 use crate::error::VResult;
 use crate::http::request::Request;
 use crate::utils::fp_utils::FpUtils;
@@ -46,7 +47,7 @@ impl Role {
 impl Role {
   #[instrument(level = "debug", skip(self), fields(id = self.id))]
   pub async fn get_info(&self) -> VResult<RoleInfo> {
-    BotPermission::ViewRole.check(&self.villa.bot)?;
+    BotPermission::ViewRole.check(self)?;
 
     self
       .villa
@@ -65,7 +66,7 @@ impl Role {
     color: RoleColor,
     permissions: Vec<RolePermissionKey>,
   ) -> VResult<()> {
-    BotPermission::ManageRole.check(&self.villa.bot)?;
+    BotPermission::ManageRole.check(self)?;
 
     self
       .villa
@@ -94,7 +95,7 @@ impl Role {
   }
 
   async fn operate_member(&self, uid: u64, is_add: bool) -> VResult<()> {
-    BotPermission::OperateMemberToRole.check(&self.villa.bot)?;
+    BotPermission::OperateMemberToRole.check(self)?;
 
     self
       .villa
@@ -108,7 +109,7 @@ impl Role {
 
   #[instrument(level = "debug", skip(self), fields(id = self.id))]
   pub async fn delete(self) -> VResult<()> {
-    BotPermission::ManageRole.check(&self.villa.bot)?;
+    BotPermission::ManageRole.check(&self)?;
 
     self
       .villa
@@ -118,5 +119,11 @@ impl Role {
       )
       .await
       .unit_result()
+  }
+}
+
+impl AsRef<Bot> for Role {
+  fn as_ref(&self) -> &Bot {
+    &self.villa.bot
   }
 }

@@ -13,6 +13,7 @@ use crate::api::villa_bot_api::villa_api::group_api::delete_group::DeleteGroup;
 use crate::api::villa_bot_api::villa_api::group_api::edit_group::EditGroupRequest;
 use crate::bot::bot_permission::BotPermission;
 use crate::bot::villa::Villa;
+use crate::bot::Bot;
 use crate::error::VResult;
 use crate::http::request::Request;
 use crate::utils::fp_utils::FpUtils;
@@ -39,7 +40,7 @@ impl Group {
 impl Group {
   #[instrument(level = "debug", skip(self), fields(id = self.id))]
   pub async fn set_name(&self, name: String) -> VResult<()> {
-    BotPermission::ManageRoomAndGroup.check(&self.villa.bot)?;
+    BotPermission::ManageRoomAndGroup.check(self)?;
 
     self
       .villa
@@ -53,7 +54,7 @@ impl Group {
 
   #[instrument(level = "debug", skip(self), fields(id = self.id))]
   pub async fn delete(self) -> VResult<()> {
-    BotPermission::ManageRoomAndGroup.check(&self.villa.bot)?;
+    BotPermission::ManageRoomAndGroup.check(&self)?;
 
     self
       .villa
@@ -62,5 +63,11 @@ impl Group {
       )
       .await
       .unit_result()
+  }
+}
+
+impl AsRef<Bot> for Group {
+  fn as_ref(&self) -> &Bot {
+    &self.villa.bot
   }
 }

@@ -18,6 +18,7 @@ use crate::bot::bot_permission::BotPermission;
 use crate::bot::villa::member::audit_info::AuditInfo;
 use crate::bot::villa::member_info::MemberInfo;
 use crate::bot::villa::Villa;
+use crate::bot::Bot;
 use crate::error::VResult;
 use crate::http::request::Request;
 use crate::utils::fp_utils::FpUtils;
@@ -46,7 +47,7 @@ impl Member {
 impl Member {
   #[instrument(level = "debug", skip(self), fields(id = self.id))]
   pub async fn get_info(&self) -> VResult<MemberInfo> {
-    BotPermission::ViewMember.check(&self.villa.bot)?;
+    BotPermission::ViewMember.check(self)?;
 
     self
       .villa
@@ -60,7 +61,7 @@ impl Member {
 
   #[instrument(level = "debug", skip(self), fields(id = self.id))]
   pub async fn kick(self) -> VResult<()> {
-    BotPermission::ManageMember.check(&self.villa.bot)?;
+    BotPermission::ManageMember.check(&self)?;
 
     self
       .villa
@@ -83,5 +84,11 @@ impl Member {
       )
       .await
       .map(|it| it.audit_id)
+  }
+}
+
+impl AsRef<Bot> for Member {
+  fn as_ref(&self) -> &Bot {
+    &self.villa.bot
   }
 }

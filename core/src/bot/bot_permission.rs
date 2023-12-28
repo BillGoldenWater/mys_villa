@@ -34,8 +34,9 @@ pub enum BotPermission {
 }
 
 impl BotPermission {
-  pub fn check(&self, bot: &Bot) -> VResult<()> {
+  pub fn check(&self, bot: impl AsRef<Bot>) -> VResult<()> {
     bot
+      .as_ref()
       .permissions
       .contains(self)
       .then_some(())
