@@ -91,7 +91,7 @@ impl Bot {
   #[instrument(level = "debug", skip_all)]
   pub async fn get_all_emoticons(&self) -> VResult<Vec<Emoticon>> {
     self
-      .execute_bot_req::<GetAllEmoticonsResponse>(Request::get(
+      .execute_bot_req_authed::<GetAllEmoticonsResponse>(Request::get(
         "/vila/api/bot/platform/getAllEmoticons",
       ))
       .await
