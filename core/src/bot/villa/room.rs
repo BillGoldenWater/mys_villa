@@ -13,12 +13,17 @@ use crate::api::villa_bot_api::villa_api::room_api::delete_room::DeleteRoomReque
 use crate::api::villa_bot_api::villa_api::room_api::edit_room::EditRoomRequest;
 use crate::api::villa_bot_api::villa_api::room_api::get_room::{GetRoomRequest, GetRoomResponse};
 use crate::bot::bot_permission::BotPermission;
+use crate::bot::villa::room::message::Message;
+use crate::bot::villa::room::message_ident::MessageIdent;
 use crate::bot::villa::room_info_detail::RoomInfoDetail;
 use crate::bot::villa::Villa;
 use crate::bot::Bot;
 use crate::error::VResult;
 use crate::http::request::Request;
 use crate::utils::fp_utils::FpUtils;
+
+pub mod message;
+pub mod message_ident;
 
 #[derive(Debug, Clone)]
 pub struct Room {
@@ -35,6 +40,10 @@ impl Room {
 
   pub fn id(&self) -> u64 {
     self.id
+  }
+
+  pub fn message(&self, id: Arc<MessageIdent>) -> Message {
+    Message::new(self.clone().into(), id)
   }
 }
 
