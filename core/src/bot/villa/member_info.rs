@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::api::villa_bot_api::villa_api::member::member_basic::MemberBasic;
-use crate::api::villa_bot_api::villa_api::member::Member;
-use crate::bot::villa::role_info::RoleInfo;
+use crate::{
+  api::villa_bot_api::villa_api::member::{member_basic::MemberBasic, Member},
+  bot::villa::role_info::RoleInfo,
+};
 
 #[derive(Debug, Clone, Eq, PartialEq, Hash)]
 pub struct MemberInfo {

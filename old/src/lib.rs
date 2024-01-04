@@ -7,10 +7,9 @@
 //! ### Initializing bot instance
 //! you can simply initialize a Bot instance by calling the new method
 //! ```no_run
-//! use mys_villa::bot::bot_event_handler::BotEventHandler;
-//! use mys_villa::bot::bot_info::BotAuthInfo;
-//! use mys_villa::bot::bot_permission::BotPermission;
-//! use mys_villa::bot::Bot;
+//! use mys_villa::bot::{
+//!   bot_event_handler::BotEventHandler, bot_info::BotAuthInfo, bot_permission::BotPermission, Bot,
+//! };
 //! // the default implementation of request executor
 //! use mys_villa::request::request_executor::request_executor_impl::RequestExecutorImpl;
 //!
@@ -52,7 +51,7 @@
 //! let villa = bot.villa(12345789);
 //! // then we can call the get_info method on the instance
 //! let villa_info: VillaInfo = villa.get_info().await?;
-//! println!("{}",villa_info.name); // name of this villa
+//! println!("{}", villa_info.name); // name of this villa
 //! #   Ok(())
 //! # }
 //! ```

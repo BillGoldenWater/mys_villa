@@ -6,19 +6,19 @@
 
 use log::debug;
 
-use crate::api_type::role::delete_member_role_request::DeleteMemberRoleRequest;
-use crate::api_type::role::edit_member_role_request::EditMemberRoleRequest;
-use crate::api_type::role::get_member_role_info_request::GetMemberRoleInfoRequest;
-use crate::api_type::role::get_member_role_info_response::GetMemberRoleInfoResponse;
-use crate::api_type::role::operate_member_to_role_request::OperateMemberToRoleRequest;
-use crate::api_type::role::role_color::RoleColor;
-use crate::api_type::role::role_info::RoleInfo;
-use crate::api_type::role::role_permission::RolePermission;
-use crate::bot::bot_event_handler::BotEventHandler;
-use crate::bot::bot_permission::BotPermission;
-use crate::bot::villa::Villa;
-use crate::error::VResult;
-use crate::request::request_executor::RequestExecutor;
+use crate::{
+  api_type::role::{
+    delete_member_role_request::DeleteMemberRoleRequest,
+    edit_member_role_request::EditMemberRoleRequest,
+    get_member_role_info_request::GetMemberRoleInfoRequest,
+    get_member_role_info_response::GetMemberRoleInfoResponse,
+    operate_member_to_role_request::OperateMemberToRoleRequest, role_color::RoleColor,
+    role_info::RoleInfo, role_permission::RolePermission,
+  },
+  bot::{bot_event_handler::BotEventHandler, bot_permission::BotPermission, villa::Villa},
+  error::VResult,
+  request::request_executor::RequestExecutor,
+};
 
 /// for execute api under role context
 /// - [Role::get_info] get role info

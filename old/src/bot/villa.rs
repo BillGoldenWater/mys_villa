@@ -8,42 +8,48 @@ use std::collections::HashMap;
 
 use log::debug;
 
-use crate::api_type::bot_access_info::check_member_bot_access_token_request::CheckMemberBotAccessTokenRequest;
-use crate::api_type::bot_access_info::check_member_bot_access_token_response::CheckMemberBotAccessTokenResponse;
-use crate::api_type::bot_access_info::BotAccessData;
-use crate::api_type::group::create_group_request::CreateGroupRequest;
-use crate::api_type::group::create_group_response::CreateGroupResponse;
-use crate::api_type::group::get_group_list_response::GetGroupListResponse;
-use crate::api_type::group::group_info::GroupInfo;
-use crate::api_type::group::sort_group_list_request::SortGroupListRequest;
-use crate::api_type::role::create_member_role_request::CreateMemberRoleRequest;
-use crate::api_type::role::create_member_role_response::CreateMemberRoleResponse;
-use crate::api_type::role::get_villa_member_roles_response::GetVillaMemberRoles;
-use crate::api_type::role::role_color::RoleColor;
-use crate::api_type::role::role_info::RoleInfo;
-use crate::api_type::role::role_permission::RolePermission;
-use crate::api_type::room::get_villa_group_room_list_response::GetVillaGroupRoomListResponse;
-use crate::api_type::room::room_group_info::RoomGroupInfo;
-use crate::api_type::room::room_order_item::RoomOrderItem;
-use crate::api_type::room::sort_room_list_request::SortRoomListRequest;
-use crate::api_type::villa::get_villa_members_request::GetVillaMembersRequest;
-use crate::api_type::villa::get_villa_members_response::GetVillaMembersResponse;
-use crate::api_type::villa::get_villa_response::GetVillaResponse;
-use crate::api_type::villa::transfer_image_request::TransferImageRequest;
-use crate::api_type::villa::transfer_image_response::TransferImageResponse;
-use crate::api_type::villa::villa_info::VillaInfo;
-use crate::bot::bot_event_handler::BotEventHandler;
-use crate::bot::bot_permission::BotPermission;
-use crate::bot::villa::group::Group;
-use crate::bot::villa::member::Member;
-use crate::bot::villa::role::Role;
-use crate::bot::villa::room::Room;
-use crate::bot::Bot;
-use crate::error::{VError, VResult};
-use crate::request::header_builder::HeaderBuilder;
-use crate::request::request_builder::RequestBuilder;
-use crate::request::request_executor::RequestExecutor;
-use crate::response::retcode::RetCode;
+use crate::{
+  api_type::{
+    bot_access_info::{
+      check_member_bot_access_token_request::CheckMemberBotAccessTokenRequest,
+      check_member_bot_access_token_response::CheckMemberBotAccessTokenResponse, BotAccessData,
+    },
+    group::{
+      create_group_request::CreateGroupRequest, create_group_response::CreateGroupResponse,
+      get_group_list_response::GetGroupListResponse, group_info::GroupInfo,
+      sort_group_list_request::SortGroupListRequest,
+    },
+    role::{
+      create_member_role_request::CreateMemberRoleRequest,
+      create_member_role_response::CreateMemberRoleResponse,
+      get_villa_member_roles_response::GetVillaMemberRoles, role_color::RoleColor,
+      role_info::RoleInfo, role_permission::RolePermission,
+    },
+    room::{
+      get_villa_group_room_list_response::GetVillaGroupRoomListResponse,
+      room_group_info::RoomGroupInfo, room_order_item::RoomOrderItem,
+      sort_room_list_request::SortRoomListRequest,
+    },
+    villa::{
+      get_villa_members_request::GetVillaMembersRequest,
+      get_villa_members_response::GetVillaMembersResponse, get_villa_response::GetVillaResponse,
+      transfer_image_request::TransferImageRequest, transfer_image_response::TransferImageResponse,
+      villa_info::VillaInfo,
+    },
+  },
+  bot::{
+    bot_event_handler::BotEventHandler,
+    bot_permission::BotPermission,
+    villa::{group::Group, member::Member, role::Role, room::Room},
+    Bot,
+  },
+  error::{VError, VResult},
+  request::{
+    header_builder::HeaderBuilder, request_builder::RequestBuilder,
+    request_executor::RequestExecutor,
+  },
+  response::retcode::RetCode,
+};
 
 /// group related logic
 pub mod group;

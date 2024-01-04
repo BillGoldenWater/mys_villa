@@ -4,15 +4,18 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::api_type::message::message_object::mentioned_info::MentionedInfo;
-use crate::api_type::message::message_object::message_content::image::Image;
-use crate::api_type::message::message_object::message_content::mhy_post::MhyPost;
-use crate::api_type::message::message_object::message_content::MessageContent;
-use crate::bot::bot_event_handler::BotEventHandler;
-use crate::bot::villa::room::message::message_builder::mhy_text_builder::MhyTextBuilder;
-use crate::bot::villa::Villa;
-use crate::error::VResult;
-use crate::request::request_executor::RequestExecutor;
+use crate::{
+  api_type::message::message_object::{
+    mentioned_info::MentionedInfo,
+    message_content::{image::Image, mhy_post::MhyPost, MessageContent},
+  },
+  bot::{
+    bot_event_handler::BotEventHandler,
+    villa::{room::message::message_builder::mhy_text_builder::MhyTextBuilder, Villa},
+  },
+  error::VResult,
+  request::request_executor::RequestExecutor,
+};
 
 /// message content builders hub
 #[derive(Debug, Clone)]

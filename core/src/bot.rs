@@ -4,24 +4,25 @@
  * SPDX-License-Identifier: MIT
  */
 
-use std::any::{Any, TypeId};
-use std::collections::HashMap;
-use std::fmt::{Debug, Formatter};
-use std::sync::Arc;
+use std::{
+  any::{Any, TypeId},
+  collections::HashMap,
+  fmt::{Debug, Formatter},
+  sync::Arc,
+};
 
 use itertools::Itertools;
 use serde::de::DeserializeOwned;
 use tracing::instrument;
 
-use crate::api::villa_bot_api::get_all_emoticons::GetAllEmoticonsResponse;
-use crate::api::villa_bot_api::parse_villa_res;
-use crate::bot::bot_auth_info::BotAuthInfo;
-use crate::bot::bot_permission::BotPermission;
-use crate::bot::emoticon::Emoticon;
-use crate::bot::villa::Villa;
-use crate::error::VResult;
-use crate::http::request::Request;
-use crate::http::request_executor::RequestExecutor;
+use crate::{
+  api::villa_bot_api::{get_all_emoticons::GetAllEmoticonsResponse, parse_villa_res},
+  bot::{
+    bot_auth_info::BotAuthInfo, bot_permission::BotPermission, emoticon::Emoticon, villa::Villa,
+  },
+  error::VResult,
+  http::{request::Request, request_executor::RequestExecutor},
+};
 
 pub mod bot_auth_info;
 pub mod bot_builder;

@@ -7,9 +7,13 @@
 use serde::de::DeserializeOwned;
 use tracing::trace;
 
-use crate::api::api_error::{ApiError, ApiResult};
-use crate::api::villa_bot_api::villa_response::VillaResponse;
-use crate::http::response::Response;
+use crate::{
+  api::{
+    api_error::{ApiError, ApiResult},
+    villa_bot_api::villa_response::VillaResponse,
+  },
+  http::response::Response,
+};
 
 pub mod get_all_emoticons;
 pub mod villa_api;

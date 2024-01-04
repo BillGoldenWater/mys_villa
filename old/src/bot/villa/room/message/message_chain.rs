@@ -4,13 +4,18 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
-use crate::api_type::message::message_object::mentioned_info::MentionedInfo;
-use crate::api_type::message::message_object::message_content::mhy_text::text_entity::TextEntity;
-use crate::api_type::message::message_object::message_content::MessageContent as ApiMessageContent;
-use crate::api_type::message::message_object::MessageObject;
-use crate::bot::villa::room::message::message_chain::message_content::MessageContent;
-use crate::error::VError;
+use crate::{
+  api_type::{
+    event::bot_event::bot_event_data::message_identifier::MessageIdentifier,
+    message::message_object::{
+      mentioned_info::MentionedInfo,
+      message_content::{mhy_text::text_entity::TextEntity, MessageContent as ApiMessageContent},
+      MessageObject,
+    },
+  },
+  bot::villa::room::message::message_chain::message_content::MessageContent,
+  error::VError,
+};
 
 /// message content
 pub mod message_content;
@@ -80,15 +85,19 @@ pub enum MessageChainParseError {
 
 #[cfg(test)]
 mod tests {
-  use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
-  use crate::api_type::message::message_object::mentioned_info::MentionedInfo;
-  use crate::api_type::message::message_object::message_content::image::Image;
-  use crate::bot::default::default;
-  use crate::bot::villa::room::message::message_builder::mhy_text_component::link::Link;
-  use crate::bot::villa::room::message::message_builder::mhy_text_component::MhyTextMsgComponent;
-  use crate::bot::villa::room::message::message_chain::message_content::MessageContent;
-  use crate::bot::villa::room::message::message_chain::mhy_text::MhyText;
-  use crate::bot::villa::room::message::message_chain::MessageChain;
+  use crate::{
+    api_type::{
+      event::bot_event::bot_event_data::message_identifier::MessageIdentifier,
+      message::message_object::{mentioned_info::MentionedInfo, message_content::image::Image},
+    },
+    bot::{
+      default::default,
+      villa::room::message::{
+        message_builder::mhy_text_component::{link::Link, MhyTextMsgComponent},
+        message_chain::{message_content::MessageContent, mhy_text::MhyText, MessageChain},
+      },
+    },
+  };
 
   #[test]
   fn test_parse() {

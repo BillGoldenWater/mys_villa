@@ -4,15 +4,13 @@
  * SPDX-License-Identifier: MIT
  */
 
-use std::future::Future;
-use std::pin::Pin;
+use std::{future::Future, pin::Pin};
 
-use crate::bot::command::Command;
-use crate::bot::event::Event;
-use crate::bot::villa::Villa;
-use crate::bot::Bot;
-use crate::error::VResult;
-use crate::request::request_executor::RequestExecutor;
+use crate::{
+  bot::{command::Command, event::Event, villa::Villa, Bot},
+  error::VResult,
+  request::request_executor::RequestExecutor,
+};
 
 /// definition of bot event handler, includes:
 /// - [BotEventHandler::handle] handle the event, default ignore

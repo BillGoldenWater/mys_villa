@@ -6,8 +6,10 @@
 
 use strum::Display;
 
-use crate::bot::Bot;
-use crate::error::{VError, VResult};
+use crate::{
+  bot::Bot,
+  error::{VError, VResult},
+};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Display)]
 pub enum BotPermission {

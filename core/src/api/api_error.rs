@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::api::villa_bot_api::villa_response::retcode::RetCode;
-use crate::http::response::Response;
+use crate::{api::villa_bot_api::villa_response::retcode::RetCode, http::response::Response};
 
 #[derive(Debug, thiserror::Error)]
 pub enum ApiError {

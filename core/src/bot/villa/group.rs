@@ -9,14 +9,15 @@ use std::sync::Arc;
 use serde_json::Value;
 use tracing::instrument;
 
-use crate::api::villa_bot_api::villa_api::group_api::delete_group::DeleteGroup;
-use crate::api::villa_bot_api::villa_api::group_api::edit_group::EditGroupRequest;
-use crate::bot::bot_permission::BotPermission;
-use crate::bot::villa::Villa;
-use crate::bot::Bot;
-use crate::error::VResult;
-use crate::http::request::Request;
-use crate::utils::fp_utils::FpUtils;
+use crate::{
+  api::villa_bot_api::villa_api::group_api::{
+    delete_group::DeleteGroup, edit_group::EditGroupRequest,
+  },
+  bot::{bot_permission::BotPermission, villa::Villa, Bot},
+  error::VResult,
+  http::request::Request,
+  utils::fp_utils::FpUtils,
+};
 
 #[derive(Debug, Clone)]
 pub struct Group {

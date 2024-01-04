@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::api::villa_bot_api::villa_api::member::Member;
 use serde::{Deserialize, Serialize};
+
+use crate::api::villa_bot_api::villa_api::member::Member;
 
 #[derive(Debug, Clone, Eq, PartialEq, Hash, Serialize, Deserialize)]
 pub struct GetMemberRequest {

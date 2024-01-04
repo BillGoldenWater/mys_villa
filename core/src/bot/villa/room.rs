@@ -9,21 +9,26 @@ use std::sync::Arc;
 use serde_json::Value;
 use tracing::instrument;
 
-use crate::api::villa_bot_api::villa_api::room_api::delete_room::DeleteRoomRequest;
-use crate::api::villa_bot_api::villa_api::room_api::edit_room::EditRoomRequest;
-use crate::api::villa_bot_api::villa_api::room_api::get_room::{GetRoomRequest, GetRoomResponse};
-use crate::api::villa_bot_api::villa_api::room_api::send_message::{
-  SendMessageRequest, SendMessageResponse,
+use crate::{
+  api::villa_bot_api::villa_api::room_api::{
+    delete_room::DeleteRoomRequest,
+    edit_room::EditRoomRequest,
+    get_room::{GetRoomRequest, GetRoomResponse},
+    send_message::{SendMessageRequest, SendMessageResponse},
+  },
+  bot::{
+    bot_permission::BotPermission,
+    villa::{
+      room::{message::Message, message_ident::MessageIdent},
+      room_info_detail::RoomInfoDetail,
+      Villa,
+    },
+    Bot,
+  },
+  error::VResult,
+  http::request::Request,
+  utils::fp_utils::FpUtils,
 };
-use crate::bot::bot_permission::BotPermission;
-use crate::bot::villa::room::message::Message;
-use crate::bot::villa::room::message_ident::MessageIdent;
-use crate::bot::villa::room_info_detail::RoomInfoDetail;
-use crate::bot::villa::Villa;
-use crate::bot::Bot;
-use crate::error::VResult;
-use crate::http::request::Request;
-use crate::utils::fp_utils::FpUtils;
 
 pub mod message;
 pub mod message_ident;

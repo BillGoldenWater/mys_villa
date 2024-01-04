@@ -10,37 +10,46 @@ use itertools::Itertools;
 use serde::de::DeserializeOwned;
 use tracing::instrument;
 
-use crate::api::api_error::ApiError;
-use crate::api::villa_bot_api::villa_api::check_member_bot_access_token::{
-  CheckMemberBotAccessTokenRequest, CheckMemberBotAccessTokenResponse,
+use crate::{
+  api::{
+    api_error::ApiError,
+    villa_bot_api::{
+      villa_api::{
+        check_member_bot_access_token::{
+          CheckMemberBotAccessTokenRequest, CheckMemberBotAccessTokenResponse,
+        },
+        create_group::{CreateGroupRequest, CreateGroupResponse},
+        create_member_role::{CreateMemberRoleRequest, CreateMemberRoleResponse},
+        get_group_list::GetGroupListResponse,
+        get_villa::GetVillaResponse,
+        get_villa_group_room_list::GetVillaGroupRoomListResponse,
+        get_villa_member_roles::GetVillaMemberRolesResponse,
+        transfer_image::{TransferImageRequest, TransferImageResponse},
+      },
+      villa_response::retcode::RetCode,
+    },
+  },
+  bot::{
+    bot_permission::BotPermission,
+    villa::{
+      group::Group,
+      group_info::GroupInfo,
+      member::Member,
+      member_info::MemberInfo,
+      member_stream::MemberStream,
+      role::Role,
+      role_info::{
+        role_color::RoleColor, role_permission_info::role_permission_key::RolePermissionKey,
+        RoleInfo,
+      },
+      room::Room,
+      villa_info::VillaInfo,
+    },
+    Bot,
+  },
+  error::VResult,
+  http::request::Request,
 };
-use crate::api::villa_bot_api::villa_api::create_group::{CreateGroupRequest, CreateGroupResponse};
-use crate::api::villa_bot_api::villa_api::create_member_role::{
-  CreateMemberRoleRequest, CreateMemberRoleResponse,
-};
-use crate::api::villa_bot_api::villa_api::get_group_list::GetGroupListResponse;
-use crate::api::villa_bot_api::villa_api::get_villa::GetVillaResponse;
-use crate::api::villa_bot_api::villa_api::get_villa_group_room_list::GetVillaGroupRoomListResponse;
-use crate::api::villa_bot_api::villa_api::get_villa_member_roles::GetVillaMemberRolesResponse;
-use crate::api::villa_bot_api::villa_api::transfer_image::{
-  TransferImageRequest, TransferImageResponse,
-};
-use crate::api::villa_bot_api::villa_response::retcode::RetCode;
-use crate::bot::bot_permission::BotPermission;
-use crate::bot::villa::group::Group;
-use crate::bot::villa::group_info::GroupInfo;
-use crate::bot::villa::member::Member;
-use crate::bot::villa::member_info::MemberInfo;
-use crate::bot::villa::member_stream::MemberStream;
-use crate::bot::villa::role::Role;
-use crate::bot::villa::role_info::role_color::RoleColor;
-use crate::bot::villa::role_info::role_permission_info::role_permission_key::RolePermissionKey;
-use crate::bot::villa::role_info::RoleInfo;
-use crate::bot::villa::room::Room;
-use crate::bot::villa::villa_info::VillaInfo;
-use crate::bot::Bot;
-use crate::error::VResult;
-use crate::http::request::Request;
 
 pub mod group;
 pub mod group_info;

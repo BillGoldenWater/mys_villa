@@ -6,11 +6,13 @@
 
 use serde::Deserialize;
 
-use crate::api_type::event::bot_event::bot_event_data::add_quick_emoticon_metadata::AddQuickEmoticonMetadata;
-use crate::api_type::event::bot_event::bot_event_data::audit_metadata::AuditMetadata;
-use crate::api_type::event::bot_event::bot_event_data::audit_status::AuditStatus;
-use crate::api_type::event::bot_event::bot_event_data::send_message_metadata::SendMessageMetadata;
-use crate::api_type::message::message_object::MessageObject;
+use crate::api_type::{
+  event::bot_event::bot_event_data::{
+    add_quick_emoticon_metadata::AddQuickEmoticonMetadata, audit_metadata::AuditMetadata,
+    audit_status::AuditStatus, send_message_metadata::SendMessageMetadata,
+  },
+  message::message_object::MessageObject,
+};
 
 /// definition of add quick emoticon metadata
 pub mod add_quick_emoticon_metadata;

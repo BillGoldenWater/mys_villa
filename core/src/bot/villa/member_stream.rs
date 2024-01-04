@@ -4,21 +4,24 @@
  * SPDX-License-Identifier: MIT
  */
 
-use std::collections::VecDeque;
-use std::fmt::{Debug, Formatter};
-use std::future::Future;
-use std::pin::Pin;
-use std::task::{Context, Poll};
+use std::{
+  collections::VecDeque,
+  fmt::{Debug, Formatter},
+  future::Future,
+  pin::Pin,
+  task::{Context, Poll},
+};
 
 use futures::{FutureExt, Stream};
 
-use crate::api::villa_bot_api::villa_api::get_villa_member::{
-  GetVillaMemberRequest, GetVillaMemberResponse,
+use crate::{
+  api::villa_bot_api::villa_api::get_villa_member::{
+    GetVillaMemberRequest, GetVillaMemberResponse,
+  },
+  bot::villa::{member_info::MemberInfo, Villa},
+  error::VResult,
+  http::request::Request,
 };
-use crate::bot::villa::member_info::MemberInfo;
-use crate::bot::villa::Villa;
-use crate::error::VResult;
-use crate::http::request::Request;
 
 pub struct MemberStream {
   villa: Villa,

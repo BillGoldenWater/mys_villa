@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: MIT
  */
 
-use mys_villa::bot::bot_event_handler::BotEventHandler;
-use mys_villa::bot::bot_info::BotAuthInfo;
-use mys_villa::bot::bot_permission::BotPermission;
-use mys_villa::bot::Bot;
-use mys_villa::error::VResult;
-use mys_villa::request::request_executor::request_executor_impl::RequestExecutorImpl;
+use mys_villa::{
+  bot::{
+    bot_event_handler::BotEventHandler, bot_info::BotAuthInfo, bot_permission::BotPermission, Bot,
+  },
+  error::VResult,
+  request::request_executor::request_executor_impl::RequestExecutorImpl,
+};
 
 #[derive(Debug)]
 struct State;

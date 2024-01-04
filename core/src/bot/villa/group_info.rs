@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::api::villa_bot_api::villa_api::group::Group;
-use crate::api::villa_bot_api::villa_api::group_room::GroupRoom;
-use crate::bot::villa::room_info_detail::room_info::RoomInfo;
+use crate::{
+  api::villa_bot_api::villa_api::{group::Group, group_room::GroupRoom},
+  bot::villa::room_info_detail::room_info::RoomInfo,
+};
 
 #[derive(Debug, Clone, Eq, PartialEq, Hash)]
 pub struct GroupInfo {

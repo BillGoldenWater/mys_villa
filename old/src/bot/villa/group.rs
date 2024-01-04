@@ -6,13 +6,14 @@
 
 use log::debug;
 
-use crate::api_type::group::delete_group_request::DeleteGroupRequest;
-use crate::api_type::group::edit_group_request::EditGroupRequest;
-use crate::bot::bot_event_handler::BotEventHandler;
-use crate::bot::bot_permission::BotPermission;
-use crate::bot::villa::Villa;
-use crate::error::VResult;
-use crate::request::request_executor::RequestExecutor;
+use crate::{
+  api_type::group::{
+    delete_group_request::DeleteGroupRequest, edit_group_request::EditGroupRequest,
+  },
+  bot::{bot_event_handler::BotEventHandler, bot_permission::BotPermission, villa::Villa},
+  error::VResult,
+  request::request_executor::RequestExecutor,
+};
 
 /// for execute api under group context
 /// - [Group::set_name] change name of group

@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-use std::fmt::{Display, Formatter};
-use std::ops::Deref;
+use std::{
+  fmt::{Display, Formatter},
+  ops::Deref,
+};
 
 #[derive(Debug, Copy, Clone)]
 pub struct StatusCode(u16);

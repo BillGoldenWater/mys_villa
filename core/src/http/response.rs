@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::http::header_map::HeaderMap;
-use crate::http::response::status_code::StatusCode;
+use crate::http::{header_map::HeaderMap, response::status_code::StatusCode};
 
 pub mod status_code;
 

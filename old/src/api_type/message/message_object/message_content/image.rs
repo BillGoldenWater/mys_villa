@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::api_type::message::message_object::message_content::image::image_size::ImageSize;
 use serde::{Deserialize, Serialize};
+
+use crate::api_type::message::message_object::message_content::image::image_size::ImageSize;
 
 /// definition of image size
 pub mod image_size;

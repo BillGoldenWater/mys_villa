@@ -6,10 +6,13 @@
 
 use std::fmt::Debug;
 
-use crate::api::villa_bot_api::villa_api::room::Room;
-use crate::bot::villa::room_info_detail::room_allow_send_msg_range::RoomAllowSendMsgRange;
-use crate::bot::villa::room_info_detail::room_info::RoomInfo;
-use crate::bot::villa::room_info_detail::room_notify_type::RoomNotifyType;
+use crate::{
+  api::villa_bot_api::villa_api::room::Room,
+  bot::villa::room_info_detail::{
+    room_allow_send_msg_range::RoomAllowSendMsgRange, room_info::RoomInfo,
+    room_notify_type::RoomNotifyType,
+  },
+};
 
 pub mod room_allow_send_msg_range;
 pub mod room_info;

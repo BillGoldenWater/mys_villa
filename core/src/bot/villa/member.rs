@@ -9,19 +9,21 @@ use std::sync::Arc;
 use serde_json::Value;
 use tracing::{instrument, trace};
 
-use crate::api::villa_bot_api::villa_api::member_api::audit::AuditResponse;
-use crate::api::villa_bot_api::villa_api::member_api::delete_villa_member::DeleteVillaMemberRequest;
-use crate::api::villa_bot_api::villa_api::member_api::get_member::{
-  GetMemberRequest, GetMemberResponse,
+use crate::{
+  api::villa_bot_api::villa_api::member_api::{
+    audit::AuditResponse,
+    delete_villa_member::DeleteVillaMemberRequest,
+    get_member::{GetMemberRequest, GetMemberResponse},
+  },
+  bot::{
+    bot_permission::BotPermission,
+    villa::{member::audit_info::AuditInfo, member_info::MemberInfo, Villa},
+    Bot,
+  },
+  error::VResult,
+  http::request::Request,
+  utils::fp_utils::FpUtils,
 };
-use crate::bot::bot_permission::BotPermission;
-use crate::bot::villa::member::audit_info::AuditInfo;
-use crate::bot::villa::member_info::MemberInfo;
-use crate::bot::villa::Villa;
-use crate::bot::Bot;
-use crate::error::VResult;
-use crate::http::request::Request;
-use crate::utils::fp_utils::FpUtils;
 
 pub mod audit_info;
 

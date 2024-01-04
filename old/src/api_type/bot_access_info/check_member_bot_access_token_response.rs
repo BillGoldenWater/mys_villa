@@ -6,8 +6,7 @@
 
 use serde::Deserialize;
 
-use crate::api_type::bot_access_info::BotAccessInfo;
-use crate::api_type::member::member_data::MemberData;
+use crate::api_type::{bot_access_info::BotAccessInfo, member::member_data::MemberData};
 
 /// check member bot access token response
 #[derive(Debug, Deserialize)]

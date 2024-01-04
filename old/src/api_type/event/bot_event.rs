@@ -6,9 +6,10 @@
 
 use serde::Deserialize;
 
-use crate::api_type::event::bot_event::bot_context::BotContext;
-use crate::api_type::event::bot_event::bot_event_extend_data::BotEventExtendData;
-use crate::api_type::event::bot_event::bot_event_metadata::BotEventMetadata;
+use crate::api_type::event::bot_event::{
+  bot_context::BotContext, bot_event_extend_data::BotEventExtendData,
+  bot_event_metadata::BotEventMetadata,
+};
 
 /// definition of bot command
 pub mod bot_command;

@@ -4,21 +4,17 @@
  * SPDX-License-Identifier: MIT
  */
 
-use std::future::Future;
-use std::pin::Pin;
-use std::time::Duration;
+use std::{future::Future, pin::Pin, time::Duration};
 
 use log::{debug, error, trace};
-use reqwest::{Client, ClientBuilder};
-use reqwest::{Method as RMethod, StatusCode};
-use serde::de::DeserializeOwned;
-use serde::Serialize;
+use reqwest::{Client, ClientBuilder, Method as RMethod, StatusCode};
+use serde::{de::DeserializeOwned, Serialize};
 
-use crate::error::{VError, VResult};
-use crate::request::method::Method;
-use crate::request::request_executor::RequestExecutor;
-use crate::request::Request;
-use crate::response::Response;
+use crate::{
+  error::{VError, VResult},
+  request::{method::Method, request_executor::RequestExecutor, Request},
+  response::Response,
+};
 
 /// default implementation of [RequestExecutor], using reqwest
 #[derive(Debug)]

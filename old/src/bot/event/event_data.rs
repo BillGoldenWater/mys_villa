@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::api_type::event::bot_event::bot_event_data::add_quick_emoticon_metadata::AddQuickEmoticonMetadata;
-use crate::api_type::event::bot_event::bot_event_data::audit_metadata::AuditMetadata;
-use crate::api_type::event::bot_event::bot_event_data::audit_status::AuditStatus;
-use crate::api_type::event::bot_event::bot_event_data::send_message_metadata::SendMessageMetadata;
-use crate::api_type::event::bot_event::bot_event_data::BotEventData;
-use crate::api_type::message::message_object::MessageObject;
+use crate::api_type::{
+  event::bot_event::bot_event_data::{
+    add_quick_emoticon_metadata::AddQuickEmoticonMetadata, audit_metadata::AuditMetadata,
+    audit_status::AuditStatus, send_message_metadata::SendMessageMetadata, BotEventData,
+  },
+  message::message_object::MessageObject,
+};
 
 /// event data
 #[derive(Debug, Clone)]

@@ -6,14 +6,21 @@
 
 use CommandTryFromEventError as CmdErr;
 
-use crate::api_type::event::bot_event::bot_command::BotCommand;
-use crate::api_type::event::bot_event::bot_event_data::send_message_metadata::SendMessageMetadata;
-use crate::api_type::message::message_object::MessageObject;
-use crate::bot::event::event_data::EventData;
-use crate::bot::event::Event;
-use crate::bot::villa::room::message::message_chain::MessageChain;
-use crate::bot::villa::room::message::message_chain_matcher::mhy_text_matcher::MhyTextMatcher;
-use crate::error::VError;
+use crate::{
+  api_type::{
+    event::bot_event::{
+      bot_command::BotCommand, bot_event_data::send_message_metadata::SendMessageMetadata,
+    },
+    message::message_object::MessageObject,
+  },
+  bot::{
+    event::{event_data::EventData, Event},
+    villa::room::message::{
+      message_chain::MessageChain, message_chain_matcher::mhy_text_matcher::MhyTextMatcher,
+    },
+  },
+  error::VError,
+};
 
 /// command
 #[derive(Debug)]

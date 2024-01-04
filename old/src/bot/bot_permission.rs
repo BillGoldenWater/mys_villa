@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::bot::bot_event_handler::BotEventHandler;
-use crate::bot::Bot;
-use crate::error::{VError, VResult};
-use crate::request::request_executor::RequestExecutor;
+use crate::{
+  bot::{bot_event_handler::BotEventHandler, Bot},
+  error::{VError, VResult},
+  request::request_executor::RequestExecutor,
+};
 
 /// permission info about what bot can do
 #[derive(Debug, Clone, Eq, PartialEq)]

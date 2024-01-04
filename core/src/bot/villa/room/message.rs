@@ -9,13 +9,15 @@ use std::sync::Arc;
 use serde_json::Value;
 use tracing::instrument;
 
-use crate::api::villa_bot_api::villa_api::room_api::message_api::pin_message::PinMessageRequest;
-use crate::api::villa_bot_api::villa_api::room_api::message_api::recall_message::RecallMessageRequest;
-use crate::bot::villa::room::message_ident::MessageIdent;
-use crate::bot::villa::room::Room;
-use crate::error::VResult;
-use crate::http::request::Request;
-use crate::utils::fp_utils::FpUtils;
+use crate::{
+  api::villa_bot_api::villa_api::room_api::message_api::{
+    pin_message::PinMessageRequest, recall_message::RecallMessageRequest,
+  },
+  bot::villa::room::{message_ident::MessageIdent, Room},
+  error::VResult,
+  http::request::Request,
+  utils::fp_utils::FpUtils,
+};
 
 #[derive(Debug, Clone)]
 pub struct Message {

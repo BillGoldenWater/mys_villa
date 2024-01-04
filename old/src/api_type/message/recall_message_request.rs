@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
 use serde::Serialize;
+
+use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
 
 /// recall message request
 #[derive(Debug, Serialize)]

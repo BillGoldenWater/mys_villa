@@ -4,9 +4,12 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::api::villa_bot_api::villa_api::member_role::member_role_permission::MemberRolePermission;
-use crate::bot::villa::role_info::role_permission_info::role_permission_key::RolePermissionKey;
-use crate::bot::villa::role_info::role_permission_info::role_permission_scope::RolePermissionScope;
+use crate::{
+  api::villa_bot_api::villa_api::member_role::member_role_permission::MemberRolePermission,
+  bot::villa::role_info::role_permission_info::{
+    role_permission_key::RolePermissionKey, role_permission_scope::RolePermissionScope,
+  },
+};
 
 pub mod role_permission_key;
 pub mod role_permission_scope;

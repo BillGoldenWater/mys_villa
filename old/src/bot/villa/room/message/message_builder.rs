@@ -4,17 +4,27 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
-use crate::api_type::message::message_object::message_content::image::Image;
-use crate::api_type::message::message_object::message_content::mhy_post::MhyPost;
-use crate::api_type::message::message_object::quote_info::QuoteInfo;
-use crate::api_type::message::message_object::MessageObject;
-use crate::bot::bot_event_handler::BotEventHandler;
-use crate::bot::villa::room::message::message_builder::content_builder::ContentBuilder;
-use crate::bot::villa::room::message::message_builder::mhy_text_builder::MhyTextBuilder;
-use crate::bot::villa::Villa;
-use crate::error::VResult;
-use crate::request::request_executor::RequestExecutor;
+use crate::{
+  api_type::{
+    event::bot_event::bot_event_data::message_identifier::MessageIdentifier,
+    message::message_object::{
+      message_content::{image::Image, mhy_post::MhyPost},
+      quote_info::QuoteInfo,
+      MessageObject,
+    },
+  },
+  bot::{
+    bot_event_handler::BotEventHandler,
+    villa::{
+      room::message::message_builder::{
+        content_builder::ContentBuilder, mhy_text_builder::MhyTextBuilder,
+      },
+      Villa,
+    },
+  },
+  error::VResult,
+  request::request_executor::RequestExecutor,
+};
 
 /// hub of message content builders
 pub mod content_builder;

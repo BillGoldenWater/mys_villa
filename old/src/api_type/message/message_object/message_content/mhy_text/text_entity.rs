@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::api_type::message::message_object::message_content::mhy_text::entity_data::EntityData;
 use serde::{Deserialize, Serialize};
+
+use crate::api_type::message::message_object::message_content::mhy_text::entity_data::EntityData;
 
 /// text entity
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

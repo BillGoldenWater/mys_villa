@@ -4,9 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-use serde::{Deserialize, Serialize};
-
 use bot_member_access_info::BotMemberAccessInfo;
+use serde::{Deserialize, Serialize};
 
 use crate::api::villa_bot_api::villa_api::member::Member;
 

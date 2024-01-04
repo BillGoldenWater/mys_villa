@@ -4,27 +4,29 @@
  * SPDX-License-Identifier: MIT
  */
 
-use std::collections::HashMap;
-use std::fmt::Debug;
+use std::{collections::HashMap, fmt::Debug};
 
 use base64::Engine;
 use log::info;
 
-use crate::api_type::emoticon::get_all_emoticon_response::GetAllEmoticonResponse;
-use crate::api_type::emoticon::Emoticon;
-use crate::api_type::event::bot_event::bot_event_extend_data::BotEventExtendData;
-use crate::api_type::event::bot_event::BotEvent;
-use crate::api_type::event::event_callback_request::EventCallbackRequest;
-use crate::bot::bot_event_handler::BotEventHandler;
-use crate::bot::bot_info::BotAuthInfo;
-use crate::bot::bot_permission::BotPermission;
-use crate::bot::command::Command;
-use crate::bot::event::Event;
-use crate::bot::villa::Villa;
-use crate::error::VResult;
-use crate::request::header_builder::HeaderBuilder;
-use crate::request::request_builder::RequestBuilder;
-use crate::request::request_executor::RequestExecutor;
+use crate::{
+  api_type::{
+    emoticon::{get_all_emoticon_response::GetAllEmoticonResponse, Emoticon},
+    event::{
+      bot_event::{bot_event_extend_data::BotEventExtendData, BotEvent},
+      event_callback_request::EventCallbackRequest,
+    },
+  },
+  bot::{
+    bot_event_handler::BotEventHandler, bot_info::BotAuthInfo, bot_permission::BotPermission,
+    command::Command, event::Event, villa::Villa,
+  },
+  error::VResult,
+  request::{
+    header_builder::HeaderBuilder, request_builder::RequestBuilder,
+    request_executor::RequestExecutor,
+  },
+};
 
 /// definition of bot event handler
 pub mod bot_event_handler;
@@ -157,11 +159,12 @@ impl<
 /// provide a simple way to initialize bot instance for testing
 #[cfg(feature = "request_executor_impl")]
 pub mod default {
-  use crate::bot::bot_event_handler::BotEventHandler;
-  use crate::bot::bot_info::BotAuthInfo;
-  use crate::bot::bot_permission::BotPermission;
-  use crate::bot::Bot;
-  use crate::request::request_executor::request_executor_impl::RequestExecutorImpl;
+  use crate::{
+    bot::{
+      bot_event_handler::BotEventHandler, bot_info::BotAuthInfo, bot_permission::BotPermission, Bot,
+    },
+    request::request_executor::request_executor_impl::RequestExecutorImpl,
+  };
 
   /// default state
   #[derive(Debug)]

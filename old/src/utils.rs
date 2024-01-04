@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-use std::fmt::Display;
-use std::str::FromStr;
+use std::{fmt::Display, str::FromStr};
 
 use serde::{Deserialize, Deserializer};
 

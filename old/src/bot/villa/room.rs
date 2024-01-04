@@ -7,22 +7,29 @@
 use log::debug;
 use serde_json::json;
 
-use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
-use crate::api_type::message::message_object::MessageObject;
-use crate::api_type::message::send_message_request::SendMessageRequest;
-use crate::api_type::message::send_message_response::SendMessageResponse;
-use crate::api_type::room::delete_room_request::DeleteRoomRequest;
-use crate::api_type::room::edit_room_request::EditRoomRequest;
-use crate::api_type::room::get_room_request::GetRoomRequest;
-use crate::api_type::room::get_room_response::GetRoomResponse;
-use crate::api_type::room::room_data::RoomData;
-use crate::bot::bot_event_handler::BotEventHandler;
-use crate::bot::bot_permission::BotPermission;
-use crate::bot::villa::room::message::message_builder::MessageBuilder;
-use crate::bot::villa::room::message::Message;
-use crate::bot::villa::Villa;
-use crate::error::VResult;
-use crate::request::request_executor::RequestExecutor;
+use crate::{
+  api_type::{
+    event::bot_event::bot_event_data::message_identifier::MessageIdentifier,
+    message::{
+      message_object::MessageObject, send_message_request::SendMessageRequest,
+      send_message_response::SendMessageResponse,
+    },
+    room::{
+      delete_room_request::DeleteRoomRequest, edit_room_request::EditRoomRequest,
+      get_room_request::GetRoomRequest, get_room_response::GetRoomResponse, room_data::RoomData,
+    },
+  },
+  bot::{
+    bot_event_handler::BotEventHandler,
+    bot_permission::BotPermission,
+    villa::{
+      room::message::{message_builder::MessageBuilder, Message},
+      Villa,
+    },
+  },
+  error::VResult,
+  request::request_executor::RequestExecutor,
+};
 
 /// message related logic, includes builders
 pub mod message;

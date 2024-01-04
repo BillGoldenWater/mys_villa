@@ -6,8 +6,10 @@
 
 use serde::{Deserialize, Serialize};
 
-use crate::api::api_error::{ApiError, ApiResult};
-use crate::api::villa_bot_api::villa_response::retcode::RetCode;
+use crate::api::{
+  api_error::{ApiError, ApiResult},
+  villa_bot_api::villa_response::retcode::RetCode,
+};
 
 pub mod retcode;
 

@@ -6,9 +6,10 @@
 
 use serde::Deserialize;
 
-use crate::api_type::room::room_allow_send_range::RoomAllowSendRange;
-use crate::api_type::room::room_default_notify_type::RoomDefaultNotifyType;
-use crate::api_type::room::room_info::RoomInfo;
+use crate::api_type::room::{
+  room_allow_send_range::RoomAllowSendRange, room_default_notify_type::RoomDefaultNotifyType,
+  room_info::RoomInfo,
+};
 
 /// room data
 #[derive(Debug, Deserialize)]

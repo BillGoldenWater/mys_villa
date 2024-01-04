@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: MIT
  */
 
-use serde::de::{DeserializeOwned, Error as DeError};
-use serde::ser::Error as SerError;
-use serde::{Deserialize, Deserializer, Serialize, Serializer};
+use serde::{
+  de::{DeserializeOwned, Error as DeError},
+  ser::Error as SerError,
+  Deserialize, Deserializer, Serialize, Serializer,
+};
 
 /// deserialize string into object
 pub fn deserialize<'de, T, D>(deserializer: D) -> Result<T, D::Error>

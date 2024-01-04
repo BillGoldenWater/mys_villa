@@ -6,8 +6,7 @@
 
 use std::fmt::{Debug, Formatter};
 
-use rsa::pkcs8::DecodePublicKey;
-use rsa::{Pkcs1v15Sign, RsaPublicKey};
+use rsa::{pkcs8::DecodePublicKey, Pkcs1v15Sign, RsaPublicKey};
 use sha2::Sha256;
 
 use crate::error::VResult;

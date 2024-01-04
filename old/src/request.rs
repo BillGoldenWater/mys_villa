@@ -4,15 +4,14 @@
  * SPDX-License-Identifier: MIT
  */
 
-use serde::de::DeserializeOwned;
-use serde::Serialize;
+use serde::{de::DeserializeOwned, Serialize};
 use serde_json::Value;
 
-use crate::error::VResult;
-use crate::request::header_builder::HeaderBuilder;
-use crate::request::method::Method;
-use crate::request::request_executor::RequestExecutor;
-use crate::response::Response;
+use crate::{
+  error::VResult,
+  request::{header_builder::HeaderBuilder, method::Method, request_executor::RequestExecutor},
+  response::Response,
+};
 
 /// provide ability to build a header easily
 pub mod header_builder;

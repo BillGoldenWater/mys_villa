@@ -6,9 +6,10 @@
 
 use std::fmt::{Debug, Formatter};
 
-use rsa::pkcs8::LineEnding;
-use rsa::pkcs8::{DecodePublicKey, EncodePublicKey};
-use rsa::{Pkcs1v15Sign, RsaPublicKey};
+use rsa::{
+  pkcs8::{DecodePublicKey, EncodePublicKey, LineEnding},
+  Pkcs1v15Sign, RsaPublicKey,
+};
 use sha2::Sha256;
 use tracing::instrument;
 

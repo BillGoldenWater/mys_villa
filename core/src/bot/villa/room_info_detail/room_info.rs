@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::api::villa_bot_api::villa_api::list_room::ListRoom;
-use crate::bot::villa::room_info_detail::room_info::room_type::RoomType;
+use crate::{
+  api::villa_bot_api::villa_api::list_room::ListRoom,
+  bot::villa::room_info_detail::room_info::room_type::RoomType,
+};
 
 pub mod room_type;
 

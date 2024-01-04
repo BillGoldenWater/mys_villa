@@ -6,8 +6,7 @@
 
 use serde::Deserialize;
 
-use crate::api_type::group::group_info::GroupInfo;
-use crate::api_type::room::room_info::RoomInfo;
+use crate::api_type::{group::group_info::GroupInfo, room::room_info::RoomInfo};
 
 /// room group info
 #[derive(Debug, Deserialize)]

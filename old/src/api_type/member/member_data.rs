@@ -7,9 +7,10 @@
 use serde::Deserialize;
 use serde_aux::field_attributes::deserialize_number_from_string;
 
-use crate::api_type::member::member_info::MemberInfo;
-use crate::api_type::role::role_info::RoleInfo;
-use crate::utils::deserialize_number_vec_from_string_vec;
+use crate::{
+  api_type::{member::member_info::MemberInfo, role::role_info::RoleInfo},
+  utils::deserialize_number_vec_from_string_vec,
+};
 
 /// member data
 #[derive(Debug, Clone, Deserialize)]

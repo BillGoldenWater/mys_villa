@@ -6,17 +6,18 @@
 
 use log::debug;
 
-use crate::api_type::member::delete_villa_member_request::DeleteVillaMemberRequest;
-use crate::api_type::member::get_member_request::GetMemberRequest;
-use crate::api_type::member::get_member_response::GetMemberResponse;
-use crate::api_type::member::member_data::MemberData;
-use crate::api_type::room::audit_request::AuditRequest;
-use crate::api_type::room::audit_response::AuditResponse;
-use crate::bot::bot_event_handler::BotEventHandler;
-use crate::bot::bot_permission::BotPermission;
-use crate::bot::villa::Villa;
-use crate::error::VResult;
-use crate::request::request_executor::RequestExecutor;
+use crate::{
+  api_type::{
+    member::{
+      delete_villa_member_request::DeleteVillaMemberRequest, get_member_request::GetMemberRequest,
+      get_member_response::GetMemberResponse, member_data::MemberData,
+    },
+    room::{audit_request::AuditRequest, audit_response::AuditResponse},
+  },
+  bot::{bot_event_handler::BotEventHandler, bot_permission::BotPermission, villa::Villa},
+  error::VResult,
+  request::request_executor::RequestExecutor,
+};
 
 /// for execute api under member context
 /// - [Member::get_data] get member data

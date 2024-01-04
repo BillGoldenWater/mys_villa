@@ -5,12 +5,13 @@
  */
 
 use serde::Deserialize;
-use serde_aux::field_attributes::deserialize_number_from_string;
-use serde_aux::field_attributes::deserialize_option_number_from_string;
+use serde_aux::field_attributes::{
+  deserialize_number_from_string, deserialize_option_number_from_string,
+};
 
-use crate::api_type::role::role_color::RoleColor;
-use crate::api_type::role::role_permission_info::RolePermissionInfo;
-use crate::api_type::role::role_type::RoleType;
+use crate::api_type::role::{
+  role_color::RoleColor, role_permission_info::RolePermissionInfo, role_type::RoleType,
+};
 
 /// role information
 #[derive(Debug, Clone, Deserialize)]

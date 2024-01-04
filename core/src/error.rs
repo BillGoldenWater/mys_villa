@@ -4,11 +4,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-use std::error::Error;
-use std::fmt::Debug;
+use std::{error::Error, fmt::Debug};
 
-use crate::api::api_error::ApiError;
-use crate::bot::bot_permission::BotPermission;
+use crate::{api::api_error::ApiError, bot::bot_permission::BotPermission};
 
 #[derive(Debug, thiserror::Error)]
 pub enum VError {

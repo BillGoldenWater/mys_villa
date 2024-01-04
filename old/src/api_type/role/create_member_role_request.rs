@@ -6,8 +6,7 @@
 
 use serde::Serialize;
 
-use crate::api_type::role::role_color::RoleColor;
-use crate::api_type::role::role_permission::RolePermission;
+use crate::api_type::role::{role_color::RoleColor, role_permission::RolePermission};
 
 /// create member role request
 #[derive(Debug, Serialize)]

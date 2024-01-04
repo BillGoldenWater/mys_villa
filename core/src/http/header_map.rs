@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-use std::collections::HashMap;
-use std::ops::{Deref, DerefMut};
+use std::{
+  collections::HashMap,
+  ops::{Deref, DerefMut},
+};
 
 #[derive(Debug, Clone, Default)]
 pub struct HeaderMap(HashMap<String, String>);

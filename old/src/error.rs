@@ -6,11 +6,17 @@
 
 use std::env::VarError;
 
-use crate::bot::bot_permission::BotPermission;
-use crate::bot::command::CommandTryFromEventError;
-use crate::bot::villa::room::message::message_chain::MessageChainParseError;
-use crate::bot::villa::room::message::message_chain_matcher::mhy_text_matcher::MhyTextMatchError;
-use crate::response::retcode::RetCode;
+use crate::{
+  bot::{
+    bot_permission::BotPermission,
+    command::CommandTryFromEventError,
+    villa::room::message::{
+      message_chain::MessageChainParseError,
+      message_chain_matcher::mhy_text_matcher::MhyTextMatchError,
+    },
+  },
+  response::retcode::RetCode,
+};
 
 /// defines the errors that this lib can generate
 #[derive(Debug, thiserror::Error)]

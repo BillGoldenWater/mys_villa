@@ -7,8 +7,10 @@
 use serde::{Deserialize, Serialize};
 use serde_aux::prelude::*;
 
-use crate::api::villa_bot_api::villa_api::member_role::member_role_permission::MemberRolePermission;
-use crate::utils::serde_utils::deserialize_number_vec_from_string_vec;
+use crate::{
+  api::villa_bot_api::villa_api::member_role::member_role_permission::MemberRolePermission,
+  utils::serde_utils::deserialize_number_vec_from_string_vec,
+};
 
 pub mod member_role_permission;
 

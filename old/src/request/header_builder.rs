@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-use std::collections::hash_map::Iter;
-use std::collections::HashMap;
-use std::fmt::{Debug, Formatter};
+use std::{
+  collections::{hash_map::Iter, HashMap},
+  fmt::{Debug, Formatter},
+};
 
 use crate::bot::bot_info::BotAuthInfo;
 

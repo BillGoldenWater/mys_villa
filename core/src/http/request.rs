@@ -6,12 +6,17 @@
 
 use serde::Serialize;
 
-use crate::api::api_error::ApiResult;
-use crate::bot::bot_auth_info::BotAuthInfo;
-use crate::http::header_map::HeaderMap;
-use crate::http::request::body::multipart::Multipart;
-use crate::http::request::body::Body;
-use crate::http::request::method::Method;
+use crate::{
+  api::api_error::ApiResult,
+  bot::bot_auth_info::BotAuthInfo,
+  http::{
+    header_map::HeaderMap,
+    request::{
+      body::{multipart::Multipart, Body},
+      method::Method,
+    },
+  },
+};
 
 pub mod body;
 pub mod method;

@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-use serde::de::Error;
-use serde::{Deserialize, Deserializer, Serialize, Serializer};
+use serde::{de::Error, Deserialize, Deserializer, Serialize, Serializer};
 
 /// mentioned info
 #[derive(Debug, Clone, PartialEq)]

@@ -7,9 +7,7 @@
 use serde::Serialize;
 use serde_json::{json, Value};
 
-use crate::request::header_builder::HeaderBuilder;
-use crate::request::method::Method;
-use crate::request::Request;
+use crate::request::{header_builder::HeaderBuilder, method::Method, Request};
 
 /// reusable request builder
 #[derive(Debug)]

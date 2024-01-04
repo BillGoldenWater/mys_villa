@@ -9,21 +9,28 @@ use std::sync::Arc;
 use serde_json::Value;
 use tracing::instrument;
 
-use crate::api::villa_bot_api::villa_api::role_api::delete_member_role::DeleteMemberRoleRequest;
-use crate::api::villa_bot_api::villa_api::role_api::edit_member_role::EditMemberRoleRequest;
-use crate::api::villa_bot_api::villa_api::role_api::get_member_role_info::{
-  GetMemberRoleInfoRequest, GetMemberRoleInfoResponse,
+use crate::{
+  api::villa_bot_api::villa_api::role_api::{
+    delete_member_role::DeleteMemberRoleRequest,
+    edit_member_role::EditMemberRoleRequest,
+    get_member_role_info::{GetMemberRoleInfoRequest, GetMemberRoleInfoResponse},
+    operate_member_to_role::OperateMemberToRoleRequest,
+  },
+  bot::{
+    bot_permission::BotPermission,
+    villa::{
+      role_info::{
+        role_color::RoleColor, role_permission_info::role_permission_key::RolePermissionKey,
+        RoleInfo,
+      },
+      Villa,
+    },
+    Bot,
+  },
+  error::VResult,
+  http::request::Request,
+  utils::fp_utils::FpUtils,
 };
-use crate::api::villa_bot_api::villa_api::role_api::operate_member_to_role::OperateMemberToRoleRequest;
-use crate::bot::bot_permission::BotPermission;
-use crate::bot::villa::role_info::role_color::RoleColor;
-use crate::bot::villa::role_info::role_permission_info::role_permission_key::RolePermissionKey;
-use crate::bot::villa::role_info::RoleInfo;
-use crate::bot::villa::Villa;
-use crate::bot::Bot;
-use crate::error::VResult;
-use crate::http::request::Request;
-use crate::utils::fp_utils::FpUtils;
 
 #[derive(Debug, Clone)]
 pub struct Role {

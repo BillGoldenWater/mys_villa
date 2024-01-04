@@ -4,16 +4,19 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::api_type::event::bot_event::bot_event_data::message_identifier::MessageIdentifier;
 use log::debug;
 
-use crate::api_type::message::pin_message_request::PinMessageRequest;
-use crate::api_type::message::recall_message_request::RecallMessageRequest;
-use crate::bot::bot_event_handler::BotEventHandler;
-use crate::bot::bot_permission::BotPermission;
-use crate::bot::villa::room::Room;
-use crate::error::VResult;
-use crate::request::request_executor::RequestExecutor;
+use crate::{
+  api_type::{
+    event::bot_event::bot_event_data::message_identifier::MessageIdentifier,
+    message::{
+      pin_message_request::PinMessageRequest, recall_message_request::RecallMessageRequest,
+    },
+  },
+  bot::{bot_event_handler::BotEventHandler, bot_permission::BotPermission, villa::room::Room},
+  error::VResult,
+  request::request_executor::RequestExecutor,
+};
 
 /// message builders, for easily build message object
 pub mod message_builder;

@@ -4,16 +4,20 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::bot::villa::room::message::message_builder::mhy_text_component::link::Link;
-use crate::bot::villa::room::message::message_builder::mhy_text_component::mention_bot::MentionBot;
-use crate::bot::villa::room::message::message_builder::mhy_text_component::mention_user::MentionUser;
-use crate::bot::villa::room::message::message_builder::mhy_text_component::villa_room_link::VillaRoomLink;
-use crate::bot::villa::room::message::message_builder::mhy_text_component::MhyTextMsgComponent;
-use crate::bot::villa::room::message::message_chain::mhy_text::MhyText;
-use crate::bot::villa::room::message::message_chain::MessageChain;
-use crate::error::VResult;
-use itertools::Itertools;
 use std::fmt::Debug;
+
+use itertools::Itertools;
+
+use crate::{
+  bot::villa::room::message::{
+    message_builder::mhy_text_component::{
+      link::Link, mention_bot::MentionBot, mention_user::MentionUser,
+      villa_room_link::VillaRoomLink, MhyTextMsgComponent,
+    },
+    message_chain::{mhy_text::MhyText, MessageChain},
+  },
+  error::VResult,
+};
 
 /// matcher for MHY:Text
 #[derive(Debug, Clone, Default)]
@@ -385,13 +389,19 @@ pub enum MhyTextMatchError {
 
 #[cfg(test)]
 mod tests {
-  use crate::bot::default::default;
-  use crate::bot::villa::room::message::message_builder::mhy_text_component::MhyTextMsgComponent;
-  use crate::bot::villa::room::message::message_chain::MessageChain;
-  use crate::bot::villa::room::message::message_chain_matcher::mhy_text_matcher::{
-    MatchExactResult, MatchFuzzyResult, MhyTextMatcher,
+  use crate::{
+    bot::{
+      default::default,
+      villa::room::message::{
+        message_builder::mhy_text_component::MhyTextMsgComponent,
+        message_chain::MessageChain,
+        message_chain_matcher::mhy_text_matcher::{
+          MatchExactResult, MatchFuzzyResult, MhyTextMatcher,
+        },
+      },
+    },
+    utils::option_utils::none_string,
   };
-  use crate::utils::option_utils::none_string;
 
   #[test]
   fn test_empty() {

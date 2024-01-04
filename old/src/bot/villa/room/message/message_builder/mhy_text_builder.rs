@@ -4,24 +4,29 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::api_type::message::message_object::mentioned_info::MentionedInfo;
-use crate::api_type::message::message_object::message_content::image::Image;
-use crate::api_type::message::message_object::message_content::mhy_text::entity_data::EntityData;
-use crate::api_type::message::message_object::message_content::mhy_text::text_entity::TextEntity;
-use crate::api_type::message::message_object::message_content::mhy_text::MhyText;
-use crate::api_type::message::message_object::message_content::MessageContent;
-use crate::bot::bot_event_handler::BotEventHandler;
-use crate::bot::villa::room::message::message_builder::mhy_text_component::link::Link;
-use crate::bot::villa::room::message::message_builder::mhy_text_component::mention_bot::MentionBot;
-use crate::bot::villa::room::message::message_builder::mhy_text_component::mention_user::MentionUser;
-use crate::bot::villa::room::message::message_builder::mhy_text_component::villa_room_link::VillaRoomLink;
-use crate::bot::villa::room::message::message_builder::mhy_text_component::{
-  MhyTextMsgComponent as Component, MhyTextMsgComponent,
+use crate::{
+  api_type::message::message_object::{
+    mentioned_info::MentionedInfo,
+    message_content::{
+      image::Image,
+      mhy_text::{entity_data::EntityData, text_entity::TextEntity, MhyText},
+      MessageContent,
+    },
+  },
+  bot::{
+    bot_event_handler::BotEventHandler,
+    villa::{
+      room::message::message_builder::mhy_text_component::{
+        link::Link, mention_bot::MentionBot, mention_user::MentionUser,
+        villa_room_link::VillaRoomLink, MhyTextMsgComponent as Component, MhyTextMsgComponent,
+      },
+      Villa,
+    },
+  },
+  error::VResult,
+  request::request_executor::RequestExecutor,
+  utils::unicode_utils::len_utf16,
 };
-use crate::bot::villa::Villa;
-use crate::error::VResult;
-use crate::request::request_executor::RequestExecutor;
-use crate::utils::unicode_utils::len_utf16;
 
 /// builder of MHY:Text
 #[derive(Debug, Default, Clone)]

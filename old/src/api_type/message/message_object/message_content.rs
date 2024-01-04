@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::api_type::message::message_object::message_content::image::Image;
-use crate::api_type::message::message_object::message_content::mhy_post::MhyPost;
-use crate::api_type::message::message_object::message_content::mhy_text::MhyText;
-use crate::api_type::message::message_object::message_content::unknown::Unknown;
 use serde::{Deserialize, Serialize};
+
+use crate::api_type::message::message_object::message_content::{
+  image::Image, mhy_post::MhyPost, mhy_text::MhyText, unknown::Unknown,
+};
 
 /// definition of image
 pub mod image;

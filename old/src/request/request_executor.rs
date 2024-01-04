@@ -4,15 +4,11 @@
  * SPDX-License-Identifier: MIT
  */
 
-use std::future::Future;
-use std::pin::Pin;
+use std::{future::Future, pin::Pin};
 
-use serde::de::DeserializeOwned;
-use serde::Serialize;
+use serde::{de::DeserializeOwned, Serialize};
 
-use crate::error::VResult;
-use crate::request::Request;
-use crate::response::Response;
+use crate::{error::VResult, request::Request, response::Response};
 
 /// default implementation of [RequestExecutor]
 #[cfg(feature = "request_executor_impl")]

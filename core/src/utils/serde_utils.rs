@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: MIT
  */
 
+use std::{fmt::Display, str::FromStr};
+
 use serde::{Deserialize, Deserializer};
-use std::fmt::Display;
-use std::str::FromStr;
 
 pub fn deserialize_number_vec_from_string_vec<'de, T, D>(
   deserializer: D,

@@ -4,26 +4,29 @@
  * SPDX-License-Identifier: MIT
  */
 
-use std::collections::HashMap;
-use std::future::Future;
-use std::ops::Deref;
-use std::pin::Pin;
-use std::str::FromStr;
-use std::time::Duration;
+use std::{
+  collections::HashMap, future::Future, ops::Deref, pin::Pin, str::FromStr, time::Duration,
+};
 
-use reqwest::header::{self, HeaderName, HeaderValue};
-use reqwest::multipart::Form;
-use reqwest::{Client, ClientBuilder};
+use reqwest::{
+  header::{self, HeaderName, HeaderValue},
+  multipart::Form,
+  Client, ClientBuilder,
+};
 
-use crate::error::{VError, VResult};
-use crate::http::header_map::HeaderMap;
-use crate::http::request::body::multipart::part::Part;
-use crate::http::request::body::Body;
-use crate::http::request::method::Method;
-use crate::http::request::Request;
-use crate::http::request_executor::RequestExecutor;
-use crate::http::response::status_code::StatusCode;
-use crate::http::response::Response;
+use crate::{
+  error::{VError, VResult},
+  http::{
+    header_map::HeaderMap,
+    request::{
+      body::{multipart::part::Part, Body},
+      method::Method,
+      Request,
+    },
+    request_executor::RequestExecutor,
+    response::{status_code::StatusCode, Response},
+  },
+};
 
 pub mod error;
 

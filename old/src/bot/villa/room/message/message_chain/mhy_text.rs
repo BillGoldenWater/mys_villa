@@ -4,19 +4,23 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::api_type::message::message_object::message_content::image::Image;
-use crate::api_type::message::message_object::message_content::mhy_text::entity_data::EntityData;
-use crate::api_type::message::message_object::message_content::mhy_text::text_entity::TextEntity;
-use crate::api_type::message::message_object::message_content::mhy_text::MhyText as ApiMhyText;
-use crate::bot::villa::room::message::message_builder::mhy_text_component::link::Link;
-use crate::bot::villa::room::message::message_builder::mhy_text_component::mention_bot::MentionBot;
-use crate::bot::villa::room::message::message_builder::mhy_text_component::mention_user::MentionUser;
-use crate::bot::villa::room::message::message_builder::mhy_text_component::villa_room_link::VillaRoomLink;
-use crate::bot::villa::room::message::message_builder::mhy_text_component::MhyTextMsgComponent;
-use crate::bot::villa::room::message::message_chain::MessageChainParseError;
-use crate::error::{VError, VResult};
-use crate::utils::unicode_utils::len_utf16;
 use std::str::FromStr;
+
+use crate::{
+  api_type::message::message_object::message_content::{
+    image::Image,
+    mhy_text::{entity_data::EntityData, text_entity::TextEntity, MhyText as ApiMhyText},
+  },
+  bot::villa::room::message::{
+    message_builder::mhy_text_component::{
+      link::Link, mention_bot::MentionBot, mention_user::MentionUser,
+      villa_room_link::VillaRoomLink, MhyTextMsgComponent,
+    },
+    message_chain::MessageChainParseError,
+  },
+  error::{VError, VResult},
+  utils::unicode_utils::len_utf16,
+};
 
 /// mhy text
 #[derive(Debug, Default, Clone, PartialEq)]

@@ -4,15 +4,18 @@
  * SPDX-License-Identifier: MIT
  */
 
-use serde::de::{DeserializeOwned, Error as DeError};
-use serde::ser::Error as SerError;
-use serde::{Deserialize, Deserializer, Serialize, Serializer};
+use serde::{
+  de::{DeserializeOwned, Error as DeError},
+  ser::Error as SerError,
+  Deserialize, Deserializer, Serialize, Serializer,
+};
 use serde_json::Value;
 
-use crate::api_type::message::message_object::mentioned_info::MentionedInfo;
-use crate::api_type::message::message_object::message_content::unknown::Unknown;
-use crate::api_type::message::message_object::message_content::MessageContent;
-use crate::api_type::message::message_object::quote_info::QuoteInfo;
+use crate::api_type::message::message_object::{
+  mentioned_info::MentionedInfo,
+  message_content::{unknown::Unknown, MessageContent},
+  quote_info::QuoteInfo,
+};
 
 /// definition of mentioned info
 pub mod mentioned_info;

@@ -4,10 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-use serde::de::DeserializeOwned;
-use serde::{Deserialize, Serialize};
-
 use retcode::RetCode;
+use serde::{de::DeserializeOwned, Deserialize, Serialize};
 
 use crate::error::{VError, VResult};
 

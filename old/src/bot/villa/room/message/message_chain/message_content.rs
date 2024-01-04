@@ -4,10 +4,13 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::api_type::message::message_object::message_content::image::Image;
-use crate::api_type::message::message_object::message_content::mhy_post::MhyPost;
-use crate::api_type::message::message_object::MessageObject;
-use crate::bot::villa::room::message::message_chain::mhy_text::MhyText;
+use crate::{
+  api_type::message::message_object::{
+    message_content::{image::Image, mhy_post::MhyPost},
+    MessageObject,
+  },
+  bot::villa::room::message::message_chain::mhy_text::MhyText,
+};
 
 /// message content
 #[derive(Debug, Clone, PartialEq)]

@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::api_type::member::member_data::MemberData;
 use serde::Deserialize;
+
+use crate::api_type::member::member_data::MemberData;
 
 /// get villa members response
 #[derive(Debug, Deserialize)]

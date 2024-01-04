@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: MIT
  */
 
-use crate::api_type::message::message_object::message_content::image::Image;
-use crate::api_type::message::message_object::message_content::mhy_text::text_entity::TextEntity;
 use serde::{Deserialize, Serialize};
+
+use crate::api_type::message::message_object::message_content::{
+  image::Image, mhy_text::text_entity::TextEntity,
+};
 
 /// definition of entity data
 pub mod entity_data;
