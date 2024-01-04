@@ -12,6 +12,9 @@ use tracing::instrument;
 use crate::api::villa_bot_api::villa_api::room_api::delete_room::DeleteRoomRequest;
 use crate::api::villa_bot_api::villa_api::room_api::edit_room::EditRoomRequest;
 use crate::api::villa_bot_api::villa_api::room_api::get_room::{GetRoomRequest, GetRoomResponse};
+use crate::api::villa_bot_api::villa_api::room_api::send_message::{
+  SendMessageRequest, SendMessageResponse,
+};
 use crate::bot::bot_permission::BotPermission;
 use crate::bot::villa::room::message::Message;
 use crate::bot::villa::room::message_ident::MessageIdent;
@@ -48,7 +51,24 @@ impl Room {
 }
 
 /// message api
-impl Room {}
+impl Room {
+  #[instrument(level = "debug", skip(self), fields(id = self.id))]
+  pub async fn send_message_raw(&self, object_name: String, message: String) -> VResult<String> {
+    BotPermission::SendMessage.check(self)?;
+
+    self
+      .villa
+      .execute_bot_req_with_villa::<SendMessageResponse>(
+        Request::post("/vila/api/bot/platform/sendMessage").with_json(SendMessageRequest::new(
+          self.id,
+          object_name,
+          message,
+        ))?,
+      )
+      .await
+      .map(|it| it.bot_msg_id)
+  }
+}
 
 /// other api
 impl Room {
