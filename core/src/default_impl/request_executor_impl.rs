@@ -4,9 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-use std::{
-  collections::HashMap, future::Future, ops::Deref, pin::Pin, str::FromStr, time::Duration,
-};
+use std::{collections::HashMap, ops::Deref, str::FromStr, time::Duration};
 
 use reqwest::{
   header::{self, HeaderName, HeaderValue},
@@ -23,7 +21,7 @@ use crate::{
       method::Method,
       Request,
     },
-    request_executor::RequestExecutor,
+    request_executor::{ReqFuture, RequestExecutor},
     response::{status_code::StatusCode, Response},
   },
 };
@@ -48,10 +46,7 @@ impl RequestExecutorImpl {
 }
 
 impl RequestExecutor for RequestExecutorImpl {
-  fn execute<'params, 'fut>(
-    &'params self,
-    request: Request,
-  ) -> Pin<Box<dyn Future<Output = VResult<Response>> + Send + 'fut>>
+  fn execute<'params, 'fut>(&'params self, request: Request) -> ReqFuture<'fut>
   where
     'params: 'fut,
   {
