@@ -11,7 +11,7 @@ use crate::api::villa_bot_api::villa_api::member::Member;
 
 pub mod bot_member_access_info;
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct CheckMemberBotAccessTokenRequest {
   pub token: String,
 }
@@ -22,7 +22,7 @@ impl CheckMemberBotAccessTokenRequest {
   }
 }
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct CheckMemberBotAccessTokenResponse {
   #[serde(default)]
   pub access_info: Option<BotMemberAccessInfo>,

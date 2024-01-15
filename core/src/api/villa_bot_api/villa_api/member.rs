@@ -14,7 +14,7 @@ use crate::{
 
 pub mod member_basic;
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Member {
   pub basic: MemberBasic,
   #[serde(deserialize_with = "deserialize_number_vec_from_string_vec")]

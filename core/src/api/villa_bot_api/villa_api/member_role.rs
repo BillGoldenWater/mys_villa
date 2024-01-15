@@ -14,7 +14,7 @@ use crate::{
 
 pub mod member_role_permission;
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct MemberRole {
   #[serde(deserialize_with = "deserialize_number_from_string")]
   pub id: u64,

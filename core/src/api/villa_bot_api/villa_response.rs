@@ -13,7 +13,7 @@ use crate::api::{
 
 pub mod retcode;
 
-#[derive(Debug, Clone, Eq, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct VillaResponse<Data> {
   retcode: RetCode,
   message: String,

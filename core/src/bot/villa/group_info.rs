@@ -9,7 +9,7 @@ use crate::{
   bot::villa::room_info_detail::room_info::RoomInfo,
 };
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct GroupInfo {
   pub id: u64,
   pub name: String,

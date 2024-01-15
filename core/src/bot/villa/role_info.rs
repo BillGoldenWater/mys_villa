@@ -15,7 +15,7 @@ pub mod role_color;
 pub mod role_permission_info;
 pub mod role_type;
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct RoleInfo {
   pub id: u64,
   pub villa_id: u64,

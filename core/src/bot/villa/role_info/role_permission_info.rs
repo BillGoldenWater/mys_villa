@@ -14,7 +14,7 @@ use crate::{
 pub mod role_permission_key;
 pub mod role_permission_scope;
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct RolePermissionInfo {
   pub key: RolePermissionKey,
   pub name: String,

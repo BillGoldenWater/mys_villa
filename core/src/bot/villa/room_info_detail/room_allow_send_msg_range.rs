@@ -6,7 +6,7 @@
 
 use crate::api::villa_bot_api::villa_api::send_msg_auth_range::SendMsgAuthRange;
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum RoomAllowSendMsgRange {
   All,
   Roles(Vec<u64>),

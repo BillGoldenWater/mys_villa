@@ -8,7 +8,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::api::villa_bot_api::villa_api::member_role::MemberRole;
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct GetVillaMemberRolesResponse {
   pub list: Vec<MemberRole>,
 }

@@ -11,7 +11,7 @@ use crate::{
 
 pub mod room_type;
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct RoomInfo {
   pub id: u64,
   pub name: String,

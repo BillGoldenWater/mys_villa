@@ -6,7 +6,7 @@
 
 use crate::api::villa_bot_api::get_all_emoticons::emoticon::Emoticon as RawEmoticon;
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Emoticon {
   pub id: u64,
   pub text: String,

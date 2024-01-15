@@ -8,7 +8,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::api::villa_bot_api::villa_api::member_role::MemberRole;
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct GetMemberRoleInfoRequest {
   pub role_id: u64,
 }
@@ -19,7 +19,7 @@ impl GetMemberRoleInfoRequest {
   }
 }
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct GetMemberRoleInfoResponse {
   pub role: MemberRole,
 }

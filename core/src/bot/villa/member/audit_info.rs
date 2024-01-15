@@ -13,7 +13,7 @@ use crate::{
 
 pub mod audit_content;
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash, TypedBuilder)]
+#[derive(Debug, Clone, PartialEq, TypedBuilder)]
 pub struct AuditInfo {
   #[builder(default, setter(strip_option))]
   pub room_id: Option<u64>,

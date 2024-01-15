@@ -9,7 +9,7 @@ use serde_aux::prelude::*;
 
 use crate::api::villa_bot_api::villa_api::send_msg_auth_range::SendMsgAuthRange;
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Room {
   #[serde(deserialize_with = "deserialize_number_from_string")]
   pub room_id: u64,

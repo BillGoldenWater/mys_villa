@@ -18,7 +18,7 @@ pub mod room_allow_send_msg_range;
 pub mod room_info;
 pub mod room_notify_type;
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct RoomInfoDetail {
   pub info: RoomInfo,
 

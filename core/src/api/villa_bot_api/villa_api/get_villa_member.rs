@@ -8,7 +8,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::api::villa_bot_api::villa_api::member::Member;
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct GetVillaMemberRequest {
   pub offset_str: String,
   pub size: u64,
@@ -20,7 +20,7 @@ impl GetVillaMemberRequest {
   }
 }
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct GetVillaMemberResponse {
   pub list: Vec<Member>,
   pub next_offset_str: String,

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum AuditContent {
   Text(String),
   Image(String),

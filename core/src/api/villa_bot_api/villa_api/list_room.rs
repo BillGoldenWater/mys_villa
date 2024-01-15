@@ -7,7 +7,7 @@
 use serde::{Deserialize, Serialize};
 use serde_aux::prelude::*;
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct ListRoom {
   #[serde(deserialize_with = "deserialize_number_from_string")]
   pub room_id: u64,

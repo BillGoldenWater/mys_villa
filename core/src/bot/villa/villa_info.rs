@@ -6,7 +6,7 @@
 
 use crate::api::villa_bot_api::villa_api;
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct VillaInfo {
   pub id: u64,
   pub owner_uid: u64,

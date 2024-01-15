@@ -9,7 +9,7 @@ use serde::{Deserialize, Serialize};
 
 pub mod emoticon;
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct GetAllEmoticonsResponse {
   pub list: Vec<Emoticon>,
 }

@@ -26,4 +26,4 @@ pub mod send_msg_auth_range;
 pub mod transfer_image;
 pub mod villa_info;
 
-// #[derive(Debug, Clone, Eq, PartialEq, Hash, Serialize, Deserialize)]
+// #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

@@ -8,7 +8,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::api::villa_bot_api::villa_api::room::Room;
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct GetRoomRequest {
   pub room_id: u64,
 }
@@ -19,7 +19,7 @@ impl GetRoomRequest {
   }
 }
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct GetRoomResponse {
   pub room: Room,
 }
