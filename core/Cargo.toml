@@ -44,3 +44,4 @@ tokio = { version = "1.34", features = ["full"] }
 [features]
 default = ["request_executor_impl"]
 request_executor_impl = ["reqwest"]
+unstable_villa_bot_api = []

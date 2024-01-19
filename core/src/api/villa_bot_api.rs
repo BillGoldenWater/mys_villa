@@ -15,8 +15,14 @@ use crate::{
   http::response::Response,
 };
 
+#[cfg(feature = "unstable_villa_bot_api")]
 pub mod get_all_emoticons;
+#[cfg(not(feature = "unstable_villa_bot_api"))]
+pub(crate) mod get_all_emoticons;
+#[cfg(feature = "unstable_villa_bot_api")]
 pub mod villa_api;
+#[cfg(not(feature = "unstable_villa_bot_api"))]
+pub(crate) mod villa_api;
 pub mod villa_response;
 
 pub fn parse_villa_res<Data: DeserializeOwned>(response: Response) -> ApiResult<Data> {
