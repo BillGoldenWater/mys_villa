@@ -36,5 +36,5 @@ pub fn parse_villa_res<Data: DeserializeOwned>(response: Response) -> ApiResult<
       );
       err
     })?
-    .to_result()
+    .into_result()
 }

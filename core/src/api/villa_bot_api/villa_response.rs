@@ -29,7 +29,7 @@ impl<Data> VillaResponse<Data> {
     }
   }
 
-  pub fn to_result(self) -> ApiResult<Data> {
+  pub fn into_result(self) -> ApiResult<Data> {
     if matches!(self.retcode, RetCode::Ok) {
       if let Some(data) = self.data {
         Ok(data)
