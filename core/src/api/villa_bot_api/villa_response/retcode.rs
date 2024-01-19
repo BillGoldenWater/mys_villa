@@ -43,8 +43,6 @@ pub enum RetCode {
   Unknown(i32),
 }
 
-// todo: 10320005, 当前权限不足，无法操作
-
 impl From<i32> for RetCode {
   fn from(value: i32) -> Self {
     match value {
