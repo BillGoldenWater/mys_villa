@@ -47,3 +47,5 @@ impl<Data> VillaResponse<Data> {
     }
   }
 }
+
+// todo: simplify to ApiResult only
