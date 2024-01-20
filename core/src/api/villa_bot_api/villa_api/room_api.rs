@@ -8,4 +8,5 @@ pub mod delete_room;
 pub mod edit_room;
 pub mod get_room;
 pub mod message_api;
+pub mod msg_content_info;
 pub mod send_message;

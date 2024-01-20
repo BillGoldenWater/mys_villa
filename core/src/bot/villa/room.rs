@@ -10,16 +10,20 @@ use serde_json::Value;
 use tracing::instrument;
 
 use crate::{
-  api::villa_bot_api::villa_api::room_api::{
-    delete_room::DeleteRoomRequest,
-    edit_room::EditRoomRequest,
-    get_room::{GetRoomRequest, GetRoomResponse},
-    send_message::{SendMessageRequest, SendMessageResponse},
+  api::{
+    api_error::ApiError,
+    villa_bot_api::villa_api::room_api::{
+      delete_room::DeleteRoomRequest,
+      edit_room::EditRoomRequest,
+      get_room::{GetRoomRequest, GetRoomResponse},
+      msg_content_info::{MsgContentInfo, MsgContentInfoForSendAndRecv},
+      send_message::{SendMessageRequest, SendMessageResponse},
+    },
   },
   bot::{
     bot_permission::BotPermission,
     villa::{
-      room::{message::Message, message_ident::MessageIdent},
+      room::{message::Message, message_ident::MessageIdent, message_object::MessageObject},
       room_info_detail::RoomInfoDetail,
       Villa,
     },
@@ -32,6 +36,7 @@ use crate::{
 
 pub mod message;
 pub mod message_ident;
+pub mod message_object;
 
 #[derive(Debug, Clone)]
 pub struct Room {
@@ -58,6 +63,17 @@ impl Room {
 /// message api
 impl Room {
   #[instrument(level = "debug", skip(self), fields(id = self.id))]
+  pub async fn send_message(&self, message_object: MessageObject) -> VResult<String> {
+    let msg_content_info: MsgContentInfo = message_object.into();
+    let object_name = msg_content_info.content.as_str_name().to_string();
+    let msg_content_info_for_send_and_recv = MsgContentInfoForSendAndRecv::from(msg_content_info);
+    let message =
+      serde_json::to_string(&msg_content_info_for_send_and_recv).map_err(Into::<ApiError>::into)?;
+
+    self.send_message_raw(object_name, message).await
+  }
+
+  #[instrument(level = "debug", skip(self), fields(id = self.id))]
   pub async fn send_message_raw(&self, object_name: String, message: String) -> VResult<String> {
     BotPermission::SendMessage.check(self)?;
 
@@ -73,6 +89,8 @@ impl Room {
       .await
       .map(|it| it.bot_msg_id)
   }
+
+  // todo: wrappers for easier construction
 }
 
 /// other api

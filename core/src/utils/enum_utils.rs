@@ -40,3 +40,24 @@ macro_rules! impl_enum_str_convert {
     }
   };
 }
+
+#[macro_export]
+macro_rules! impl_enum_convert_exact {
+  ($enum_0:ident <=> $enum_1:ident; $($variant:ident),+ $(,)?) => {
+    impl From<$enum_0> for $enum_1 {
+      fn from(value: $enum_0) -> Self {
+        match value {
+          $($enum_0::$variant => Self::$variant,)+
+        }
+      }
+    }
+
+    impl From<$enum_1> for $enum_0 {
+      fn from(value: $enum_1) -> Self {
+        match value {
+          $($enum_1::$variant => Self::$variant,)+
+        }
+      }
+    }
+  };
+}

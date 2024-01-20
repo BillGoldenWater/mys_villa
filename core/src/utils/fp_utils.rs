@@ -46,6 +46,20 @@ where
     Some(self)
   }
 
+  fn ok<E>(self) -> Result<Self, E>
+  where
+    Self: Sized,
+  {
+    Ok(self)
+  }
+
+  fn err<O>(self) -> Result<O, Self>
+  where
+    Self: Sized,
+  {
+    Err(self)
+  }
+
   fn unit(self) {}
 
   fn unit_result<T, E>(self) -> Result<(), E>
